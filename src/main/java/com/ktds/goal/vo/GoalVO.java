@@ -15,7 +15,6 @@ public class GoalVO {
 	private boolean isDurablity;
 	private boolean isBoast;
 	private String modifyDate;
-	private int warnCount;
 
 	public String getId() {
 		return id;

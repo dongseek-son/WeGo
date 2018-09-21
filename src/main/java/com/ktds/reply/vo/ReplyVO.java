@@ -8,9 +8,9 @@ public class ReplyVO {
 	private String writeDate;
 	private boolean isDelete;
 	private String goalId;
-	private boolean isAdvice;
 	private String detail;
-	private int warnCount;
+	private boolean isAdvice;
+	private boolean isBlock;
 
 	public String getId() {
 		return id;
@@ -82,6 +82,14 @@ public class ReplyVO {
 
 	public void setWarnCount(int warnCount) {
 		this.warnCount = warnCount;
+	}
+
+	public boolean isBlock() {
+		return isBlock;
+	}
+
+	public void setBlock(boolean isBlock) {
+		this.isBlock = isBlock;
 	}
 
 }
