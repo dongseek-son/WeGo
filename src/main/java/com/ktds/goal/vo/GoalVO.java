@@ -120,12 +120,4 @@ public class GoalVO {
 		this.modifyDate = modifyDate;
 	}
 
-	public int getWarnCount() {
-		return warnCount;
-	}
-
-	public void setWarnCount(int warnCount) {
-		this.warnCount = warnCount;
-	}
-
 }

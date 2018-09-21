@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,8 @@
 <title>Wego - Login</title>
 </head>
 <body>
-	<form action="/memberlogin" method="post">
+	<c:url value="/memberlogin" var="loginUrl"/>
+	<form action="${loginUrl}" method="post"> 
 		<div>
 			<input type="text" id="id" name="id" placeholder="아이디 입력" />
 		</div>
@@ -17,7 +19,6 @@
 		<div>
 			<input type="submit" value="로그인" />
 		</div>
-		<input type="button" onclick="script: alert('복기')" value="복기" />
 	</form>
 </body>
 </html>

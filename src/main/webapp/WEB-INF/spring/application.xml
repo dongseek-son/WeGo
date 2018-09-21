@@ -10,18 +10,18 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- 공통기능 클래스 AOP에 사용됨 -->	
-<!-- 	<bean	id="daoParamAop"
+ 	<bean	id="daoParamAop"
 			class="com.ktds.common.aop.DaoParamAop">
-	</bean> -->
+	</bean>
 	
-<!-- 	<aop:config>
+ 	<aop:config>
 		<aop:aspect id="daoAspect" ref="daoParamAop">
-			execution( returnType package.class.method(arguments) )
+			<!-- execution( returnType package.class.method(arguments) ) -->
 			<aop:pointcut expression="execution( * com.ktds..dao.*DaoImpl.*(..) )" 
 						  id="daoPointCut"/>
 			<aop:around method="getParam" pointcut-ref="daoPointCut"/>
 		</aop:aspect>
-	</aop:config> -->
+	</aop:config>
 		
 	<context:component-scan base-package="com.ktds" />
 	<mvc:annotation-driven />
@@ -30,19 +30,19 @@
 	<mvc:resources location="/WEB-INF/static/css/" mapping="/css/**" />
 	<mvc:resources location="/WEB-INF/static/img/" mapping="/img/**" />
 
-<!-- 	<mvc:interceptors>
-		<mvc:interceptor>
+ 	<mvc:interceptors>
+<!-- 		<mvc:interceptor>
 			<mvc:mapping path="/board/**"/>
 			<bean	id="sessionInterceptor" 
 					class="com.ktds.common.SessionInterceptor" />
-		</mvc:interceptor>
+		</mvc:interceptor> -->
 		<mvc:interceptor>
 			<mvc:mapping path="/member/**" />
 			<mvc:exclude-mapping path="/member/logout"/>
 			<bean	id="preventSessionInterceptor"
 					class="com.ktds.common.PreventSessionInterceptor" />
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 
 	<bean	id="localValidatorBean"
 			class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />

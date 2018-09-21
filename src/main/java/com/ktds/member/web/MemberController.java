@@ -42,8 +42,13 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	@PostMapping("/member/login.go") 
+/*	@PostMapping("/member/login.go") 
 	public ModelAndView doLoginAction() {
+		return new ModelAndView("member/login");
+	}*/
+	
+	@PostMapping("/member/logout.go") 
+	public ModelAndView doLogoutAction() {
 		return new ModelAndView("member/login");
 	}
 	
@@ -97,16 +102,16 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	@RequestMapping("member/login.do")
+	@RequestMapping("member/loginSuccess.go")
 	public ModelAndView doMemberLoginAction( 
 			@ModelAttribute MemberVO memberVO
 			, Errors errors
 			, HttpSession session ) {
 		
-		ModelAndView view = new ModelAndView("member/login");
+		ModelAndView view = new ModelAndView("member/login.go");
 		
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
-		memberVO.setEmail(user.getUsername());
+		memberVO.setId(user.getUsername());
 		memberVO.setPassword(user.getPassword());
 		
 		if ( errors.hasErrors() ) {
@@ -114,17 +119,29 @@ public class MemberController {
 			return view;
 		}
 		
+		if ( user.isAccountNonExpired() ) {
+			view.addObject("message", "1년이상 접속하지않아 휴면계정이 되었습니다.");
+		}
+		
 		if ( user.isAccountNonLocked() ) {
 			view.addObject("message", "해당 계정은 3회이상 비밀번호가 틀렸습니다. 1시간 이후에 다시 시도해주세요.");
 			return view;
+		}
+		
+		if ( user.isCredentialsNonExpired() ) {
+			view.addObject("message", "3개월 동안 비밀번호를 변경하지 않았습니다.");
+		}
+		
+		if ( user.isEnabled() ) {
+			view.addObject("message", "신고로 인하여 접속이 차단된 계정입니다.");
 		}
 		
 		MemberVO loginMemberVO = this.memberService.loginMember(memberVO);
 			
 		if( loginMemberVO != null ) {
 			session.setAttribute(Session.USER, loginMemberVO);
-			session.setAttribute(Session.TOKEN, UUID.randomUUID().toString());
-			view.setViewName("redirect:/board/list");
+			session.setAttribute(Session.CSRF, UUID.randomUUID().toString());
+			view.setViewName("main");
 			return view;
 		}
 		else {

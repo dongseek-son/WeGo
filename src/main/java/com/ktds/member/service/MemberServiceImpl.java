@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public boolean isExpired(String id) {
-		return this.memberDao.isExpried(id);
+		return this.memberDao.isExpired(id);
 	}
 
 	@Override

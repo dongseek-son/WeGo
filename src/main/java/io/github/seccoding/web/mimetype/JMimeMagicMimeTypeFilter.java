@@ -33,7 +33,7 @@ class JMimeMagicMimeTypeFilter extends ExtensionFilter {
 		if ( mimeTypeOfFile.equalsIgnoreCase( extension.toUpperCase() ) ) {
 			return true;
 		}
-		return false;
+		return false;s
 	}
 	
 }
