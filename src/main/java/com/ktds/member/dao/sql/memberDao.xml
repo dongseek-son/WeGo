@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberDao">
+	
+	<insert id="insertMember" parameterType="MemberVO">
+		INSERT INTO MM (
+  								MM_ID
+								, PW
+								, NM
+								, TL
+								, EML
+								, SALT
+								, PIC_NM
+								, PIC_ORGNM
+								, AUTH
+								, LTST_LGN
+								, LGN_FL_CNT
+								, LTST_PW_CHNG
+   						  ) 
+		VALUES ( 			
+  					#{id}
+					, #{password}
+					, #{name}
+					, #{tel}
+					, #{email}
+					, #{salt}
+					, #{profileFilename}
+					, #{profileOriginFilename}
+					, 1
+					, SYSDATE
+					, 0
+					, SYSDATE
+		)
+	</insert>
+	
+	<select id="selectOneMember" parameterType="MemberVO" resultType="MemberVO">
+		SELECT	NM name
+				, TL tel
+				, EML email
+				, SALT salt
+				, PIC_NM profileFilename
+				, PIC_ORGNM profileOriginFilename
+				, AUTH authority
+				, LTST_LGN lastestLogin
+				, LGN_FL_CNT loginFailCount
+				, LTST_PW_CHNG latestPasswordChange
+		FROM	MM
+		WHERE	MM_ID = #{id}
+		AND		PW = #{password}
+	</select>
+	
+	<select id="selectOneMemberById" parameterType="string" resultType="MemberVO">
+		SELECT	NM name
+				, TL tel
+				, EML email
+				, SALT salt
+				, PIC_NM profileFilename
+				, PIC_ORGNM profileOriginFilename
+				, AUTH authority
+				, LTST_LGN lastestLogin
+				, LGN_FL_CNT loginFailCount
+				, LTST_PW_CHNG latestPasswordChange
+		FROM	MM
+		WHERE	MM_ID = #{id}
+	</select>
+	
+	<select id="selectSaltById" parameterType="string" resultType="string">
+		SELECT	SALT
+		FROM	MM
+		WHERE	MM_ID = #{id}
+	</select>
+	
+	<select id="isExpired" parameterType="string" resultType="_boolean">
+		SELECT	COUNT(1)
+		FROM	MM
+		WHERE	MM_ID = #{id}
+		AND		LTST_LGN + 365 <![CDATA[<]]> SYSDATE
+	</select>
+	
+	<select id="isExpiredPassword" parameterType="string" resultType="_boolean">
+		SELECT	COUNT(1)
+		FROM	MM
+		WHERE	MM_ID = #{id}
+		AND		LTST_PW_CHNG + 90 <![CDATA[<]]> SYSDATE
+	</select>
+	
+	<select id="isLoginBlock" parameterType="string" resultType="_boolean">
+		SELECT	COUNT(1)
+		FROM	MM
+		WHERE	MM_ID = #{id}
+		AND		LGN_FL_CNT > 5
+		AND		LTST_LGN + 1/24 > SYSDATE
+	</select>
+	
+</mapper>
