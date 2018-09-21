@@ -7,7 +7,7 @@
 <title>Wego - Login</title>
 </head>
 <body>
-	<form action="/member/login.go" method="post">
+	<form action="/memberlogin" method="post">
 		<div>
 			<input type="text" id="id" name="id" placeholder="아이디 입력" />
 		</div>

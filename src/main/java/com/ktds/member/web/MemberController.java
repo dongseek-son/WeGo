@@ -4,18 +4,25 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ktds.common.member.Member;
+import com.ktds.common.session.Session;
 import com.ktds.member.service.MemberService;
 import com.ktds.member.vo.MemberVO;
+import com.ktds.security.User;
 
 import io.github.seccoding.web.mimetype.ExtFilter;
 import io.github.seccoding.web.mimetype.ExtensionFilter;
@@ -88,6 +95,43 @@ public class MemberController {
 		}
 		this.memberService.createMember(memberVO);
 		return "member/login";
+	}
+	
+	@RequestMapping("member/login.do")
+	public ModelAndView doMemberLoginAction( 
+			@ModelAttribute MemberVO memberVO
+			, Errors errors
+			, HttpSession session ) {
+		
+		ModelAndView view = new ModelAndView("member/login");
+		
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
+		memberVO.setEmail(user.getUsername());
+		memberVO.setPassword(user.getPassword());
+		
+		if ( errors.hasErrors() ) {
+			view.addObject("message", "로그인에 오류가 생겼습니다.");
+			return view;
+		}
+		
+		if ( user.isAccountNonLocked() ) {
+			view.addObject("message", "해당 계정은 3회이상 비밀번호가 틀렸습니다. 1시간 이후에 다시 시도해주세요.");
+			return view;
+		}
+		
+		MemberVO loginMemberVO = this.memberService.loginMember(memberVO);
+			
+		if( loginMemberVO != null ) {
+			session.setAttribute(Session.USER, loginMemberVO);
+			session.setAttribute(Session.TOKEN, UUID.randomUUID().toString());
+			view.setViewName("redirect:/board/list");
+			return view;
+		}
+		else {
+			view.addObject("message", "이메일과 아이디가 올바르지 않습니다.");
+		}
+		
+		return view;
 	}
 	
 }
