@@ -6,6 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Wego - Login</title>
+<script type="text/javascript">
+	var message = "${param.message}";
+	if ( message != "" ) {
+		alert(message);
+	}
+	var message = "${message}";
+	if ( message != "" ) {
+		alert(message);
+	}
+</script>
 </head>
 <body>
 	<c:url value="/memberlogin" var="loginUrl"/>

@@ -17,6 +17,8 @@
 	<tx:advice id="transactionAdvisor" transaction-manager="transactionManager">
 		<tx:attributes>
 	 		<tx:method name="read*" read-only="true"/>
+	 		<tx:method name="login*" read-only="true"/>
+	 		<tx:method name="auth*" read-only="true"/>
  			<tx:method name="create*" rollback-for="RuntimeException"/>
 			<tx:method name="regist*" rollback-for="RuntimeException"/>
 			<tx:method name="update*" rollback-for="RuntimeException"/>
@@ -25,7 +27,7 @@
 	</tx:advice>
 	
 	<!-- Transaction(Commit, Rollback) 대상 클래스 지정 -->
-	<aop:config>
+ 	<aop:config>
 		<aop:pointcut expression="execution( * com.ktds..service.*ServiceImpl.*(..) )" id="transactionPointcut"/>
 		<aop:advisor advice-ref="transactionAdvisor" pointcut-ref="transactionPointcut"/>
 	</aop:config>

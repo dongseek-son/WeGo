@@ -1,4 +1,4 @@
-package io.github.seccoding.web.mimetype;
+/*package io.github.seccoding.web.mimetype;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,3 +37,4 @@ class JMimeMagicMimeTypeFilter extends ExtensionFilter {
 	}
 	
 }
+*/

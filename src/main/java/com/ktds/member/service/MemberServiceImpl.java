@@ -36,6 +36,13 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO loginMember(MemberVO memberVO) {
 		return this.memberDao.selectOneMember(memberVO);
 	}
+	
+	@Override
+	public MemberVO authMember(MemberVO memberVO) {
+		String salt = this.memberDao.selectSaltById(memberVO.getId());
+		memberVO.setPassword(SHA256Util.getEncrypt(memberVO.getPassword(), salt));
+		return this.memberDao.selectOneMember(memberVO);
+	}
 
 	@Override
 	public String readSaltById(String id) {

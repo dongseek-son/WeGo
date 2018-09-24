@@ -10,6 +10,8 @@ public interface MemberService {
 	
 	public MemberVO loginMember(MemberVO memberVO);
 	
+	public MemberVO authMember(MemberVO memberVO);
+	
 	public String readSaltById(String id);
 	
 	public boolean isExpired(String id);

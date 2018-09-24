@@ -21,7 +21,13 @@ public class User implements UserDetails{
 	private boolean isBlock;
 	
 	
-	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", password=" + password + ", authority=" + authority + ", isExpired=" + isExpired
+				+ ", isLoginBlock=" + isLoginBlock + ", isExpiredPassword=" + isExpiredPassword + ", isBlock=" + isBlock
+				+ "]";
+	}
+
 	public User(String id, String password, int authority
 			, boolean isExpired, boolean isLoginBlock, boolean isExpiredPassword, boolean isBlock) {
 		this.id = id;
@@ -31,6 +37,7 @@ public class User implements UserDetails{
 		this.isLoginBlock = isLoginBlock;
 		this.isExpiredPassword = isExpiredPassword;
 		this.isBlock = isBlock;
+		this.toString();
 	}
 	
 	public void setExpired(boolean isExpired) {

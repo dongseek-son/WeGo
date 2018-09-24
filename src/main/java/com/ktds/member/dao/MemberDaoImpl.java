@@ -48,7 +48,7 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 
 	@Override
 	public boolean isExpiredPassword(String id) {
-		return getSqlSession().selectOne("MemberDao.isExpriedPassword", id);
+		return getSqlSession().selectOne("MemberDao.isExpiredPassword", id);
 	}
 
 	@Override

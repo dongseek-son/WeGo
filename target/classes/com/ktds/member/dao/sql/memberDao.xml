@@ -14,7 +14,7 @@
 								, SALT
 								, PIC_NM
 								, PIC_ORGNM
-								, AUTH
+								, ATHRTY
 								, LTST_LGN
 								, LGN_FL_CNT
 								, LTST_PW_CHNG
@@ -36,14 +36,15 @@
 	</insert>
 	
 	<select id="selectOneMember" parameterType="MemberVO" resultType="MemberVO">
-		SELECT	NM name
+		SELECT	PW password
+				, NM name
 				, TL tel
 				, EML email
 				, SALT salt
 				, PIC_NM profileFilename
 				, PIC_ORGNM profileOriginFilename
-				, AUTH authority
-				, LTST_LGN lastestLogin
+				, ATHRTY authority
+				, LTST_LGN latestLogin
 				, LGN_FL_CNT loginFailCount
 				, LTST_PW_CHNG latestPasswordChange
 		FROM	MM
@@ -58,8 +59,8 @@
 				, SALT salt
 				, PIC_NM profileFilename
 				, PIC_ORGNM profileOriginFilename
-				, AUTH authority
-				, LTST_LGN lastestLogin
+				, ATHRTY authority
+				, LTST_LGN latestLogin
 				, LGN_FL_CNT loginFailCount
 				, LTST_PW_CHNG latestPasswordChange
 		FROM	MM

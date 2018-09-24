@@ -42,14 +42,10 @@ public class MemberController {
 		return "member/login";
 	}
 	
-/*	@PostMapping("/member/login.go") 
-	public ModelAndView doLoginAction() {
-		return new ModelAndView("member/login");
-	}*/
-	
-	@PostMapping("/member/logout.go") 
-	public ModelAndView doLogoutAction() {
-		return new ModelAndView("member/login");
+	@GetMapping("/member/logout.go")
+	public String doMemberLogoutAction( HttpSession session ) {
+		session.invalidate();
+		return "redirect:/member/login";
 	}
 	
 	@GetMapping("/member/regist.go")
@@ -107,10 +103,11 @@ public class MemberController {
 			@ModelAttribute MemberVO memberVO
 			, Errors errors
 			, HttpSession session ) {
-		
-		ModelAndView view = new ModelAndView("member/login.go");
+		System.out.println("loginSuccess.go 진입");
+		ModelAndView view = new ModelAndView("member/login");
 		
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
+		System.out.println(user.toString());
 		memberVO.setId(user.getUsername());
 		memberVO.setPassword(user.getPassword());
 		
@@ -119,29 +116,36 @@ public class MemberController {
 			return view;
 		}
 		
-		if ( user.isAccountNonExpired() ) {
+		if ( !user.isAccountNonExpired() ) {
+			System.out.println("!user.isAccountNonExpired() : " + !user.isAccountNonExpired());
 			view.addObject("message", "1년이상 접속하지않아 휴면계정이 되었습니다.");
 		}
 		
-		if ( user.isAccountNonLocked() ) {
+		if ( !user.isAccountNonLocked() ) {
+			System.out.println("!user.isAccountNonLocked() : " + !user.isAccountNonLocked());
 			view.addObject("message", "해당 계정은 3회이상 비밀번호가 틀렸습니다. 1시간 이후에 다시 시도해주세요.");
 			return view;
 		}
 		
-		if ( user.isCredentialsNonExpired() ) {
+		if ( !user.isCredentialsNonExpired() ) {
 			view.addObject("message", "3개월 동안 비밀번호를 변경하지 않았습니다.");
 		}
 		
-		if ( user.isEnabled() ) {
+		if ( !user.isEnabled() ) {
 			view.addObject("message", "신고로 인하여 접속이 차단된 계정입니다.");
+			return view;
 		}
 		
+		System.out.println("Userservice loginMemeber전");
 		MemberVO loginMemberVO = this.memberService.loginMember(memberVO);
-			
+		
+		System.out.println("로그인멤버 / " + loginMemberVO);
+		
 		if( loginMemberVO != null ) {
 			session.setAttribute(Session.USER, loginMemberVO);
 			session.setAttribute(Session.CSRF, UUID.randomUUID().toString());
 			view.setViewName("main");
+			System.out.println("로그인 성공 / "  + view.getViewName());
 			return view;
 		}
 		else {
