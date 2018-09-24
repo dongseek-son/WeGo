@@ -4,6 +4,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class MemberVO {
 
+	@Override
+	public String toString() {
+		return "MemberVO [id=" + id + ", password=" + password + ", name=" + name + ", tel=" + tel + ", email=" + email
+				+ ", salt=" + salt + ", profileFilename=" + profileFilename + ", profileOriginFilename="
+				+ profileOriginFilename + ", authority=" + authority + ", latestLogin=" + latestLogin
+				+ ", loginFailCount=" + loginFailCount + ", latestPasswordChange=" + latestPasswordChange
+				+ ", profileFile=" + profileFile + "]";
+	}
+
 	private String id;
 	private String password;
 	private String name;

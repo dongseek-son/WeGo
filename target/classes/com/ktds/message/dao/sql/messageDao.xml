@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MessageDao">
+	
+	<insert id="insertMessage" parameterType="MessageVO">
+		INSERT	INTO MS (
+							MS_ID
+							, TTL
+							, DTL
+							, SND_DT
+							, IS_SND_DLT
+							, IS_RCV_DLT
+							, SND_ID
+							, RCV_ID
+						)
+		VALUES (
+					'MS-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(MS_ID_SEQ.NEXTVAL, 6, '0')
+					, #{title}
+					, #{detail}
+					, SYSDATE
+					, 0
+					, 0
+					, #{senderId}
+					, #{receiverId}
+		)
+	</insert>
+	
+	<select id="selectMessageList" resultType="MessageVO">
+		SELECT	MS_ID id
+				, TTL title
+				, DTL detail
+				, SND_DT sendDate
+				, RD_DT readDate 
+				, IS_SND_DLT isSenderDelete
+				, IS_RCV_DLT isReceiverDelete
+				, SND_ID senderId
+				, RCV_ID receiverId
+		FROM	MS
+	</select>
+	
+	<select id="selectSendMessageList" parameterType="string" resultType="MessageVO">
+		SELECT	MS_ID id
+				, TTL title
+				, DTL detail
+				, SND_DT sendDate
+				, RD_DT readDate 
+				, IS_SND_DLT isSenderDelete
+				, IS_RCV_DLT isReceiverDelete
+				, SND_ID senderId
+				, RCV_ID receiverId
+		FROM	MS
+		WHERE	SND_ID = #{memberId}
+		AND		IS_SND_DLT = 0
+	</select>
+	
+	<select id="selectReceiveMessageList" parameterType="string" resultType="MessageVO">
+		SELECT	MS_ID id
+				, TTL title
+				, DTL detail
+				, SND_DT sendDate
+				, RD_DT readDate 
+				, IS_SND_DLT isSenderDelete
+				, IS_RCV_DLT isReceiverDelete
+				, SND_ID senderId
+				, RCV_ID receiverId
+		FROM	MS
+		WHERE	RCV_ID = #{memberId}
+		AND		IS_RCV_DLT = 0
+	</select>
+	
+	<select id="selectOneMessageById" parameterType="string" resultType="MessageVO">
+		SELECT	MS_ID id
+				, TTL title
+				, DTL detail
+				, SND_DT sendDate
+				, RD_DT readDate 
+				, IS_SND_DLT isSenderDelete
+				, IS_RCV_DLT isReceiverDelete
+				, SND_ID senderId
+				, RCV_ID receiverId
+		FROM	MS
+		WHERE	MS_ID = #{messageId}
+	</select>
+	
+	<update id="updateReadDate" parameterType="string">
+		UPDATE	MS
+		SET		RD_DT = SYSDATE
+		WHERE	MS_ID = #{messageId}
+	</update>
+	
+	<update id="updateSenderDelete" parameterType="string">
+		UPDATE	MS
+		SET		IS_SND_DLT = 1
+		WHERE	MS_ID = #{messageId}
+	</update>
+	
+	<update id="updateReceiverDelete" parameterType="string">
+		UPDATE	MS
+		SET		IS_RCV_DLT = 1
+		WHERE	MS_ID = #{messageId}
+	</update>
+	
+</mapper>

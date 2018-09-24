@@ -36,7 +36,8 @@
 	</insert>
 	
 	<select id="selectOneMember" parameterType="MemberVO" resultType="MemberVO">
-		SELECT	PW password
+		SELECT	MM_ID id
+				, PW password
 				, NM name
 				, TL tel
 				, EML email

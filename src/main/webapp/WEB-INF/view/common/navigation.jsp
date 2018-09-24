@@ -40,7 +40,9 @@
 </style>
 <nav>
   <ul>
-    <li><a href="/WeGo/main">Home</a></li>
+  	<li><a href="/WeGo/message/write.go">WriteMessage</a></li>
+    <li><a href="/WeGo/message/receivelist.go">ReceiveList</a></li>
+    <li><a href="/WeGo/message/sendlist.go">SendList</a></li>
     <li><a href="/WeGo/member/login.go">Login</a></li>
     <li><a href="/WeGo/member/regist.go">Regist</a></li>
     <li><a href="/WeGo/memberlogout">Logout</a></li>

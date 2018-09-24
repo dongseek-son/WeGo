@@ -139,12 +139,10 @@ public class MemberController {
 		System.out.println("Userservice loginMemeber전");
 		MemberVO loginMemberVO = this.memberService.loginMember(memberVO);
 		
-		System.out.println("로그인멤버 / " + loginMemberVO);
-		
 		if( loginMemberVO != null ) {
 			session.setAttribute(Session.USER, loginMemberVO);
 			session.setAttribute(Session.CSRF, UUID.randomUUID().toString());
-			view.setViewName("main");
+			view.setViewName("redirect:/message/receivelist.go");
 			System.out.println("로그인 성공 / "  + view.getViewName());
 			return view;
 		}

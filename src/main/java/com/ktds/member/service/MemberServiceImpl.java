@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ktds.common.authority.Authority;
+import com.ktds.common.member.Member;
 import com.ktds.common.web.SHA256Util;
 import com.ktds.member.dao.MemberDao;
 import com.ktds.member.vo.MemberVO;
@@ -21,7 +22,8 @@ public class MemberServiceImpl implements MemberService {
 		memberVO.setSalt(salt);
 		
 		if( memberVO.getProfileOriginFilename() == null ) {
-			memberVO.setProfileFilename("default.jpg");
+			memberVO.setProfileFilename(Member.DEFAULT_PROFILE);
+			memberVO.setProfileOriginFilename(Member.DEFAULT_PROFILE_ORIGIN);
 		}
 		
 		return this.memberDao.insertMember(memberVO) > 0;

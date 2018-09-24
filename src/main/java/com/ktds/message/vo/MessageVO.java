@@ -11,6 +11,17 @@ public class MessageVO {
 	private boolean isReceiverDelete;
 	private String senderId;
 	private String receiverId;
+	
+	private String token;
+
+	
+	
+	@Override
+	public String toString() {
+		return "MessageVO [id=" + id + ", title=" + title + ", detail=" + detail + ", sendDate=" + sendDate
+				+ ", readDate=" + readDate + ", isSenderDelete=" + isSenderDelete + ", isReceiverDelete="
+				+ isReceiverDelete + ", senderId=" + senderId + ", receiverId=" + receiverId + "]";
+	}
 
 	public String getId() {
 		return id;
@@ -82,6 +93,14 @@ public class MessageVO {
 
 	public void setReceiverId(String receiverId) {
 		this.receiverId = receiverId;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }
