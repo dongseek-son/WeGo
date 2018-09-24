@@ -18,6 +18,7 @@
 </script>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/view/common/navigation.jsp" />
 	<c:url value="/memberlogin" var="loginUrl"/>
 	<form action="${loginUrl}" method="post"> 
 		<div>

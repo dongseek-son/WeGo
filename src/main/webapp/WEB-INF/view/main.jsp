@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/common/navigation.jsp" />
 로그인 성공!
 </body>
 </html>

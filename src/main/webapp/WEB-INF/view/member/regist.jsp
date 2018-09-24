@@ -7,6 +7,7 @@
 <title>We-Go 회원가입</title>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/view/common/navigation.jsp" />
 	<div id="wrapper">
 		<form id="registForm" method="post" action="/WeGo/member/regist.go" enctype="multipart/form-data" >
 			<div>
