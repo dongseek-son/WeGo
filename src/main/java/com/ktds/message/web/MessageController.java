@@ -1,9 +1,5 @@
 package com.ktds.message.web;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ktds.common.session.Session;
@@ -22,10 +17,6 @@ import com.ktds.member.vo.MemberVO;
 import com.ktds.message.service.MessageService;
 import com.ktds.message.vo.MessageVO;
 import com.nhncorp.lucy.security.xss.XssFilter;
-
-import io.github.seccoding.web.mimetype.ExtFilter;
-import io.github.seccoding.web.mimetype.ExtensionFilter;
-import io.github.seccoding.web.mimetype.ExtensionFilterFactory;
 
 @Controller
 public class MessageController {
@@ -50,12 +41,29 @@ public class MessageController {
 		return view;
 	}
 	
+	@GetMapping("/message/detail.go/{id}")
+	public ModelAndView viewDetailMessagePage(
+			@PathVariable String id
+			, @SessionAttribute(name=Session.USER) MemberVO memberVO) {
+		ModelAndView view = new ModelAndView("message/detail");
+		view.addObject("messageVO", this.messageService.readOneMessageById(id, memberVO));
+		return view;
+	}
+	
+	@GetMapping("/message/delete.go/{id}") 
+	public String doDeleteMessageAction(
+			@PathVariable String id
+			, @SessionAttribute(name=Session.USER) MemberVO memberVO) {
+		this.messageService.updateIsDelete(id, memberVO);
+		return "redirect:/message/receivelist.go";
+	}
+	
 	@GetMapping("/message/write.go")
 	public String viewWriteMessagePage() {
 		return "message/write";
 	}
 	
-	@GetMapping("/message/write.go/${receiverId}")
+	@GetMapping("/message/write.go/{receiverId}")
 	public ModelAndView viewWriteMessagePage2(@PathVariable String receiverId) {
 		ModelAndView view = new ModelAndView("message/write");
 		view.addObject("receiverId", receiverId);

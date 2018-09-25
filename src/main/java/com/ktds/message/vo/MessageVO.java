@@ -13,8 +13,6 @@ public class MessageVO {
 	private String receiverId;
 	
 	private String token;
-
-	
 	
 	@Override
 	public String toString() {

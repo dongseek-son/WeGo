@@ -44,7 +44,7 @@ public class MessageServiceImpl implements MessageService {
 			this.messageDao.updateReadDate(messageId);
 		}
 		
-		return messageVO;
+		return this.messageDao.selectOneMessageById(messageId);
 	}
 
 	@Override

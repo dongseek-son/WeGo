@@ -16,19 +16,33 @@
 <body>
 <jsp:include page="/WEB-INF/view/common/navigation.jsp" />
 	<div>
-		${messageVO.senderId }
+		발신 : ${messageVO.senderId }
 	</div>
 	<div>
-		<input type="text" id="receiverId" name="receiverId" placeholder="수신자 ID 입력">	
+		수신 : ${messageVO.receiverId }
 	</div>
 	<div>
-		<input type="text" id="title" name="title" placeholder="제목 입력">
+		보낸날짜 : ${messageVO.sendDate }
 	</div>
 	<div>
-		<textarea id="detail" name="detail" placeholder="내용 입력"></textarea>
+	<c:choose>
+		<c:when test="${not empty messageVO.readDate }">
+			수신날짜 : ${messageVO.readDate }
+		</c:when>
+		<c:otherwise>
+			수신 미확인
+		</c:otherwise>
+	</c:choose>
+		
 	</div>
 	<div>
-		<input type="submit" value="전송">
+		제목 : ${messageVO.title }
+	</div>
+	<div>
+		내용 : ${messageVO.detail }
+	</div>
+	<div>
+		<a href="/WeGo/message/delete.go/${messageVO.id }">삭제</a>
 	</div>	
 </body>
 </html>
