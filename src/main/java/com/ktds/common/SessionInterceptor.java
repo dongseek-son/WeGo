@@ -24,7 +24,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		MemberVO member = (MemberVO)session.getAttribute(Session.USER);
 		
 		if ( member == null ) {
-			response.sendRedirect("/WeGo/member/login.go?message=" + URLEncoder.encode("로그인이 필요합니다.", "UTF-8"));
+			response.sendRedirect("/member/login.go?message=" + URLEncoder.encode("로그인이 필요합니다.", "UTF-8"));
 			return false;
 		}
 		

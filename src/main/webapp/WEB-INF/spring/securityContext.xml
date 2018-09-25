@@ -11,8 +11,9 @@
 		<s:intercept-url pattern="/member/**" access="permitAll" />
 		<s:intercept-url pattern="/" access="permitAll" />
 		<s:intercept-url pattern="/memberlogin" access="permitAll" />
-<!-- 		<s:intercept-url pattern="/board/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-		<s:intercept-url pattern="/reply/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" /> -->
+ 		<s:intercept-url pattern="/message/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" />
+ 		<s:intercept-url pattern="/goal/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" />
+		<s:intercept-url pattern="/reply/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" />
 		<s:csrf disabled="true" />
 		<s:form-login
 			login-page = "/member/login.go"

@@ -18,7 +18,7 @@ public class PreventSessionInterceptor extends HandlerInterceptorAdapter {
 		MemberVO memberVO = (MemberVO)session.getAttribute(Session.USER);
 		
 		if( memberVO != null ) {
-			response.sendRedirect("/member/regist.go");
+			response.sendRedirect("/message/write.go");
 			return false;
 		}
 		return true;

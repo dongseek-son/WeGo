@@ -31,11 +31,11 @@
 	<mvc:resources location="/WEB-INF/static/img/" mapping="/img/**" />
 
  	<mvc:interceptors>
-<!-- 		<mvc:interceptor>
+ 		<mvc:interceptor>
 			<mvc:mapping path="/board/**"/>
 			<bean	id="sessionInterceptor" 
 					class="com.ktds.common.SessionInterceptor" />
-		</mvc:interceptor> -->
+		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/member/**" />
 			<mvc:exclude-mapping path="/member/logout"/>
