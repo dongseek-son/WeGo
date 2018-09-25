@@ -6,8 +6,7 @@
 	
 	<insert id="insertMember" parameterType="MemberVO">
 		INSERT INTO MM (
-  								MM_ID
-								, PW
+  								PW
 								, NM
 								, TL
 								, EML
@@ -20,8 +19,7 @@
 								, LTST_PW_CHNG
    						  ) 
 		VALUES ( 			
-  					#{id}
-					, #{password}
+  					#{password}
 					, #{name}
 					, #{tel}
 					, #{email}
@@ -36,8 +34,7 @@
 	</insert>
 	
 	<select id="selectOneMember" parameterType="MemberVO" resultType="MemberVO">
-		SELECT	MM_ID id
-				, PW password
+		SELECT	PW password
 				, NM name
 				, TL tel
 				, EML email
@@ -49,11 +46,11 @@
 				, LGN_FL_CNT loginFailCount
 				, LTST_PW_CHNG latestPasswordChange
 		FROM	MM
-		WHERE	MM_ID = #{id}
+		WHERE	EML = #{email}
 		AND		PW = #{password}
 	</select>
 	
-	<select id="selectOneMemberById" parameterType="string" resultType="MemberVO">
+	<select id="selectOneMemberByEmail" parameterType="string" resultType="MemberVO">
 		SELECT	NM name
 				, TL tel
 				, EML email
@@ -65,33 +62,33 @@
 				, LGN_FL_CNT loginFailCount
 				, LTST_PW_CHNG latestPasswordChange
 		FROM	MM
-		WHERE	MM_ID = #{id}
+		WHERE	EML = #{email}
 	</select>
 	
-	<select id="selectSaltById" parameterType="string" resultType="string">
+	<select id="selectSaltByEmail" parameterType="string" resultType="string">
 		SELECT	SALT
 		FROM	MM
-		WHERE	MM_ID = #{id}
+		WHERE	EML = #{email}
 	</select>
 	
 	<select id="isExpired" parameterType="string" resultType="_boolean">
 		SELECT	COUNT(1)
 		FROM	MM
-		WHERE	MM_ID = #{id}
+		WHERE	EML = #{email}
 		AND		LTST_LGN + 365 <![CDATA[<]]> SYSDATE
 	</select>
 	
 	<select id="isExpiredPassword" parameterType="string" resultType="_boolean">
 		SELECT	COUNT(1)
 		FROM	MM
-		WHERE	MM_ID = #{id}
+		WHERE	EML = #{email}
 		AND		LTST_PW_CHNG + 90 <![CDATA[<]]> SYSDATE
 	</select>
 	
 	<select id="isLoginBlock" parameterType="string" resultType="_boolean">
 		SELECT	COUNT(1)
 		FROM	MM
-		WHERE	MM_ID = #{id}
+		WHERE	EML = #{email}
 		AND		LGN_FL_CNT > 5
 		AND		LTST_LGN + 1/24 > SYSDATE
 	</select>

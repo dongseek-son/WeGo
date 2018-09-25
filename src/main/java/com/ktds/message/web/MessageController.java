@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -52,6 +53,13 @@ public class MessageController {
 	@GetMapping("/message/write.go")
 	public String viewWriteMessagePage() {
 		return "message/write";
+	}
+	
+	@GetMapping("/message/write.go/${receiverId}")
+	public ModelAndView viewWriteMessagePage2(@PathVariable String receiverId) {
+		ModelAndView view = new ModelAndView("message/write");
+		view.addObject("receiverId", receiverId);
+		return view;
 	}
 	
 	@PostMapping("/message/write.go")

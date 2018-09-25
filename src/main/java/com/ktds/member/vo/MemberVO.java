@@ -6,18 +6,16 @@ public class MemberVO {
 
 	@Override
 	public String toString() {
-		return "MemberVO [id=" + id + ", password=" + password + ", name=" + name + ", tel=" + tel + ", email=" + email
-				+ ", salt=" + salt + ", profileFilename=" + profileFilename + ", profileOriginFilename="
-				+ profileOriginFilename + ", authority=" + authority + ", latestLogin=" + latestLogin
-				+ ", loginFailCount=" + loginFailCount + ", latestPasswordChange=" + latestPasswordChange
-				+ ", profileFile=" + profileFile + "]";
+		return "MemberVO [email=" + email + ", password=" + password + ", name=" + name + ", tel=" + tel + ", salt="
+				+ salt + ", profileFilename=" + profileFilename + ", profileOriginFilename=" + profileOriginFilename
+				+ ", authority=" + authority + ", latestLogin=" + latestLogin + ", loginFailCount=" + loginFailCount
+				+ ", latestPasswordChange=" + latestPasswordChange + ", profileFile=" + profileFile + "]";
 	}
 
-	private String id;
+	private String email;
 	private String password;
 	private String name;
 	private String tel;
-	private String email;
 	private String salt;
 	private String profileFilename;
 	private String profileOriginFilename;
@@ -27,14 +25,6 @@ public class MemberVO {
 	private String latestPasswordChange;
 	
 	private MultipartFile profileFile;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getPassword() {
 		return password;

@@ -22,7 +22,7 @@
 	<c:url value="/memberlogin" var="loginUrl"/>
 	<form action="${loginUrl}" method="post"> 
 		<div>
-			<input type="text" id="id" name="id" placeholder="아이디 입력" />
+			<input type="email" id="email" name="email" placeholder="이메일 입력" />
 		</div>
 		<div>
 			<input type="password" id="password" name="password" placeholder="비밀번호 입력" />

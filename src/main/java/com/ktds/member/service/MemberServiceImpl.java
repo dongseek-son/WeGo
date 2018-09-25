@@ -30,8 +30,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberVO readOneMemberById(String id) {
-		return this.memberDao.selectOneMemberById(id);
+	public MemberVO readOneMemberByEmail(String email) {
+		return this.memberDao.selectOneMemberByEmail(email);
 	}
 
 	@Override
@@ -41,39 +41,41 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public MemberVO authMember(MemberVO memberVO) {
-		String salt = this.memberDao.selectSaltById(memberVO.getId());
+		System.out.println(memberVO.getEmail());
+		String salt = this.memberDao.selectSaltByEmail(memberVO.getEmail());
+		System.out.println(memberVO.toString());
 		memberVO.setPassword(SHA256Util.getEncrypt(memberVO.getPassword(), salt));
 		return this.memberDao.selectOneMember(memberVO);
 	}
 
 	@Override
-	public String readSaltById(String id) {
-		return this.memberDao.selectSaltById(id);
+	public String readSaltByEmail(String email) {
+		return this.memberDao.selectSaltByEmail(email);
 	}
 
 	@Override
-	public boolean isExpired(String id) {
-		return this.memberDao.isExpired(id);
+	public boolean isExpired(String email) {
+		return this.memberDao.isExpired(email);
 	}
 
 	@Override
-	public boolean isLoginBlock(String id) {
-		return this.memberDao.isLoginBlock(id);
+	public boolean isLoginBlock(String email) {
+		return this.memberDao.isLoginBlock(email);
 	}
 
 	@Override
-	public boolean isExpiredPassword(String id) {
-		return this.memberDao.isExpiredPassword(id);
+	public boolean isExpiredPassword(String email) {
+		return this.memberDao.isExpiredPassword(email);
 	}
 
 	@Override
-	public boolean isBlock(String id) {
-		return this.readOneMemberById(id).getAuthority() == Authority.BLOCK;
+	public boolean isBlock(String email) {
+		return this.readOneMemberByEmail(email).getAuthority() == Authority.BLOCK;
 	}
 
 	@Override
-	public boolean isWithdrawal(String id) {
-		return this.readOneMemberById(id).getAuthority() == Authority.WITHDRAWAL;
+	public boolean isWithdrawal(String email) {
+		return this.readOneMemberByEmail(email).getAuthority() == Authority.WITHDRAWAL;
 	}
 
 }

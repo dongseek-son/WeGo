@@ -6,21 +6,21 @@ public interface MemberService {
 
 	public boolean createMember(MemberVO memberVO);
 	
-	public MemberVO readOneMemberById(String id);
+	public MemberVO readOneMemberByEmail(String email);
 	
 	public MemberVO loginMember(MemberVO memberVO);
 	
 	public MemberVO authMember(MemberVO memberVO);
 	
-	public String readSaltById(String id);
+	public String readSaltByEmail(String email);
 	
-	public boolean isExpired(String id);
+	public boolean isExpired(String email);
 	
-	public boolean isLoginBlock(String id);
+	public boolean isLoginBlock(String email);
 	
-	public boolean isExpiredPassword(String id);
+	public boolean isExpiredPassword(String email);
 	
-	public boolean isBlock(String id);
+	public boolean isBlock(String email);
 	
-	public boolean isWithdrawal(String id);
+	public boolean isWithdrawal(String email);
 }

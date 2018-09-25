@@ -28,19 +28,19 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public List<MessageVO> readSendMessages(MemberVO memberVO) {
-		return this.messageDao.selectSendMessageList(memberVO.getId());
+		return this.messageDao.selectSendMessageList(memberVO.getEmail());
 	}
 
 	@Override
 	public List<MessageVO> readReceiveMessages(MemberVO memberVO) {
-		return this.messageDao.selectReceiveMessageList(memberVO.getId());
+		return this.messageDao.selectReceiveMessageList(memberVO.getEmail());
 	}
 
 	@Override
 	public MessageVO readOneMessageById(String messageId, MemberVO memberVO) {
 		MessageVO messageVO = this.messageDao.selectOneMessageById(messageId);
 		
-		if ( messageVO.getReceiverId().equals(memberVO.getId()) && messageVO.getReadDate() == null ) {
+		if ( messageVO.getReceiverId().equals(memberVO.getEmail()) && messageVO.getReadDate() == null ) {
 			this.messageDao.updateReadDate(messageId);
 		}
 		
@@ -51,10 +51,10 @@ public class MessageServiceImpl implements MessageService {
 	public boolean updateIsDelete(String messageId, MemberVO memberVO) {
 		MessageVO messageVO = this.messageDao.selectOneMessageById(messageId);
 		
-		if ( messageVO.getReceiverId().equals(memberVO.getId()) ) {
+		if ( messageVO.getReceiverId().equals(memberVO.getEmail()) ) {
 			return this.messageDao.updateReceiverDelete(messageId) > 0;
 		}
-		else if ( messageVO.getSenderId().equals(memberVO.getId()) ) {
+		else if ( messageVO.getSenderId().equals(memberVO.getEmail()) ) {
 			return this.messageDao.updateSenderDelete(messageId) > 0;
 		}
 		else if ( memberVO.getAuthority() == Authority.ADMIN ) {

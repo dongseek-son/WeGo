@@ -108,7 +108,7 @@ public class MemberController {
 		
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
 		System.out.println(user.toString());
-		memberVO.setId(user.getUsername());
+		memberVO.setEmail(user.getUsername());
 		memberVO.setPassword(user.getPassword());
 		
 		if ( errors.hasErrors() ) {

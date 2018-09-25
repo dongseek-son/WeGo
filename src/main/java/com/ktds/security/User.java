@@ -12,7 +12,7 @@ import com.ktds.common.authority.Authority;
 
 public class User implements UserDetails{
 
-	private String id;
+	private String email;
 	private String password;
 	private String authority;
 	private boolean isExpired;
@@ -23,14 +23,14 @@ public class User implements UserDetails{
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", password=" + password + ", authority=" + authority + ", isExpired=" + isExpired
+		return "User [email=" + email + ", password=" + password + ", authority=" + authority + ", isExpired=" + isExpired
 				+ ", isLoginBlock=" + isLoginBlock + ", isExpiredPassword=" + isExpiredPassword + ", isBlock=" + isBlock
 				+ "]";
 	}
 
-	public User(String id, String password, int authority
+	public User(String email, String password, int authority
 			, boolean isExpired, boolean isLoginBlock, boolean isExpiredPassword, boolean isBlock) {
-		this.id = id;
+		this.email = email;
 		this.password = password;
 		this.authority = Authority.AUTHORITIES[authority];
 		this.isExpired = isExpired;
@@ -56,8 +56,8 @@ public class User implements UserDetails{
 		this.isBlock = isBlock;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setPassword(String password) {
@@ -81,7 +81,7 @@ public class User implements UserDetails{
 
 	@Override
 	public String getUsername() {
-		return this.id;
+		return this.email;
 	}
 
 	@Override

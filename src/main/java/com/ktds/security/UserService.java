@@ -29,8 +29,8 @@ public class UserService implements AuthenticationProvider{
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		MemberVO memberVO = new MemberVO();
-		String id = authentication.getPrincipal().toString();
-		memberVO.setId(id);
+		String email = authentication.getPrincipal().toString();
+		memberVO.setEmail(email);
 		memberVO.setPassword(authentication.getCredentials().toString());
 		
 		memberVO = this.memberService.authMember(memberVO);
@@ -47,13 +47,13 @@ public class UserService implements AuthenticationProvider{
 				roles.add(new SimpleGrantedAuthority("ROLE_DEFAULT") );
 			}
 			
-			result = new UsernamePasswordAuthenticationToken(id, memberVO.getPassword(), roles);
+			result = new UsernamePasswordAuthenticationToken(email, memberVO.getPassword(), roles);
 			
-			User user = new User( id, memberVO.getPassword(), memberVO.getAuthority()
-					, this.memberService.isExpired(id)
-					, this.memberService.isLoginBlock(id)
-					, this.memberService.isExpiredPassword(id)
-					, this.memberService.isBlock(id));
+			User user = new User( email, memberVO.getPassword(), memberVO.getAuthority()
+					, this.memberService.isExpired(email)
+					, this.memberService.isLoginBlock(email)
+					, this.memberService.isExpiredPassword(email)
+					, this.memberService.isBlock(email));
 			logger.debug(user.toString());
 			result.setDetails(user);
 		}

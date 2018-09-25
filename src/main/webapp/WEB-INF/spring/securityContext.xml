@@ -16,7 +16,7 @@
 		<s:csrf disabled="true" />
 		<s:form-login
 			login-page = "/member/login.go"
-			username-parameter="id"
+			username-parameter="email"
 			password-parameter="password"
 			login-processing-url="/memberlogin"
 			default-target-url="/member/loginSuccess.go"

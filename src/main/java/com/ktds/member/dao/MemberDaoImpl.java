@@ -27,8 +27,8 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	}
 
 	@Override
-	public MemberVO selectOneMemberById(String id) {
-		return getSqlSession().selectOne("MemberDao.selectOneMemberById", id);
+	public MemberVO selectOneMemberByEmail(String email) {
+		return getSqlSession().selectOne("MemberDao.selectOneMemberByEmail", email);
 	}
 
 	@Override
@@ -37,23 +37,23 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	}
 
 	@Override
-	public String selectSaltById(String id) {
-		return getSqlSession().selectOne("MemberDao.selectSaltById", id);
+	public String selectSaltByEmail(String email) {
+		return getSqlSession().selectOne("MemberDao.selectSaltByEmail", email);
 	}
 
 	@Override
-	public boolean isExpired(String id) {
-		return getSqlSession().selectOne("MemberDao.isExpired", id);
+	public boolean isExpired(String email) {
+		return getSqlSession().selectOne("MemberDao.isExpired", email);
 	}
 
 	@Override
-	public boolean isExpiredPassword(String id) {
-		return getSqlSession().selectOne("MemberDao.isExpiredPassword", id);
+	public boolean isExpiredPassword(String email) {
+		return getSqlSession().selectOne("MemberDao.isExpiredPassword", email);
 	}
 
 	@Override
-	public boolean isLoginBlock(String id) {
-		return getSqlSession().selectOne("MemberDao.isLoginBlock", id);
+	public boolean isLoginBlock(String email) {
+		return getSqlSession().selectOne("MemberDao.isLoginBlock", email);
 	}
 
 }

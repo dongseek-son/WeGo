@@ -6,16 +6,16 @@ public interface MemberDao {
 	
 	public int insertMember(MemberVO memberVO);
 	
-	public MemberVO selectOneMemberById(String id);
+	public MemberVO selectOneMemberByEmail(String email);
 	
 	public MemberVO selectOneMember(MemberVO memberVO);
 	
-	public String selectSaltById(String id);
+	public String selectSaltByEmail(String email);
 	
-	public boolean isExpired(String id);
+	public boolean isExpired(String email);
 	
-	public boolean isExpiredPassword(String id);
+	public boolean isExpiredPassword(String email);
 	
-	public boolean isLoginBlock(String id);
+	public boolean isLoginBlock(String email);
 
 }
