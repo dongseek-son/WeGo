@@ -5,6 +5,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.ktds.member.vo.MemberVO" alias="MemberVO" />
+		<typeAlias type="com.ktds.member.vo.EmailAuthVO" alias="EmailAuthVO" />
 		<typeAlias type="com.ktds.goal.vo.GoalVO" alias="GoalVO" />
 		<typeAlias type="com.ktds.message.vo.MessageVO" alias="MessageVO" />
 		<typeAlias type="com.ktds.reply.vo.ReplyVO" alias="ReplyVO" />

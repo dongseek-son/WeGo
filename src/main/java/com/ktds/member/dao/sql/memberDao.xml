@@ -45,6 +45,7 @@
 				, LTST_LGN latestLogin
 				, LGN_FL_CNT loginFailCount
 				, LTST_PW_CHNG latestPasswordChange
+				, RGST_DT registDate
 		FROM	MM
 		WHERE	EML = #{email}
 		AND		PW = #{password}
@@ -61,6 +62,7 @@
 				, LTST_LGN latestLogin
 				, LGN_FL_CNT loginFailCount
 				, LTST_PW_CHNG latestPasswordChange
+				, RGST_DT registDate
 		FROM	MM
 		WHERE	EML = #{email}
 	</select>
@@ -92,5 +94,45 @@
 		AND		LGN_FL_CNT > 5
 		AND		LTST_LGN + 1/24 > SYSDATE
 	</select>
+	
+	<select id="isEmailAuth" parameterType="string" resultType="_boolean">
+		SELECT	COUNT(1)
+		FROM	MM
+		WHERE	EML = #{email}
+		AND		RGST_DT = NULL
+	</select>
+	
+	<insert id="insertEmailAuth" parameterType="EmailAuthVO">
+		INSERT	INTO EML_AUTH	(
+									AUTH_URL
+									, EML
+									, RGST_DT
+								)
+		VALUES	(
+					#{authUrl}
+					, #{email}
+					, SYSDATE
+		)
+	</insert>
+	
+	<select id="selectOneEmailAuth" parameterType="string" resultType="EmailAuthVO">
+		SELECT	AUTH_URL authUrl
+				, EML email
+				, RGST_DT registDate
+		FROM	EML_AUTH
+		WHERE	AUTH_URL = #{authUrl}
+		AND		RGST_DT + 1/24 > SYSDATE
+	</select>
+	
+	<delete id="deleteOneEmailAuth" parameterType="string">
+		DELETE	EML_AUTH
+		WHERE	AUTH_URL = #{authUrl}
+	</delete>
+	
+	<update id="updateRegistDate" parameterType="string">
+		UPDATE	MM
+		SET		RGST_DT = SYSDATE
+		WHERE	EML = #{email}
+	</update>
 	
 </mapper>

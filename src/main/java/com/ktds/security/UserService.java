@@ -53,7 +53,8 @@ public class UserService implements AuthenticationProvider{
 					, this.memberService.isExpired(email)
 					, this.memberService.isLoginBlock(email)
 					, this.memberService.isExpiredPassword(email)
-					, this.memberService.isBlock(email));
+					, this.memberService.isBlock(email)
+					, this.memberService.isEmailAuth(email));
 			logger.debug(user.toString());
 			result.setDetails(user);
 		}

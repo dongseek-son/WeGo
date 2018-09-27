@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ktds.common.member.Member;
 import com.ktds.common.session.Session;
 import com.ktds.member.service.MemberService;
+import com.ktds.member.vo.EmailAuthVO;
 import com.ktds.member.vo.MemberVO;
 import com.ktds.security.User;
 
@@ -95,7 +97,7 @@ public class MemberController {
 			}
 		}
 		this.memberService.createMember(memberVO);
-		return "member/login";
+		return "redirect:/member/emailAuth.go/" + this.memberService.createEmailAuth(memberVO.getEmail());
 	}
 	
 	@RequestMapping("member/loginSuccess.go")
@@ -136,6 +138,11 @@ public class MemberController {
 			return view;
 		}
 		
+		if ( !user.isEmailAuth() ) {
+			view.addObject("message", "이메일 인증이 완료되지않았습니다.");
+			return view;
+		}
+		
 		System.out.println("Userservice loginMemeber전");
 		MemberVO loginMemberVO = this.memberService.loginMember(memberVO);
 		
@@ -150,6 +157,34 @@ public class MemberController {
 			view.addObject("message", "이메일과 아이디가 올바르지 않습니다.");
 		}
 		
+		return view;
+	}
+	
+	@GetMapping("member/emailAuth.go/{authUrl}")
+	public ModelAndView viewEmailAuthPage(@PathVariable String authUrl) {
+		ModelAndView view = new ModelAndView("member/login");
+		EmailAuthVO emailAuthVO = this.memberService.readOneEmailAuth(authUrl);
+		
+		if ( emailAuthVO == null ) {
+			view.addObject("message", "잘못된 접근입니다.");
+		}
+		else {
+			view.setViewName("member/emailAuth");
+			view.addObject("emailAuthVO", emailAuthVO);			
+		}
+		return view;
+	}
+	
+	@PostMapping("member/emailAuth.go")
+	public ModelAndView doEmailAuthAction(@ModelAttribute EmailAuthVO emailAuthVO) {
+		ModelAndView view = new ModelAndView("member/login");
+		if ( this.memberService.updateRegistDate(emailAuthVO.getEmail())
+				&& this.memberService.removeOneEmailAuth(emailAuthVO.getAuthUrl()) ) {
+			view.addObject("message", "이메일 인증이 완료되었습니다.<br>로그인 화면으로 이동합니다.");
+		}
+		else {
+			view.addObject("message", "오류가 발생하였습니다.<br>관리자에게 문의 바랍니다.");
+		}
 		return view;
 	}
 	

@@ -1,5 +1,6 @@
 package com.ktds.member.service;
 
+import com.ktds.member.vo.EmailAuthVO;
 import com.ktds.member.vo.MemberVO;
 
 public interface MemberService {
@@ -23,4 +24,14 @@ public interface MemberService {
 	public boolean isBlock(String email);
 	
 	public boolean isWithdrawal(String email);
+	
+	public boolean isEmailAuth(String email);
+	
+	public String createEmailAuth(String email);
+	
+	public EmailAuthVO readOneEmailAuth(String authUrl);
+	
+	public boolean removeOneEmailAuth(String authUrl);
+	
+	public boolean updateRegistDate(String email);
 }

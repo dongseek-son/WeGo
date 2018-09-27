@@ -16,9 +16,9 @@
 							socket-timeout="1500"/>
 </mongo:mongo-client>
 
-<bean	id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+<!-- <bean	id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 	<constructor-arg ref="mongo" />
 	<constructor-arg name="databaseName" value="foo" />
-</bean>
+</bean> -->
 
 </beans>

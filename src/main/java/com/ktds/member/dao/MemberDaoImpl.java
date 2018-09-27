@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ktds.member.vo.EmailAuthVO;
 import com.ktds.member.vo.MemberVO;
 
 @Repository
@@ -54,6 +55,31 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	@Override
 	public boolean isLoginBlock(String email) {
 		return getSqlSession().selectOne("MemberDao.isLoginBlock", email);
+	}
+	
+	@Override
+	public boolean isEmailAuth(String email) {
+		return getSqlSession().selectOne("isEmailAuth", email);
+	}
+	
+	@Override
+	public int insertEmailAuth(EmailAuthVO emailAuthVO) {
+		return getSqlSession().insert("insertEmailAuth", emailAuthVO);
+	}
+	
+	@Override
+	public EmailAuthVO selectOneEmailAuth(String authUrl) {
+		return getSqlSession().selectOne("selectOneEmailAuth", authUrl);
+	}
+	
+	@Override
+	public int deleteOneEmailAuth(String authUrl) {
+		return getSqlSession().delete("deleteOneEmailAuth", authUrl);
+	}
+	
+	@Override
+	public int updateRegistDate(String email) {
+		return getSqlSession().update("updateRegistDate", email);
 	}
 
 }

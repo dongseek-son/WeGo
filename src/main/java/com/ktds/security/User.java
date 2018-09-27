@@ -19,17 +19,10 @@ public class User implements UserDetails{
 	private boolean isLoginBlock;
 	private boolean isExpiredPassword;
 	private boolean isBlock;
-	
-	
-	@Override
-	public String toString() {
-		return "User [email=" + email + ", password=" + password + ", authority=" + authority + ", isExpired=" + isExpired
-				+ ", isLoginBlock=" + isLoginBlock + ", isExpiredPassword=" + isExpiredPassword + ", isBlock=" + isBlock
-				+ "]";
-	}
+	private boolean isEmailAuth;
 
 	public User(String email, String password, int authority
-			, boolean isExpired, boolean isLoginBlock, boolean isExpiredPassword, boolean isBlock) {
+			, boolean isExpired, boolean isLoginBlock, boolean isExpiredPassword, boolean isBlock, boolean isEmailAuth) {
 		this.email = email;
 		this.password = password;
 		this.authority = Authority.AUTHORITIES[authority];
@@ -37,7 +30,7 @@ public class User implements UserDetails{
 		this.isLoginBlock = isLoginBlock;
 		this.isExpiredPassword = isExpiredPassword;
 		this.isBlock = isBlock;
-		this.toString();
+		this.isEmailAuth = isEmailAuth;
 	}
 	
 	public void setExpired(boolean isExpired) {
@@ -54,6 +47,10 @@ public class User implements UserDetails{
 	
 	public void setBlock(boolean isBlock) {
 		this.isBlock = isBlock;
+	}
+	
+	public void setEmailAuth(boolean isEmailAuth) {
+		this.isEmailAuth = isEmailAuth;
 	}
 
 	public void setEmail(String email) {
@@ -102,6 +99,10 @@ public class User implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		return !this.isBlock;
+	}
+	
+	public boolean isEmailAuth() {
+		return this.isEmailAuth;
 	}
 	
 }

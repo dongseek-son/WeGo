@@ -9,7 +9,8 @@ public class MemberVO {
 		return "MemberVO [email=" + email + ", password=" + password + ", name=" + name + ", tel=" + tel + ", salt="
 				+ salt + ", profileFilename=" + profileFilename + ", profileOriginFilename=" + profileOriginFilename
 				+ ", authority=" + authority + ", latestLogin=" + latestLogin + ", loginFailCount=" + loginFailCount
-				+ ", latestPasswordChange=" + latestPasswordChange + ", profileFile=" + profileFile + "]";
+				+ ", latestPasswordChange=" + latestPasswordChange + ", registDate=" + registDate + ", profileFile="
+				+ profileFile + "]";
 	}
 
 	private String email;
@@ -23,7 +24,8 @@ public class MemberVO {
 	private String latestLogin;
 	private int loginFailCount;
 	private String latestPasswordChange;
-	
+	private String registDate;
+
 	private MultipartFile profileFile;
 
 	public String getPassword() {
@@ -120,6 +122,14 @@ public class MemberVO {
 
 	public void setProfileFile(MultipartFile profileFile) {
 		this.profileFile = profileFile;
+	}
+	
+	public String getRegistDate() {
+		return registDate;
+	}
+
+	public void setRegistDate(String registDate) {
+		this.registDate = registDate;
 	}
 
 }
