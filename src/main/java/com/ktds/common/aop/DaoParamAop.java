@@ -25,7 +25,12 @@ public class DaoParamAop {
 		try {
 //			logger.debug("Before");
 			result = pjp.proceed();
-			logger.debug(classAndMethod + " = " + "Result : " + result.toString());
+			if ( result != null ) {
+				logger.debug(classAndMethod + " = " + "Result : " + result.toString());
+			}
+			else {
+				logger.debug(classAndMethod + " = " + "Result : void(null)");
+			}
 		} catch (Throwable e) {
 			// after-throwing
 			logger.debug(classAndMethod + " = " + "Exception : " + e.getCause().toString() + " , " + e.getMessage());

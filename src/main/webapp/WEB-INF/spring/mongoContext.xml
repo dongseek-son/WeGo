@@ -5,20 +5,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-2.0.xsd">
 
-<mongo:mongo-client host="localhost"
-					port="27017"
-					credentials="adminTest:adminTest@admin">
-	<mongo:client-options	connections-per-host="8"
-							threads-allowed-to-block-for-connection-multiplier="4"
-							connect-timeout="1000"
-							max-wait-time="1500"
-							socket-keep-alive="true"
-							socket-timeout="1500"/>
-</mongo:mongo-client>
+	<!-- Default bean name is 'mongo' -->
+	<mongo:mongo-client id="mongo" host="localhost" port="27017">
+		<mongo:client-options connections-per-host="8"
+			threads-allowed-to-block-for-connection-multiplier="4"
+			connect-timeout="1000" max-wait-time="1500" socket-keep-alive="true"
+			socket-timeout="1500" />
+	</mongo:mongo-client>
 
-<!-- <bean	id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-	<constructor-arg ref="mongo" />
-	<constructor-arg name="databaseName" value="foo" />
-</bean> -->
+	<bean id="mongoTemplate"
+		class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongo" />
+		<constructor-arg name="databaseName" value="wego" />
+	</bean>
 
 </beans>

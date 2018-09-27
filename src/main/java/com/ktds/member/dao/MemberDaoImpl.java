@@ -5,16 +5,21 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ktds.member.vo.EmailAuthVO;
+import com.ktds.member.vo.MemberMongoVO;
 import com.ktds.member.vo.MemberVO;
 
 @Repository
 public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	
 	private Logger logger = LoggerFactory.getLogger(MemberDaoImpl.class);
-
+	
+	@Autowired
+	private MongoTemplate mongoTemplate;
+	
 	@Override
 	@Autowired
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
@@ -80,6 +85,11 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	@Override
 	public int updateRegistDate(String email) {
 		return getSqlSession().update("updateRegistDate", email);
+	}
+	
+	@Override
+	public void insertMemberMongoVO(MemberMongoVO memberMongoVO) {
+		this.mongoTemplate.insert(memberMongoVO, "member");	
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.ktds.member.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import com.ktds.common.member.Member;
 import com.ktds.common.web.SHA256Util;
 import com.ktds.member.dao.MemberDao;
 import com.ktds.member.vo.EmailAuthVO;
+import com.ktds.member.vo.MemberMongoVO;
 import com.ktds.member.vo.MemberVO;
 
 @Service
@@ -108,6 +111,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public boolean updateRegistDate(String email) {
 		return this.memberDao.updateRegistDate(email) > 0;
+	}
+	
+	@Override
+	public void createMemberMongoVO(MemberMongoVO memberMongoVO) {
+		this.memberDao.insertMemberMongoVO(memberMongoVO);
 	}
 
 }

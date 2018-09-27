@@ -1,6 +1,7 @@
 package com.ktds.member.service;
 
 import com.ktds.member.vo.EmailAuthVO;
+import com.ktds.member.vo.MemberMongoVO;
 import com.ktds.member.vo.MemberVO;
 
 public interface MemberService {
@@ -34,4 +35,6 @@ public interface MemberService {
 	public boolean removeOneEmailAuth(String authUrl);
 	
 	public boolean updateRegistDate(String email);
+
+	public void createMemberMongoVO(MemberMongoVO memberMongoVO);
 }

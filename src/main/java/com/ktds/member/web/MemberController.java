@@ -23,6 +23,7 @@ import com.ktds.common.member.Member;
 import com.ktds.common.session.Session;
 import com.ktds.member.service.MemberService;
 import com.ktds.member.vo.EmailAuthVO;
+import com.ktds.member.vo.MemberMongoVO;
 import com.ktds.member.vo.MemberVO;
 import com.ktds.security.User;
 
