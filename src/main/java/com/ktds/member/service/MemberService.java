@@ -37,4 +37,8 @@ public interface MemberService {
 	public boolean updateRegistDate(String email);
 
 	public void createMemberMongoVO(MemberMongoVO memberMongoVO);
+	
+	public void modifyMemberMongoVO(MemberMongoVO memberMongoVO);
+	
+	public MemberMongoVO readOntMemberMongoVOByEmail(String email);
 }

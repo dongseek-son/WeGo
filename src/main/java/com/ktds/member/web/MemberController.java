@@ -42,6 +42,7 @@ public class MemberController {
 	
 	@GetMapping("/member/login.go")
 	public String viewLoginPage() {
+		this.memberService.modifyMemberMongoVO(new MemberMongoVO());
 		return "member/login";
 	}
 	

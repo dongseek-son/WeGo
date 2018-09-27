@@ -117,5 +117,15 @@ public class MemberServiceImpl implements MemberService {
 	public void createMemberMongoVO(MemberMongoVO memberMongoVO) {
 		this.memberDao.insertMemberMongoVO(memberMongoVO);
 	}
+	
+	@Override
+	public void modifyMemberMongoVO(MemberMongoVO memberMongoVO) {
+		this.memberDao.updateMemberMongoVO(memberMongoVO);
+	}
+	
+	@Override
+	public MemberMongoVO readOntMemberMongoVOByEmail(String email) {
+		return this.memberDao.findOneMemberMongoVOByEmail(email);
+	}
 
 }
