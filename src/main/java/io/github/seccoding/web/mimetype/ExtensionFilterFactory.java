@@ -10,9 +10,9 @@ public class ExtensionFilterFactory {
 		else if ( filterType == ExtFilter.APACHE_TIKA ) {
 			return new TikaMimeTypeFilter();
 		}
-		else if ( filterType == ExtFilter.JMIME_MAGIC ) {
+/*		else if ( filterType == ExtFilter.JMIME_MAGIC ) {
 			return new JMimeMagicMimeTypeFilter();
-		}
+		}*/
 		else {
 			throw new RuntimeException("Filter Type이 올바르지 않습니다.");
 		}
