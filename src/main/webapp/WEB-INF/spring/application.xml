@@ -29,6 +29,8 @@
 	<mvc:resources location="/WEB-INF/static/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/static/css/" mapping="/css/**" />
 	<mvc:resources location="/WEB-INF/static/img/" mapping="/img/**" />
+	<mvc:resources location="/WEB-INF/se2/" mapping="/se2/**" />
+	<mvc:resources location="/WEB-INF/daumeditor/" mapping="/daumeditor/**" />
 
  	<mvc:interceptors>
  		<mvc:interceptor>

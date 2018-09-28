@@ -7,12 +7,14 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
+
 	<s:http auto-config="true" use-expressions="true">
 		<s:intercept-url pattern="/member/**" access="permitAll" />
 		<s:intercept-url pattern="/" access="permitAll" />
 		<s:intercept-url pattern="/memberlogin" access="permitAll" />
  		<s:intercept-url pattern="/message/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" />
- 		<s:intercept-url pattern="/goal/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" />
+<!--  		<s:intercept-url pattern="/mygoal/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" />
+ 		<s:intercept-url pattern="/ourgoal/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" /> -->
 		<s:intercept-url pattern="/reply/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" />
 		<s:csrf disabled="true" />
 		<s:form-login
@@ -35,6 +37,11 @@
 				expired-url="/member/login.go"
 			/>
 		</s:session-management>
+		
+<!-- 	smarteditor 에러 해결관련 -->
+		<s:headers>
+    	   <s:frame-options policy="SAMEORIGIN"/>
+ 	   	</s:headers>
 	</s:http>
 
 	<context:component-scan base-package="com.ktds.member" />

@@ -4,11 +4,9 @@
     margin: 0px;
     font-size: 9pt;
   }
-
   nav {
     background-color: #ddd;
     padding: 15px;
-    margin-bottom: 15px;
   }
 
   nav ul {
@@ -40,6 +38,7 @@
 </style>
 <nav>
   <ul>
+  	<li><a href="/WeGo/mygoal/write.go">WriteGoal</a></li>
   	<li><a href="/WeGo/message/write.go">WriteMessage</a></li>
     <li><a href="/WeGo/message/receivelist.go">ReceiveList</a></li>
     <li><a href="/WeGo/message/sendlist.go">SendList</a></li>
