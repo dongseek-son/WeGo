@@ -6,7 +6,8 @@ public class ReportVO {
 	private String detail;
 	private String reportedId;
 	private String reportDate;
-	private String memberId;
+	private String email;
+	private String reportedEmail;
 
 	public String getReportId() {
 		return reportId;
@@ -40,12 +41,20 @@ public class ReportVO {
 		this.reportDate = reportDate;
 	}
 
-	public String getMemberId() {
-		return memberId;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getReportedEmail() {
+		return reportedEmail;
+	}
+
+	public void setReportedEmail(String reportedEmail) {
+		this.reportedEmail = reportedEmail;
 	}
 
 }

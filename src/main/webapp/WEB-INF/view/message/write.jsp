@@ -15,7 +15,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/common/navigation.jsp" />
-<form action="/WeGo/message/write.go" method="post">
+<form action="/WeGo/message/write" method="post">
 	<div>
 		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">	
 	</div>

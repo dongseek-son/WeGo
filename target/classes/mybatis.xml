@@ -9,5 +9,6 @@
 		<typeAlias type="com.ktds.goal.vo.GoalVO" alias="GoalVO" />
 		<typeAlias type="com.ktds.message.vo.MessageVO" alias="MessageVO" />
 		<typeAlias type="com.ktds.reply.vo.ReplyVO" alias="ReplyVO" />
+		<typeAlias type="com.ktds.report.vo.ReportVO" alias="ReportVO" />
 	</typeAliases>
 </configuration>

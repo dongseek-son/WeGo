@@ -11,6 +11,7 @@ import com.ktds.common.authority.Authority;
 import com.ktds.common.member.Member;
 import com.ktds.common.web.SHA256Util;
 import com.ktds.member.dao.MemberDao;
+import com.ktds.member.dao.MemberDaoForMongo;
 import com.ktds.member.vo.EmailAuthVO;
 import com.ktds.member.vo.MemberMongoVO;
 import com.ktds.member.vo.MemberVO;
@@ -20,6 +21,9 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private MemberDaoForMongo memberDaoForMongo;
 	
 	@Override
 	public boolean createMember(MemberVO memberVO) {
@@ -47,9 +51,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public MemberVO authMember(MemberVO memberVO) {
-		System.out.println(memberVO.getEmail());
 		String salt = this.memberDao.selectSaltByEmail(memberVO.getEmail());
-		System.out.println(memberVO.toString());
 		memberVO.setPassword(SHA256Util.getEncrypt(memberVO.getPassword(), salt));
 		return this.memberDao.selectOneMember(memberVO);
 	}
@@ -115,17 +117,17 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void createMemberMongoVO(MemberMongoVO memberMongoVO) {
-		this.memberDao.insertMemberMongoVO(memberMongoVO);
+		this.memberDaoForMongo.insertMemberMongoVO(memberMongoVO);
 	}
 	
 	@Override
 	public void modifyMemberMongoVO(MemberMongoVO memberMongoVO) {
-		this.memberDao.updateMemberMongoVO(memberMongoVO);
+		this.memberDaoForMongo.updateMemberMongoVO(memberMongoVO);
 	}
 	
 	@Override
 	public MemberMongoVO readOntMemberMongoVOByEmail(String email) {
-		return this.memberDao.findOneMemberMongoVOByEmail(email);
+		return this.memberDaoForMongo.findOneMemberMongoVOByEmail(email);
 	}
 
 }

@@ -22,9 +22,6 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	
 	private Logger logger = LoggerFactory.getLogger(MemberDaoImpl.class);
 	
-	@Autowired
-	private MongoTemplate mongoTemplate;
-	
 	@Override
 	@Autowired
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
@@ -92,50 +89,5 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 		return getSqlSession().update("updateRegistDate", email);
 	}
 	
-	@Override
-	public void insertMemberMongoVO(MemberMongoVO memberMongoVO) {
-		this.mongoTemplate.insert(memberMongoVO, "member");	
-	}
-	
-	@Override
-	public void updateMemberMongoVO(MemberMongoVO memberMongoVO) {
-		Query query = new Query(new Criteria("email").is(memberMongoVO.getEmail()));
-		
-		Update update = new Update();
-		update.set("adviceHashtags", memberMongoVO.getAdviceHashtags());
-		update.set("concernHashtags", memberMongoVO.getConcernHashtags());
-		
-		this.mongoTemplate.updateFirst(query, update, "member");
-	}
-	
-	@Override
-	public void deleteMemberMongoVO(MemberMongoVO memberMongoVO) {
-		Query query = new Query(new Criteria("email").is(memberMongoVO.getEmail()));
-		this.mongoTemplate.remove(query, "member");
-	}
-	
-	@Override
-	public MemberMongoVO findOneMemberMongoVOByEmail(String email) {
-		Query query = new Query(new Criteria("email").is(email));
-		return this.mongoTemplate.findOne(query, MemberMongoVO.class, "member");
-	}
-	
-	@Override
-	public List<MemberMongoVO> findAllMemberMongoVOByAdviceHashtag(String hashtag) {
-		Query query = new Query(new Criteria("adviceHashtags").all(hashtag));
-		return this.mongoTemplate.find(query, MemberMongoVO.class);
-	}
-	
-	@Override
-	public List<MemberMongoVO> findAllMemberMongoVOByAdviceHashtag(String h1, String h2) {
-		Query query = new Query(new Criteria("adviceHashtags").all(h1, h2));
-		return this.mongoTemplate.find(query, MemberMongoVO.class);
-	}
-	
-	@Override
-	public List<MemberMongoVO> findAllMemberMongoVOByAdviceHashtag(String h1, String h2, String h3) {
-		Query query = new Query(new Criteria("adviceHashtags").all(h1, h2, h3));
-		return this.mongoTemplate.find(query, MemberMongoVO.class);
-	}
 
 }

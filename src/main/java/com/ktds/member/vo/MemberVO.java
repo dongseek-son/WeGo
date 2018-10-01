@@ -1,5 +1,9 @@
 package com.ktds.member.vo;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class MemberVO {
@@ -13,9 +17,20 @@ public class MemberVO {
 				+ profileFile + "]";
 	}
 
+	
+	
+	
+	@NotEmpty( message="이메일은 필수 입력 값입니다." )
+	@Email( message="이메일형식으로 작성해주세요." )
 	private String email;
+	@NotEmpty( message="비밀번호는 필수 입력 값입니다." )
+	@Pattern( 
+			regexp="((?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,})"
+			, message="패스워드는 영문,숫자,특수문자 조합으로 8자이상으로 만들어주세요." )
 	private String password;
+	@NotEmpty( message="이름은 필수 입력 값입니다." )
 	private String name;
+	@NotEmpty( message="전화번호는 필수 입력 값입니다." )
 	private String tel;
 	private String salt;
 	private String profileFilename;
@@ -25,6 +40,8 @@ public class MemberVO {
 	private int loginFailCount;
 	private String latestPasswordChange;
 	private String registDate;
+	
+	private MemberMongoVO memberMongoVO;
 
 	private MultipartFile profileFile;
 
@@ -130,6 +147,14 @@ public class MemberVO {
 
 	public void setRegistDate(String registDate) {
 		this.registDate = registDate;
+	}
+
+	public MemberMongoVO getMemberMongoVO() {
+		return memberMongoVO;
+	}
+
+	public void setMemberMongoVO(MemberMongoVO memberMongoVO) {
+		this.memberMongoVO = memberMongoVO;
 	}
 
 }

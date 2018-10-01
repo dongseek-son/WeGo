@@ -9,17 +9,10 @@ public class MessageVO {
 	private String readDate;
 	private boolean isSenderDelete;
 	private boolean isReceiverDelete;
-	private String senderId;
-	private String receiverId;
+	private String senderEmail;
+	private String receiverEmail;
 	
 	private String token;
-	
-	@Override
-	public String toString() {
-		return "MessageVO [id=" + id + ", title=" + title + ", detail=" + detail + ", sendDate=" + sendDate
-				+ ", readDate=" + readDate + ", isSenderDelete=" + isSenderDelete + ", isReceiverDelete="
-				+ isReceiverDelete + ", senderId=" + senderId + ", receiverId=" + receiverId + "]";
-	}
 
 	public String getId() {
 		return id;
@@ -77,20 +70,20 @@ public class MessageVO {
 		this.isReceiverDelete = isReceiverDelete;
 	}
 
-	public String getSenderId() {
-		return senderId;
+	public String getSenderEmail() {
+		return senderEmail;
 	}
 
-	public void setSenderId(String senderId) {
-		this.senderId = senderId;
+	public void setSenderEmail(String senderEmail) {
+		this.senderEmail = senderEmail;
 	}
 
-	public String getReceiverId() {
-		return receiverId;
+	public String getReceiverEmail() {
+		return receiverEmail;
 	}
 
-	public void setReceiverId(String receiverId) {
-		this.receiverId = receiverId;
+	public void setReceiverEmail(String receiverEmail) {
+		this.receiverEmail = receiverEmail;
 	}
 
 	public String getToken() {

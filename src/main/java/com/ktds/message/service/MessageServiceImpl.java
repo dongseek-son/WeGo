@@ -40,7 +40,7 @@ public class MessageServiceImpl implements MessageService {
 	public MessageVO readOneMessageById(String messageId, MemberVO memberVO) {
 		MessageVO messageVO = this.messageDao.selectOneMessageById(messageId);
 		
-		if ( messageVO.getReceiverId().equals(memberVO.getEmail()) && messageVO.getReadDate() == null ) {
+		if ( messageVO.getReceiverEmail().equals(memberVO.getEmail()) && messageVO.getReadDate() == null ) {
 			this.messageDao.updateReadDate(messageId);
 		}
 		
@@ -51,10 +51,10 @@ public class MessageServiceImpl implements MessageService {
 	public boolean updateIsDelete(String messageId, MemberVO memberVO) {
 		MessageVO messageVO = this.messageDao.selectOneMessageById(messageId);
 		
-		if ( messageVO.getReceiverId().equals(memberVO.getEmail()) ) {
+		if ( messageVO.getReceiverEmail().equals(memberVO.getEmail()) ) {
 			return this.messageDao.updateReceiverDelete(messageId) > 0;
 		}
-		else if ( messageVO.getSenderId().equals(memberVO.getEmail()) ) {
+		else if ( messageVO.getSenderEmail().equals(memberVO.getEmail()) ) {
 			return this.messageDao.updateSenderDelete(messageId) > 0;
 		}
 		else if ( memberVO.getAuthority() == Authority.ADMIN ) {

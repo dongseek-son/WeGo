@@ -24,7 +24,7 @@ public class MessageController {
 	@Autowired
 	private MessageService messageService;
 	
-	@RequestMapping("/message/sendlist.go")
+	@RequestMapping("/message/sendlist")
 	public ModelAndView viewSendMessageListPage(
 			@SessionAttribute(name=Session.USER) MemberVO memberVO) {
 		ModelAndView view = new ModelAndView("message/list");
@@ -32,7 +32,7 @@ public class MessageController {
 		return view;
 	}
 	
-	@RequestMapping("/message/receivelist.go")
+	@RequestMapping("/message/receivelist")
 	public ModelAndView viewReceiveMessageListPage(
 			@SessionAttribute(name=Session.USER) MemberVO memberVO) {
 		System.out.println(memberVO.toString());
@@ -41,7 +41,7 @@ public class MessageController {
 		return view;
 	}
 	
-	@GetMapping("/message/detail.go/{id}")
+	@GetMapping("/message/detail/{id}")
 	public ModelAndView viewDetailMessagePage(
 			@PathVariable String id
 			, @SessionAttribute(name=Session.USER) MemberVO memberVO) {
@@ -50,27 +50,27 @@ public class MessageController {
 		return view;
 	}
 	
-	@GetMapping("/message/delete.go/{id}") 
+	@GetMapping("/message/delete/{id}") 
 	public String doDeleteMessageAction(
 			@PathVariable String id
 			, @SessionAttribute(name=Session.USER) MemberVO memberVO) {
 		this.messageService.updateIsDelete(id, memberVO);
-		return "redirect:/message/receivelist.go";
+		return "redirect:/message/receivelist";
 	}
 	
-	@GetMapping("/message/write.go")
+	@GetMapping("/message/write")
 	public String viewWriteMessagePage() {
 		return "message/write";
 	}
 	
-	@GetMapping("/message/write.go/{receiverId}")
+	@GetMapping("/message/write/{receiverId}")
 	public ModelAndView viewWriteMessagePage2(@PathVariable String receiverId) {
 		ModelAndView view = new ModelAndView("message/write");
 		view.addObject("receiverId", receiverId);
 		return view;
 	}
 	
-	@PostMapping("/message/write.go")
+	@PostMapping("/message/write")
 	public String doWriteMessageAction( 
 			@ModelAttribute MessageVO messageVO
 			, HttpServletRequest request ) {
@@ -88,7 +88,7 @@ public class MessageController {
 		
 		boolean isSuccess = this.messageService.createMessage(messageVO);
 		
-		return "redirect:/message/sendlist.go";
+		return "redirect:/message/sendlist";
 	}
 	
 }

@@ -42,7 +42,7 @@
 		내용 : ${messageVO.detail }
 	</div>
 	<div>
-		<a href="/WeGo/message/delete.go/${messageVO.id }">삭제</a>
+		<a href="/WeGo/message/delete/${messageVO.id }">삭제</a>
 	</div>	
 </body>
 </html>

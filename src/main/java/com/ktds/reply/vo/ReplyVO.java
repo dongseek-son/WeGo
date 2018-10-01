@@ -4,7 +4,7 @@ public class ReplyVO {
 
 	private String id;
 	private String parentReplyId;
-	private String memberId;
+	private String email;
 	private String writeDate;
 	private boolean isDelete;
 	private String goalId;
@@ -28,12 +28,12 @@ public class ReplyVO {
 		this.parentReplyId = parentReplyId;
 	}
 
-	public String getMemberId() {
-		return memberId;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getWriteDate() {

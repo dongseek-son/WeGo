@@ -12,8 +12,8 @@
 							, SND_DT
 							, IS_SND_DLT
 							, IS_RCV_DLT
-							, SND_ID
-							, RCV_ID
+							, SND_EML
+							, RCV_EML
 						)
 		VALUES (
 					'MS-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(MS_ID_SEQ.NEXTVAL, 6, '0')
@@ -22,8 +22,8 @@
 					, SYSDATE
 					, 0
 					, 0
-					, #{senderId}
-					, #{receiverId}
+					, #{senderEmail}
+					, #{receiverEmail}
 		)
 	</insert>
 	
@@ -35,8 +35,8 @@
 				, RD_DT readDate 
 				, IS_SND_DLT isSenderDelete
 				, IS_RCV_DLT isReceiverDelete
-				, SND_ID senderId
-				, RCV_ID receiverId
+				, SND_EML senderEmail
+				, RCV_EML receiverEmail
 		FROM	MS
 	</select>
 	
@@ -48,10 +48,10 @@
 				, RD_DT readDate 
 				, IS_SND_DLT isSenderDelete
 				, IS_RCV_DLT isReceiverDelete
-				, SND_ID senderId
-				, RCV_ID receiverId
+				, SND_EML senderEmail
+				, RCV_EML receiverEmail
 		FROM	MS
-		WHERE	SND_ID = #{memberId}
+		WHERE	SND_EML = #{email}
 		AND		IS_SND_DLT = 0
 	</select>
 	
@@ -63,10 +63,10 @@
 				, RD_DT readDate 
 				, IS_SND_DLT isSenderDelete
 				, IS_RCV_DLT isReceiverDelete
-				, SND_ID senderId
-				, RCV_ID receiverId
+				, SND_EML senderEmail
+				, RCV_EML receiverEmail
 		FROM	MS
-		WHERE	RCV_ID = #{memberId}
+		WHERE	RCV_EML = #{email}
 		AND		IS_RCV_DLT = 0
 	</select>
 	
@@ -78,8 +78,8 @@
 				, RD_DT readDate 
 				, IS_SND_DLT isSenderDelete
 				, IS_RCV_DLT isReceiverDelete
-				, SND_ID senderId
-				, RCV_ID receiverId
+				, SND_EML senderEmail
+				, RCV_EML receiverEmail
 		FROM	MS
 		WHERE	MS_ID = #{messageId}
 	</select>

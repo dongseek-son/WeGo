@@ -41,12 +41,10 @@ nav {
 		 ClassicEditor.create(
 				 document.querySelector( '#editor' ), {
 		              ckfinder: {
-		                  uploadUrl: 'http://localhost:8080/WeGo/mygoal/imageupload.go'
+		                  uploadUrl: 'http://localhost:8080/WeGo/mygoal/imageupload'
 		              }
 				 } 
-		).catch( error => {
-             console.error( error );
-         } );
+		);
 		
 		$("#append-tag").click(function() {
 		    var tag = $('<input type="text" class="tag" name="tags" placeholder="Tag" style="margin-right:4px;" />');
@@ -78,7 +76,7 @@ nav {
 		</div>
 	</div><!--
 	--><div id="middle" class="inline">
-		<form action="/WeGo/mygoal/write.do" method="post">
+		<form action="/WeGo/mygoal/write" method="post">
 			<div id="write">
 				<div id="title-div">
 					<input type="text" id="title" name="title">

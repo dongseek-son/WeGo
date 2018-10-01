@@ -10,9 +10,9 @@ public interface MessageDao {
 	
 	public List<MessageVO> selectMessageList();
 	
-	public List<MessageVO> selectSendMessageList(String memberId);
+	public List<MessageVO> selectSendMessageList(String email);
 	
-	public List<MessageVO> selectReceiveMessageList(String memberId);
+	public List<MessageVO> selectReceiveMessageList(String email);
 	
 	public MessageVO selectOneMessageById(String messageId);
 	

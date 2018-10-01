@@ -2,7 +2,12 @@ package com.ktds.member.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,27 +44,27 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Value("${upload.path}")
+	@Value("${upload.profile.path}")
 	private String uploadPath;
 	
-	@GetMapping("/member/login.go")
+	@GetMapping("/member/login")
 	public String viewLoginPage() {
-		this.memberService.modifyMemberMongoVO(new MemberMongoVO());
+		System.out.println(uploadPath);
 		return "member/login";
 	}
 	
-	@GetMapping("/member/logout.go")
+	@GetMapping("/member/logout")
 	public String doMemberLogoutAction( HttpSession session ) {
 		session.invalidate();
 		return "redirect:/member/login";
 	}
 	
-	@GetMapping("/member/regist.go")
+	@GetMapping("/member/regist")
 	public String viewRegistPage() {
 		return "member/regist";
 	}
 	
-	@PostMapping("/member/regist.go")
+	@PostMapping("/member/regist")
 	public String doRegistAction(@ModelAttribute MemberVO memberVO) {
 		
 		MultipartFile uploadFile = memberVO.getProfileFile();
@@ -99,15 +106,14 @@ public class MemberController {
 			}
 		}
 		this.memberService.createMember(memberVO);
-		return "redirect:/member/emailAuth.go/" + this.memberService.createEmailAuth(memberVO.getEmail());
+		return "redirect:/member/emailAuth/" + this.memberService.createEmailAuth(memberVO.getEmail());
 	}
 	
-	@RequestMapping("member/loginSuccess.go")
+	@RequestMapping("member/loginSuccess")
 	public ModelAndView doMemberLoginAction( 
 			@ModelAttribute MemberVO memberVO
 			, Errors errors
 			, HttpSession session ) {
-		System.out.println("loginSuccess.go 진입");
 		ModelAndView view = new ModelAndView("member/login");
 		
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -145,13 +151,12 @@ public class MemberController {
 			return view;
 		}
 		
-		System.out.println("Userservice loginMemeber전");
 		MemberVO loginMemberVO = this.memberService.loginMember(memberVO);
 		
 		if( loginMemberVO != null ) {
 			session.setAttribute(Session.USER, loginMemberVO);
 			session.setAttribute(Session.CSRF, UUID.randomUUID().toString());
-			view.setViewName("redirect:/message/receivelist.go");
+			view.setViewName("redirect:/message/receivelist");
 			System.out.println("로그인 성공 / "  + view.getViewName());
 			return view;
 		}
@@ -177,7 +182,7 @@ public class MemberController {
 		return view;
 	}
 	
-	@PostMapping("member/emailAuth.go")
+	@PostMapping("member/emailAuth")
 	public ModelAndView doEmailAuthAction(@ModelAttribute EmailAuthVO emailAuthVO) {
 		ModelAndView view = new ModelAndView("member/login");
 		if ( this.memberService.updateRegistDate(emailAuthVO.getEmail())
@@ -188,6 +193,22 @@ public class MemberController {
 			view.addObject("message", "오류가 발생하였습니다.<br>관리자에게 문의 바랍니다.");
 		}
 		return view;
+	}
+	
+	@PostMapping("/member/check/password")
+	@ResponseBody
+	public Map<String, Object> doCheckPasswordPattern( @RequestParam String password ) {
+		Map<String, Object> result = new HashMap<>();
+		
+		String passwordPolicy = "((?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,})";
+		
+		Pattern pattern = Pattern.compile(passwordPolicy);
+		Matcher matcher = pattern.matcher(password);
+		
+		result.put("status", "OK");
+		result.put("available", matcher.matches() );
+		
+		return result;
 	}
 	
 }

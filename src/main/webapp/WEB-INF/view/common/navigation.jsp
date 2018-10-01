@@ -38,12 +38,12 @@
 </style>
 <nav>
   <ul>
-  	<li><a href="/WeGo/mygoal/write.go">WriteGoal</a></li>
-  	<li><a href="/WeGo/message/write.go">WriteMessage</a></li>
-    <li><a href="/WeGo/message/receivelist.go">ReceiveList</a></li>
-    <li><a href="/WeGo/message/sendlist.go">SendList</a></li>
-    <li><a href="/WeGo/member/login.go">Login</a></li>
-    <li><a href="/WeGo/member/regist.go">Regist</a></li>
+  	<li><a href="/WeGo/mygoal/write">WriteGoal</a></li>
+  	<li><a href="/WeGo/message/write">WriteMessage</a></li>
+    <li><a href="/WeGo/message/receivelist">ReceiveList</a></li>
+    <li><a href="/WeGo/message/sendlist">SendList</a></li>
+    <li><a href="/WeGo/member/login">Login</a></li>
+    <li><a href="/WeGo/member/regist">Regist</a></li>
     <li><a href="/WeGo/memberlogout">Logout</a></li>
   </ul>
 </nav>

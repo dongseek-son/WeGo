@@ -15,7 +15,7 @@
 			<c:forEach items="${messageList }" var="message">
 				 <div class="messageWrapper">
 						<div class="subject box">
-							<a href="/WeGo/message/detail.go/${message.id }">${message.title }</a>
+							<a href="/WeGo/message/detail/${message.id }">${message.title }</a>
 					   </div><!--
 					--><div class="writer box">${message.senderId }</div><!--
 					--><div class="writer box">${message.receiverId }</div><!--

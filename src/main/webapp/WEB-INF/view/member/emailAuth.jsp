@@ -8,7 +8,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/common/navigation.jsp" />
-<form action="/WeGo/member/emailAuth.go" method="post">
+<form action="/WeGo/member/emailAuth" method="post">
 	<input type="hidden" id="authUrl" name="authUrl" value="${emailAuthVO.authUrl }">
 	<input type="hidden" id="email" name="email" value="${emailAuthVO.email }">
 	<div>
