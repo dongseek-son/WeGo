@@ -17,8 +17,8 @@
 						<div class="subject box">
 							<a href="/WeGo/message/detail/${message.id }">${message.title }</a>
 					   </div><!--
-					--><div class="writer box">${message.senderId }</div><!--
-					--><div class="writer box">${message.receiverId }</div><!--
+					--><div class="writer box">${message.senderEmail }</div><!--
+					--><div class="writer box">${message.receiverEmail }</div><!--
 					--><div class="create-date box">${board.sendDate }</div>
 				</div>
 			</c:forEach>

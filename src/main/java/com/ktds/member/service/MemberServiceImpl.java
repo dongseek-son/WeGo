@@ -46,7 +46,15 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberVO loginMember(MemberVO memberVO) {
-		return this.memberDao.selectOneMember(memberVO);
+		memberVO = this.memberDao.selectOneMember(memberVO);
+		
+		if ( memberVO != null ) {
+			memberVO.setLoginFailCount(0);
+			this.memberDao.updateLoginFailCount(memberVO);
+			this.memberDao.updateLatestLogin(memberVO);
+		}
+		
+		return memberVO;
 	}
 	
 	@Override
@@ -87,8 +95,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public boolean isEmailAuth(String email) {
-		return this.memberDao.isEmailAuth(email);
+	public boolean isNotEmailAuth(String email) {
+		return this.memberDao.isNotEmailAuth(email);
 	}
 	
 	@Override
@@ -128,6 +136,22 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberMongoVO readOntMemberMongoVOByEmail(String email) {
 		return this.memberDaoForMongo.findOneMemberMongoVOByEmail(email);
+	}
+	
+	@Override
+	public boolean modifyPassword(String email, String password) {
+		MemberVO memberVO = new MemberVO();
+		String salt = SHA256Util.generateSalt();
+		memberVO.setEmail(email);
+		memberVO.setSalt(salt);
+		memberVO.setPassword(SHA256Util.getEncrypt(password, salt));
+		return this.memberDao.updatePassword(memberVO) > 0;
+	}
+	
+	@Override
+	public boolean increaseLoginFailCount(MemberVO memberVO) {
+		memberVO.setLoginFailCount(memberVO.getLoginFailCount() + 1);
+		return this.memberDao.updateLoginFailCount(memberVO) > 0;
 	}
 
 }

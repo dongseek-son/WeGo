@@ -18,23 +18,23 @@
 		<s:intercept-url pattern="/reply/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" />
 		<s:csrf disabled="true" />
 		<s:form-login
-			login-page = "/member/login"
+			login-page = "/"
 			username-parameter="email"
 			password-parameter="password"
 			login-processing-url="/memberlogin"
 			default-target-url="/member/loginSuccess"
-			authentication-failure-url="/member/login"
+			authentication-failure-url="/"
 			always-use-default-target="true"
 		/>
 		<s:logout
-			logout-success-url="/member/login"
+			logout-success-url="/"
 			logout-url="/memberlogout"
 			invalidate-session="true"
 		/>
-		<s:session-management invalid-session-url="/member/login">
+		<s:session-management invalid-session-url="/">
 			<s:concurrency-control
 				max-sessions="1"
-				expired-url="/member/login"
+				expired-url="/"
 			/>
 		</s:session-management>
 		

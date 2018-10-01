@@ -54,11 +54,15 @@ public class UserService implements AuthenticationProvider{
 					, this.memberService.isLoginBlock(email)
 					, this.memberService.isExpiredPassword(email)
 					, this.memberService.isBlock(email)
-					, this.memberService.isEmailAuth(email));
+					, this.memberService.isNotEmailAuth(email));
 			logger.debug(user.toString());
 			result.setDetails(user);
 		}
 		else {
+			MemberVO memberVOByEmail = this.memberService.readOneMemberByEmail(email);
+			if ( memberVOByEmail != null) {
+				this.memberService.increaseLoginFailCount(memberVOByEmail);
+			}
 			throw new BadCredentialsException("잘못된 인증");
 		}
 		return result;

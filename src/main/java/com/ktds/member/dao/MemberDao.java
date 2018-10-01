@@ -22,7 +22,7 @@ public interface MemberDao {
 	
 	public boolean isLoginBlock(String email);
 	
-	public boolean isEmailAuth(String email);
+	public boolean isNotEmailAuth(String email);
 	
 	public int insertEmailAuth(EmailAuthVO emailAuthVO);
 	
@@ -32,6 +32,10 @@ public interface MemberDao {
 	
 	public int updateRegistDate(String email);
 	
-
+	public int updatePassword(MemberVO memberVO);
+	
+	public int updateLoginFailCount(MemberVO memberVO);
+	
+	public int updateLatestLogin(MemberVO memberVO);
 
 }

@@ -26,7 +26,7 @@ public interface MemberService {
 	
 	public boolean isWithdrawal(String email);
 	
-	public boolean isEmailAuth(String email);
+	public boolean isNotEmailAuth(String email);
 	
 	public String createEmailAuth(String email);
 	
@@ -41,4 +41,9 @@ public interface MemberService {
 	public void modifyMemberMongoVO(MemberMongoVO memberMongoVO);
 	
 	public MemberMongoVO readOntMemberMongoVOByEmail(String email);
+	
+	public boolean modifyPassword(String email, String password);
+	
+	public boolean increaseLoginFailCount(MemberVO memberVO);
+
 }

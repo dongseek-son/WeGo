@@ -16,10 +16,10 @@
 <body>
 <jsp:include page="/WEB-INF/view/common/navigation.jsp" />
 	<div>
-		발신 : ${messageVO.senderId }
+		발신 : ${messageVO.senderEmail }
 	</div>
 	<div>
-		수신 : ${messageVO.receiverId }
+		수신 : ${messageVO.receiverEmail }
 	</div>
 	<div>
 		보낸날짜 : ${messageVO.sendDate }

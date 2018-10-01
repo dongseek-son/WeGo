@@ -95,7 +95,7 @@
 		AND		LTST_LGN + 1/24 > SYSDATE
 	</select>
 	
-	<select id="isEmailAuth" parameterType="string" resultType="_boolean">
+	<select id="isNotEmailAuth" parameterType="string" resultType="_boolean">
 		SELECT	COUNT(1)
 		FROM	MM
 		WHERE	EML = #{email}
@@ -132,6 +132,25 @@
 	<update id="updateRegistDate" parameterType="string">
 		UPDATE	MM
 		SET		RGST_DT = SYSDATE
+		WHERE	EML = #{email}
+	</update>
+	
+	<update id="updatePassword" parameterType="MemberVO">
+		UPDATE	MM
+		SET		SALT = #{salt}
+				, PW = #{password}
+		WHERE	EML = #{email}
+	</update>
+	
+	<update id="updateLoginFailCount" parameterType="MemberVO">
+		UPDATE	MM
+		SET		LGN_FL_CNT = #{loginFailCount}
+		WHERE	EML = #{email}
+	</update>
+	
+	<update id="updateLatestLogin" parameterType="MemberVO">
+		UPDATE	MM
+		SET		LTST_LGN = SYSDATE
 		WHERE	EML = #{email}
 	</update>
 	

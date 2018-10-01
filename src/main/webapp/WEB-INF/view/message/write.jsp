@@ -23,7 +23,7 @@
 		<input type="text" id="senderId" name="senderId" value="${sessionScope._USER_.email }" readonly="readonly">	
 	</div>
 	<div>
-		<input type="text" id="receiverId" name="receiverId" value="${receiverId }" placeholder="수신자 ID 입력">	
+		<input type="text" id="receiverId" name="receiverId" value="${receiverEmail }" placeholder="수신자 ID 입력">	
 	</div>
 	<div>
 		<input type="text" id="title" name="title" placeholder="제목 입력">

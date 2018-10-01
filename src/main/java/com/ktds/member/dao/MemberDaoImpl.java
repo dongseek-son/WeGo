@@ -65,8 +65,8 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	}
 	
 	@Override
-	public boolean isEmailAuth(String email) {
-		return getSqlSession().selectOne("isEmailAuth", email);
+	public boolean isNotEmailAuth(String email) {
+		return getSqlSession().selectOne("isNotEmailAuth", email);
 	}
 	
 	@Override
@@ -89,5 +89,19 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 		return getSqlSession().update("updateRegistDate", email);
 	}
 	
-
+	@Override
+	public int updatePassword(MemberVO memberVO) {
+		return this.getSqlSession().update("MemberDao.updatePassword", memberVO);
+	}
+	
+	@Override
+	public int updateLoginFailCount(MemberVO memberVO) {
+		return this.getSqlSession().update("MemberDao.updateLoginFailCount", memberVO);
+	}
+	
+	@Override
+	public int updateLatestLogin(MemberVO memberVO) {
+		return this.getSqlSession().update("MemberDao.updateLatestLogin", memberVO);
+	}
+	
 }

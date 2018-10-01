@@ -1,13 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<jsp:include page="/WEB-INF/view/common/navigation.jsp" />
+
+<jsp:include page="/WEB-INF/view/common/layout/layout_header.jsp" />
+
 <form action="/WeGo/member/emailAuth" method="post">
 	<input type="hidden" id="authUrl" name="authUrl" value="${emailAuthVO.authUrl }">
 	<input type="hidden" id="email" name="email" value="${emailAuthVO.email }">
@@ -19,5 +14,4 @@
 	</div>
 </form>
 
-</body>
-</html>
+<jsp:include page="/WEB-INF/view/common/layout/layout_footer.jsp" />

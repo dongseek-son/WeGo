@@ -2,6 +2,7 @@ package com.ktds.member.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -9,6 +10,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ktds.common.member.Member;
 import com.ktds.common.session.Session;
+import com.ktds.common.web.DownloadUtil;
 import com.ktds.member.service.MemberService;
 import com.ktds.member.vo.EmailAuthVO;
 import com.ktds.member.vo.MemberMongoVO;
@@ -47,9 +51,13 @@ public class MemberController {
 	@Value("${upload.profile.path}")
 	private String uploadPath;
 	
+	@RequestMapping("/")
+	public String viewMainPage() {
+		return "main";
+	}
+	
 	@GetMapping("/member/login")
 	public String viewLoginPage() {
-		System.out.println(uploadPath);
 		return "member/login";
 	}
 	
@@ -109,12 +117,12 @@ public class MemberController {
 		return "redirect:/member/emailAuth/" + this.memberService.createEmailAuth(memberVO.getEmail());
 	}
 	
-	@RequestMapping("member/loginSuccess")
+	@RequestMapping("/member/loginSuccess")
 	public ModelAndView doMemberLoginAction( 
 			@ModelAttribute MemberVO memberVO
 			, Errors errors
 			, HttpSession session ) {
-		ModelAndView view = new ModelAndView("member/login");
+		ModelAndView view = new ModelAndView("redirect:/");
 		
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
 		System.out.println(user.toString());
@@ -157,7 +165,6 @@ public class MemberController {
 			session.setAttribute(Session.USER, loginMemberVO);
 			session.setAttribute(Session.CSRF, UUID.randomUUID().toString());
 			view.setViewName("redirect:/message/receivelist");
-			System.out.println("로그인 성공 / "  + view.getViewName());
 			return view;
 		}
 		else {
@@ -167,9 +174,9 @@ public class MemberController {
 		return view;
 	}
 	
-	@GetMapping("member/emailAuth.go/{authUrl}")
+	@GetMapping("/member/emailAuth/{authUrl}")
 	public ModelAndView viewEmailAuthPage(@PathVariable String authUrl) {
-		ModelAndView view = new ModelAndView("member/login");
+		ModelAndView view = new ModelAndView("redirect:/");
 		EmailAuthVO emailAuthVO = this.memberService.readOneEmailAuth(authUrl);
 		
 		if ( emailAuthVO == null ) {
@@ -182,15 +189,15 @@ public class MemberController {
 		return view;
 	}
 	
-	@PostMapping("member/emailAuth")
+	@PostMapping("/member/emailAuth")
 	public ModelAndView doEmailAuthAction(@ModelAttribute EmailAuthVO emailAuthVO) {
-		ModelAndView view = new ModelAndView("member/login");
+		ModelAndView view = new ModelAndView("redirect:/");
 		if ( this.memberService.updateRegistDate(emailAuthVO.getEmail())
 				&& this.memberService.removeOneEmailAuth(emailAuthVO.getAuthUrl()) ) {
-			view.addObject("message", "이메일 인증이 완료되었습니다.<br>로그인 화면으로 이동합니다.");
+			view.addObject("message", "이메일 인증이 완료되었습니다.");
 		}
 		else {
-			view.addObject("message", "오류가 발생하였습니다.<br>관리자에게 문의 바랍니다.");
+			view.addObject("message", "오류가 발생하였습니다. 관리자에게 문의 바랍니다.");
 		}
 		return view;
 	}
@@ -211,4 +218,94 @@ public class MemberController {
 		return result;
 	}
 	
+	@PostMapping("/member/check/email")
+	@ResponseBody
+	public Map<String, Object> doCheckEmailPattern( @RequestParam String email ) {
+		Map<String, Object> result = new HashMap<>();
+		
+		String emailPolicy = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+		
+		Pattern pattern = Pattern.compile(emailPolicy);
+		Matcher matcher = pattern.matcher(email);
+		
+		result.put("status", "OK");
+		result.put("available", matcher.matches() );
+		
+		return result;
+	}
+	
+	@PostMapping("/member/check/name")
+	@ResponseBody
+	public Map<String, Object> doCheckNamePattern( @RequestParam String name ) {
+		Map<String, Object> result = new HashMap<>();
+		
+		String namePolicy = "(?=.*[0-9a-zA-Z가-힣]).{2,18}";
+		
+		Pattern pattern = Pattern.compile(namePolicy);
+		Matcher matcher = pattern.matcher(name);
+		
+		result.put("status", "OK");
+		result.put("available", matcher.matches() );
+		
+		return result;
+	}
+	
+	@PostMapping("/member/check/tel")
+	@ResponseBody
+	public Map<String, Object> doCheckTelPattern( @RequestParam String tel ) {
+		Map<String, Object> result = new HashMap<>();
+		
+		String telPolicy = "(?=.*[0-9]).{10,11}";
+		
+		Pattern pattern = Pattern.compile(telPolicy);
+		Matcher matcher = pattern.matcher(tel);
+		
+		result.put("status", "OK");
+		result.put("available", matcher.matches() );
+		
+		return result;
+	}
+	
+	@RequestMapping("/member/profiledownload/{fileName}")
+	public void imageDownload(@PathVariable String fileName,HttpServletRequest req, HttpServletResponse res) {
+		try {
+			new DownloadUtil(this.uploadPath + File.separator + fileName).download(req, res, fileName);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
+	
+	@GetMapping("/member/passwordInit/{authUrl}")
+	public ModelAndView viewPasswordInitPage(@PathVariable String authUrl) {
+		ModelAndView view = new ModelAndView("redirect:/");
+		EmailAuthVO emailAuthVO = this.memberService.readOneEmailAuth(authUrl);
+		
+		if ( emailAuthVO == null ) {
+			view.addObject("message", "잘못된 접근입니다.");
+		}
+		else {
+			view.setViewName("member/passwordInit");
+			view.addObject("emailAuthVO", emailAuthVO);			
+		}
+		return view;
+	}
+	
+	@PostMapping("/member/passwordInit")
+	public ModelAndView doPasswordInitAction(
+			@RequestParam String authUrl
+			, @RequestParam String email
+			, @RequestParam String password) {
+		ModelAndView view = new ModelAndView("redirect:/");
+		if ( this.memberService.modifyPassword(email, password) 
+				&& this.memberService.removeOneEmailAuth(authUrl) ) {
+			view.addObject("message", "비밀번호가 변경 되었습니다.");
+		}
+		else {
+			view.addObject("message", "오류가 발생하였습니다. 관리자에게 문의 바랍니다.");
+		}
+		return view;
+	}
+	
+	
+
 }
