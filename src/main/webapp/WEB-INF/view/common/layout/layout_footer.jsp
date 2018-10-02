@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 	</section>
 		<footer>
-			Footer
+			<span class="text-center" style="color: #22741C"><h4>Going together, We-Go</h4></span>
 		</footer>
 	</section>
 </div>

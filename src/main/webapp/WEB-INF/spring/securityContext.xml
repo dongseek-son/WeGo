@@ -18,27 +18,27 @@
 		<s:intercept-url pattern="/reply/**" access="hasAnyRole('ROLE_DEFAULT','ROLE_ADMIN')" />
 		<s:csrf disabled="true" />
 		<s:form-login
-			login-page = "/"
+			login-page = "/member/login"
 			username-parameter="email"
 			password-parameter="password"
 			login-processing-url="/memberlogin"
 			default-target-url="/member/loginSuccess"
-			authentication-failure-url="/"
+			authentication-failure-url="/member/login"
 			always-use-default-target="true"
 		/>
 		<s:logout
-			logout-success-url="/"
+			logout-success-url="/member/login"
 			logout-url="/memberlogout"
 			invalidate-session="true"
 		/>
-		<s:session-management invalid-session-url="/">
+		<s:session-management invalid-session-url="/member/login">
 			<s:concurrency-control
 				max-sessions="1"
-				expired-url="/"
+				expired-url="/member/login"
 			/>
 		</s:session-management>
 		
-<!-- 	smarteditor 에러 해결관련 -->
+<!-- 	editor 에러 해결관련 -->
 		<s:headers>
     	   <s:frame-options policy="SAMEORIGIN"/>
  	   	</s:headers>

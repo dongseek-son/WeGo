@@ -45,5 +45,7 @@ public interface MemberService {
 	public boolean modifyPassword(String email, String password);
 	
 	public boolean increaseLoginFailCount(MemberVO memberVO);
+	
+	public boolean isDuplicateEmail(String email);
 
 }

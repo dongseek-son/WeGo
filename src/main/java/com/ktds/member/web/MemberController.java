@@ -234,6 +234,17 @@ public class MemberController {
 		return result;
 	}
 	
+	@PostMapping("/member/check/duplicate")
+	@ResponseBody
+	public Map<String, Object> doCheckEmailDuplicate( @RequestParam String email ) {
+		Map<String, Object> result = new HashMap<>();
+		
+		result.put("status", "OK");
+		result.put("duplicate", this.memberService.isDuplicateEmail(email) );
+		
+		return result;
+	}
+	
 	@PostMapping("/member/check/name")
 	@ResponseBody
 	public Map<String, Object> doCheckNamePattern( @RequestParam String name ) {
@@ -267,7 +278,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/profiledownload/{fileName}")
-	public void imageDownload(@PathVariable String fileName,HttpServletRequest req, HttpServletResponse res) {
+	public void imageDownload(@PathVariable String fileName, HttpServletRequest req, HttpServletResponse res) {
 		try {
 			new DownloadUtil(this.uploadPath + File.separator + fileName).download(req, res, fileName);
 		} catch (UnsupportedEncodingException e) {

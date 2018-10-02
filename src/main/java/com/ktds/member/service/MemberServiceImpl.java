@@ -153,5 +153,10 @@ public class MemberServiceImpl implements MemberService {
 		memberVO.setLoginFailCount(memberVO.getLoginFailCount() + 1);
 		return this.memberDao.updateLoginFailCount(memberVO) > 0;
 	}
+	
+	@Override
+	public boolean isDuplicateEmail(String email) {
+		return this.memberDao.selectOneMemberByEmail(email) != null;
+	}
 
 }

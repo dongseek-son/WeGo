@@ -2,15 +2,63 @@
     pageEncoding="UTF-8"%>
 
 <jsp:include page="/WEB-INF/view/common/layout/layout_header.jsp" />
-
+<style>
+#title {
+	margin-bottom : 30px;
+}
+</style>
 <script type="text/javascript">
 $().ready(function () {
 	
 	var isEmailPattern = false;
+	var isEmailDuplicate = true;
 	var isPasswordPattern = false;
 	var isSamePasswords = false;
 	var isNamePattern = false;
 	var isTelPattern = false;
+	
+	function checkRegistBtn() {
+		if( isEmailPattern && !isEmailDuplicate && isPasswordPattern 
+				&& isSamePasswords && isNamePattern && isTelPattern ) {
+			$("#registBtn").attr("class", "btn btn-success btn-block" );
+		}
+		else {
+			$("#registBtn").attr("class", "btn btn-warning btn-block disabled" );
+		}
+	};
+	
+	$("input").blur(function() {
+		checkRegistBtn();
+	});
+	
+	$("#email").blur(function() {
+		$.post("/WeGo/member/check/duplicate"
+				, {
+					"email": $(this).val()			
+				}
+				, function(response) {
+					if ( response.duplicate ) {
+						$("#email-group").attr("class","form-group has-warning has-feedback");
+						$("#email-check").attr("class", "text-warning");
+						$("#email-check").text("중복된 이메일 입니다.");
+						$("#email-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
+						isEmailDuplicate = true;
+					}
+					else if ( !isEmailPattern ){
+						$("#email-group").attr("class","form-group has-warning has-feedback");
+						$("#email-check").attr("class", "text-warning");
+						$("#email-check").text("올바른 이메일 형식이 아닙니다.");
+						$("#email-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
+					}
+					else {
+						$("#email-group").attr("class","form-group has-success has-feedback");
+						$("#email-check").attr("class", "text-success");
+						$("#email-check").text("사용가능한 이메일 입니다.");
+						$("#email-icon").attr("class", "glyphicon glyphicon-ok form-control-feedback");
+						isEmailDuplicate = false;
+					}
+				});
+	})
 	
 	$("#email").keyup(function() {
 		$.post("/WeGo/member/check/email"
@@ -19,43 +67,66 @@ $().ready(function () {
 				}
 				, function(response) {
 					if ( response.available ) {
+						$("#email-group").attr("class","form-group has-success has-feedback");
+						$("#email-check").attr("class", "text-success");
 						$("#email-check").text("올바른 이메일 형식입니다.");
+						$("#email-icon").attr("class", "glyphicon glyphicon-ok form-control-feedback");
 						isEmailPattern = true;
 					}
 					else {
+						$("#email-group").attr("class","form-group has-warning has-feedback");
+						$("#email-check").attr("class", "text-warning");
 						$("#email-check").text("올바른 이메일 형식이 아닙니다.");
+						$("#email-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
 						isEmailPattern = false;
 					}
-				})
-	})
+				});
+		checkRegistBtn();
+	});
 	
 	$("#password").keyup(function () {
+		$("#password2-group").show();
+		$("#password2").keyup();
 		$.post("/WeGo/member/check/password"
 				, {
 					"password": $(this).val()
 				}
 				, function(response) {
 					if ( response.available ) {
+						$("#password-group").attr("class","form-group has-success has-feedback");
+						$("#password-check").attr("class", "text-success");
 						$("#password-check").text("사용가능한 패스워드 입니다.");
+						$("#password-icon").attr("class", "glyphicon glyphicon-ok form-control-feedback");
 						isPasswordPattern = true;
 					}
 					else {
+						$("#password-group").attr("class","form-group has-warning has-feedback");
+						$("#password-check").attr("class", "text-warning");
 						$("#password-check").text("패스워드는 영문,숫자,특수문자 조합으로 8자이상으로 만들어주세요.");
+						$("#password-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
 						isPasswordPattern = false;
 					}
-				})
-	})
+				});
+		checkRegistBtn();
+	});
 	
 	$("#password2").keyup(function () {
 		if ( $("#password").val() != $("#password2").val() ) {
-			$("#password-check2").text("비밀번호가 일치하지 않습니다.");
+			$("#password2-group").attr("class","form-group has-warning has-feedback");
+			$("#password2-check").attr("class", "text-warning");
+			$("#password2-check").text("비밀번호가 일치하지 않습니다.");
+			$("#password2-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
 			isSamePasswords = false;
 		}
 		else {
-			$("#password-check2").text("비밀번호가 일치합니다.");
+			$("#password2-group").attr("class","form-group has-success has-feedback");
+			$("#password2-check").attr("class", "text-success");
+			$("#password2-check").text("비밀번호가 일치합니다.");
+			$("#password2-icon").attr("class", "glyphicon glyphicon-ok form-control-feedback");
 			isSamePasswords = true;
-		}
-	})
+		};
+		checkRegistBtn();
+	});
 	
 	$("#name").keyup(function () {
 		$.post("/WeGo/member/check/name"
@@ -64,15 +135,22 @@ $().ready(function () {
 				}
 				, function(response) {
 					if ( response.available ) {
+						$("#name-group").attr("class","form-group has-success has-feedback");
+						$("#name-check").attr("class", "text-success");
 						$("#name-check").text("사용가능한 이름 입니다.");
+						$("#name-icon").attr("class", "glyphicon glyphicon-ok form-control-feedback");
 						isNamePattern = true;
 					}
 					else {
+						$("#name-group").attr("class","form-group has-warning has-feedback");
+						$("#name-check").attr("class", "text-warning");
 						$("#name-check").text("이름은 한글, 영어, 숫자만 허용됩니다.(2-18자)");
+						$("#name-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
 						isNamePattern = false;
 					}
-				})
-	})
+				});
+		checkRegistBtn();
+	});
 	
 	$("#tel").keyup(function () {
 		$.post("/WeGo/member/check/tel"
@@ -81,19 +159,30 @@ $().ready(function () {
 				}
 				, function(response) {
 					if ( response.available ) {
+						$("#tel-group").attr("class","form-group has-success has-feedback");
+						$("#tel-check").attr("class", "text-success");
 						$("#tel-check").text("올바른 전화번호 입니다.");
+						$("#tel-icon").attr("class", "glyphicon glyphicon-ok form-control-feedback");
 						isTelPattern = true;
 					}
 					else {
+						$("#tel-group").attr("class","form-group has-warning has-feedback");
+						$("#tel-check").attr("class", "text-warning");
 						$("#tel-check").text("전화번호는 숫자만 입력해주세요.(10-11자)");
+						$("#tel-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
 						isTelPattern = false;
 					}
-				})
-	})
+				});
+		checkRegistBtn();
+	});
 	
 	$("#registBtn").click(function () {
 		if ( !isEmailPattern ) {
 			alert("올바른 이메일 형식이 아닙니다.");
+			$("#email").focus();
+		}
+		else if ( isEmailDuplicate ) {
+			alert("중복된 이메일 입니다.");
 			$("#email").focus();
 		}
 		else if ( !isPasswordPattern ) {
@@ -120,54 +209,61 @@ $().ready(function () {
 </script>
 
 
-	<div id="wrapper">
+	<div class="container">
+		<div id="title">
+			<h1>회원 가입</h1>
+		</div>
 		<form id="registForm" method="post" action="/WeGo/member/regist" enctype="multipart/form-data" >
-			<div>
-				<input type="email" id="email" name="email" placeholder="이메일 입력" />
+			<div id="email-group" class="form-group">
+				<div class="input-group">
+			  	  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+			  	  <input type="email" id="email" name="email" placeholder="이메일 입력" class="form-control"/>
+			  	  <span id="email-icon"></span>
+			 	</div>
+			 	<span id="email-check" class="help-block"></span>
 			</div>
-			<div>
-				<span id="email-check">
-				</span>
+			<div id="password-group" class="form-group">
+				<div class="input-group">
+			  	  <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+			  	  <input type="password" id="password" name="password" placeholder="비밀번호 입력" class="form-control"/>
+			  	  <span id="password-icon"></span>
+			 	</div>
+			 	<span id="password-check" class="help-block"></span>
 			</div>
-			<div>
-				<input type="password" id="password" name="password" placeholder="비밀번호 입력" />
+			<div id="password2-group" class="form-group" style="display:none">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+					<input type="password" id="password2" name="password2" placeholder="비밀번호 재입력" class="form-control"/>
+					<span id="password2-icon"></span>
+				</div>
+				<span id="password2-check" class="help-block"></span>
 			</div>
-			<div>
-				<span id="password-check">
-					패스워드는 영문,숫자,특수문자 조합으로 8자이상으로 만들어주세요.
-				</span>
+			<div id="name-group" class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<input type="text" id="name" name="name" placeholder="이름 입력" class="form-control"/>
+					<span id="name-icon"></span>
+				</div>
+				<span id="name-check" class="help-block"></span>
 			</div>
-			<div>
-				<input type="password" id="password2" name="password2" placeholder="비밀번호 재입력" />
+			<div id="tel-group" class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+					<input type="tel" id="tel" name="tel" placeholder="전화번호 입력" class="form-control"/>
+					<span id="tel-icon"></span>
+				</div>
+				<span id="tel-check" class="help-block"></span>
 			</div>
-			<div>
-				<span id="password-check2">
-				</span>
+			<div id="profile-group" class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-camera"></i></span>
+					<input type="file" name="profileFile" placeholder="프로필 사진 선택" class="form-control"/>
+					<span id="profile-icon"></span>
+				</div>
+				<span id="profile-check" class="help-block">사진을 선택하지 않을시, 기본 이미지로 대체됩니다.</span>
 			</div>
-			<div>
-				<input type="text" id="name" name="name" placeholder="이름 입력" />
-			</div>
-			<div>
-				<span id="name-check">
-					이름은 한글, 영어, 숫자만 허용됩니다.(2-18자)
-				</span>
-			</div>
-			<div>
-				<input type="tel" id="tel" name="tel" placeholder="전화번호 입력" />
-			</div>
-			<div>
-				<span id="tel-check">
-					전화번호는 숫자만 입력해주세요.(10-11자)
-				</span>
-			</div>		
-			<div>
-				<input type="file" name="profileFile" placeholder="프로필 사진 선택" />
-			</div>
-			<div>
-				프로필 사진을 선택하지 않을시, 기본 사진으로 적용됩니다.
-			</div>		
-			<div>
-				<input type="button" id="registBtn" value="회원 가입" />
+			<div class="form-group">
+				<input type="button" id="registBtn" class="btn btn-warning btn-block disabled" value="회원 가입" />
 			</div>
 		</form>
 	</div>

@@ -32,16 +32,18 @@
 	<mvc:resources location="/WEB-INF/static/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/static/css/" mapping="/css/**" />
 	<mvc:resources location="/WEB-INF/static/img/" mapping="/img/**" />
+	<mvc:resources location="/WEB-INF/static/fonts/" mapping="/fonts/**" />
 
  	<mvc:interceptors>
  		<mvc:interceptor>
-			<mvc:mapping path="/board/**"/>
+			<mvc:mapping path="/mygoal/**"/>
+			<mvc:mapping path="/message/**"/>
 			<bean	id="sessionInterceptor" 
 					class="com.ktds.common.SessionInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/member/**" />
-			<mvc:exclude-mapping path="/member/logout"/>
+			<mvc:mapping path="/member/login" />
+			<mvc:mapping path="/member/regist" />
 			<bean	id="preventSessionInterceptor"
 					class="com.ktds.common.PreventSessionInterceptor" />
 		</mvc:interceptor>
