@@ -99,7 +99,7 @@
 		SELECT	COUNT(1)
 		FROM	MM
 		WHERE	EML = #{email}
-		AND		RGST_DT = NULL
+		AND		RGST_DT IS NULL
 	</select>
 	
 	<insert id="insertEmailAuth" parameterType="EmailAuthVO">

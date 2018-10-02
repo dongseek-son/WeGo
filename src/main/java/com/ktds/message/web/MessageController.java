@@ -28,6 +28,7 @@ public class MessageController {
 	public ModelAndView viewSendMessageListPage(
 			@SessionAttribute(name=Session.USER) MemberVO memberVO) {
 		ModelAndView view = new ModelAndView("message/list");
+		view.addObject("condition", "send");
 		view.addObject("messageList", this.messageService.readSendMessages(memberVO));
 		return view;
 	}
@@ -37,6 +38,7 @@ public class MessageController {
 			@SessionAttribute(name=Session.USER) MemberVO memberVO) {
 		System.out.println(memberVO.toString());
 		ModelAndView view = new ModelAndView("message/list");
+		view.addObject("condition", "receive");
 		view.addObject("messageList", this.messageService.readReceiveMessages(memberVO));
 		return view;
 	}

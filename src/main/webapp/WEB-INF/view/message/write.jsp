@@ -6,34 +6,77 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/js/jquery-3.3.1.min.js" charset="UTF-8"></script>
+<link rel="stylesheet" href="/WeGo/css/bootstrap.css">
+<style>
+#message-wrapper {
+	margin: 30px 40px;
+	width: 400px;
+	heigth: 300px;
+}
+</style>
+<script src="/WeGo/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="/WeGo/js/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
-	$().ready() {
-		
-	}
+$().ready(function() {
+	
+	var isRegistedEmail = false;
+	
+	$("#receiverId").blur(function() {
+		$.post("/WeGo/member/check/email/registed"
+				, {
+					"email": $(this).val()			
+				}
+				, function(response) {
+					if ( response.registed ) {
+						$("#email-group").attr("class","form-group has-success has-feedback");
+						$("#email-icon").attr("class", "glyphicon glyphicon-success form-control-feedback");
+						$("#email-check").hide();
+						isRegistedEmail = true;
+					}
+					else {
+						$("#email-group").attr("class","form-group has-warning has-feedback");
+						$("#email-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
+						$("#email-check").show();
+						isEmailDuplicate = false;
+					}
+				});
+	})
+});
 </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/common/navigation.jsp" />
-<form action="/WeGo/message/write" method="post">
-	<div>
-		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">	
-	</div>
-	<div>
-		<input type="text" id="senderId" name="senderId" value="${sessionScope._USER_.email }" readonly="readonly">	
-	</div>
-	<div>
-		<input type="text" id="receiverId" name="receiverId" value="${receiverEmail }" placeholder="수신자 ID 입력">	
-	</div>
-	<div>
-		<input type="text" id="title" name="title" placeholder="제목 입력">
-	</div>
-	<div>
-		<textarea id="detail" name="detail" placeholder="내용 입력"></textarea>
-	</div>
-	<div>
-		<input type="submit" value="전송">
-	</div>	
-</form>
+<ul class="nav nav-wego nav-tabs-wego">
+    <li><a href="/WeGo/message/receivelist">받은 메세지</a></li>
+    <li><a href="/WeGo/message/sendlist">보낸 메세지</a></li>
+    <li class="active"><a href="#">메세지 쓰기</a></li>
+</ul>
+
+<div id="message-wrapper">	
+	<form action="/WeGo/message/write" method="post">
+		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
+		<input type="hidden" id="senderId" name="senderId" value="${sessionScope._USER_.email }" >	
+		<div id="email-group" class="form-group">
+			<div class="input-group">
+			  	  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+			  	  <input type="text" id="receiverId" name="receiverId" value="${receiverEmail }" placeholder="수신자 ID 입력" class="form-control"/>
+			  	  <span id="email-icon"></span>
+			 </div>
+			 <span id="email-check" class="help-block text-warning" style="display:none">등록되지 않은 이메일 입니다.</span>
+		</div>
+		<div id="title-group" class="form-group">
+			<div class="input-group">
+			  	  <span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span>
+			  	  <input type="text" id="title" name="title" placeholder="제목 입력" class="form-control"/>
+			  	  <span id="title-icon"></span>
+			 </div>
+		</div>
+		<div class="form-group">
+			<textarea class="form-control" rows="6" id="detail" name="detail" placeholder="내용 입력"></textarea>
+		</div>
+		<div class="form-group">
+			<input type="button" id="sendBtn" class="btn btn-warning btn-block disabled" value="보내기" />
+		</div>
+	</form>
+</div>
 </body>
 </html>

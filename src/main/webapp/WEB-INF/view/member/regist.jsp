@@ -32,12 +32,12 @@ $().ready(function () {
 	});
 	
 	$("#email").blur(function() {
-		$.post("/WeGo/member/check/duplicate"
+		$.post("/WeGo/member/check/email/registed"
 				, {
 					"email": $(this).val()			
 				}
 				, function(response) {
-					if ( response.duplicate ) {
+					if ( response.registed ) {
 						$("#email-group").attr("class","form-group has-warning has-feedback");
 						$("#email-check").attr("class", "text-warning");
 						$("#email-check").text("중복된 이메일 입니다.");
@@ -61,7 +61,7 @@ $().ready(function () {
 	})
 	
 	$("#email").keyup(function() {
-		$.post("/WeGo/member/check/email"
+		$.post("/WeGo/member/check/email/pattern"
 				, {
 					"email": $(this).val()
 				}

@@ -1,44 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<style type="text/css">
-/*   body {
-    padding: 0px;
-    margin: 0px;
-    font-size: 9pt;
-  }
-  nav {
-    background-color: #ddd;
-    padding: 15px;
-  }
-
-  nav ul {
-    padding: 0px;
-    margin: 0px;
-  }
-
-  nav ul > li {
-    display: inline-block;
-    margin-left: 30px;
-  }
-
-  nav ul > li:first-child {
-    margin-left: 0px;
-  }
-
-  a, a:visited {
-    text-decoration: none;
-    color: #333;
-  }
-
-  a:active {
-    text-decoration: underline;
-  }
-
-  a:hover {
-    color: #999;
-  } */
-</style>
+<script>
+$().ready(function() {
+	$("#message-a").click(function() {
+		window.open("/WeGo/message/write", "Message", "titlebar=no,menubar=no,status=no,toolbar=no,top=150,left=700,width=500,height=500");
+	});
+});
+</script>
 <nav class="navbar navbar-wego">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -56,11 +25,12 @@
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
-					<li><a href="/WeGo/message/write">Message</a></li>
+					<li><a id="message-a" href="#">Message</a></li>
 					<li><a href="#">MyPage</a></li>
 					<li><a href="#">회원정보수정</a></li>
 					<li><a href="/WeGo/memberlogout">Logout</a></li>
-				</ul></li>
+				</ul>
+			</li>
 		</ul>
 		<form class="navbar-form navbar-right" action="#">
 			<div class="input-group">

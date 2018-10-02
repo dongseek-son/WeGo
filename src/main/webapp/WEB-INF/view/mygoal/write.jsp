@@ -1,48 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-body {
-	text-align: center;
-}
-nav {
-	position: absolute;
-	top: 0;
-	width: 100%;
-}
-#wrapper {
-	position: relative;
-	top: 46px;
-	min-width: 1100px;
-}
-#left, #right {
-	width: 200px;
-	background-color: #eee;
-}
-#middle {
-	width: 700px;
-}
-.inline {
-	display: inline-block;
-	min-height: 1000px;
-	top: 0px;
-}
-</style>
+
+<jsp:include page="/WEB-INF/view/common/layout/layout_header.jsp" />
+
 <script type="text/javascript" src="/WeGo/js/ckeditor.js" charset="utf-8"></script>
-<script src="/WeGo/js/jquery-3.3.1.min.js" charset="utf-8" ></script>
+<script type="text/javascript" src="/WeGo/js/translations/ko.js" charset="utf-8"></script>
 <script type="text/javascript">
 
 	$().ready( function() {
 		
 		 ClassicEditor.create(
 				 document.querySelector( '#editor' ), {
-		              ckfinder: {
+					 language: 'ko'
+		             , ckfinder: {
 		                  uploadUrl: 'http://localhost:8080/WeGo/mygoal/imageupload'
 		              }
+				 	, image: {
+			            // You need to configure the image toolbar, too, so it uses the new style buttons.
+			            toolbar: [ 'imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight' ],
+
+			            styles: [
+			                // This option is equal to a situation where no style is applied.
+			                'full',
+
+			                // This represents an image aligned to the left.
+			                'alignLeft',
+
+			                // This represents an image aligned to the right.
+			                'alignRight'
+			            ]
+			        }
 				 } 
 		);
 		
@@ -63,19 +50,9 @@ nav {
 		
 	});
 </script>
-</head>
-<body>
-<jsp:include page="/WEB-INF/view/common/navigation.jsp" />
-<div id="wrapper">
-	<div id="left" class="inline">
-		<div id="parent">
-			<span>parent</span>
-		</div>
-		<div id="lv1">
-			<span>lv1</span>
-		</div>
-	</div><!--
-	--><div id="middle" class="inline">
+
+<div class="container">
+	<div>
 		<form action="/WeGo/mygoal/write" method="post">
 			<div id="write">
 				<div id="title-div">
@@ -93,12 +70,7 @@ nav {
 				</div>
 			</div>
 		</form>
-	</div><!-- 
-	--><div id="right" class="inline">
-		<div id="children">
-			<span>children</span>
-		</div>
 	</div>
 </div>
-</body>
-</html>
+
+<jsp:include page="/WEB-INF/view/common/layout/layout_footer.jsp" />

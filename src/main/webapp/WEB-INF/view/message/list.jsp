@@ -6,9 +6,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/WeGo/css/bootstrap.css">
+<script src="/WeGo/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="/WeGo/js/bootstrap.js" type="text/javascript"></script>
+<script>
+$().ready(function() {
+	if ( ${condition eq "receive"} )
+		{
+			$("#receive-li").attr("class", "active");		
+		}
+	else if ( ${condition eq "send"} )
+		{
+			$("#send-li").attr("class", "active");		
+		}
+});
+</script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/common/navigation.jsp" />
+<ul class="nav nav-wego nav-tabs-wego">
+    <li id="receive-li"><a href="/WeGo/message/receivelist">받은 메세지</a></li>
+    <li id="send-li"><a href="/WeGo/message/sendlist">보낸 메세지</a></li>
+    <li><a href="/WeGo/message/write">메세지 쓰기</a></li>
+</ul>
 <div id="wrapper">
 	<c:choose>
 		<c:when test="${not empty messageList }">

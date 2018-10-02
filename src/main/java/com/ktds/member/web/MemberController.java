@@ -164,7 +164,7 @@ public class MemberController {
 		if( loginMemberVO != null ) {
 			session.setAttribute(Session.USER, loginMemberVO);
 			session.setAttribute(Session.CSRF, UUID.randomUUID().toString());
-			view.setViewName("redirect:/message/receivelist");
+			view.setViewName("redirect:/mygoal/write");
 			return view;
 		}
 		else {
@@ -218,7 +218,7 @@ public class MemberController {
 		return result;
 	}
 	
-	@PostMapping("/member/check/email")
+	@PostMapping("/member/check/email/pattern")
 	@ResponseBody
 	public Map<String, Object> doCheckEmailPattern( @RequestParam String email ) {
 		Map<String, Object> result = new HashMap<>();
@@ -234,13 +234,13 @@ public class MemberController {
 		return result;
 	}
 	
-	@PostMapping("/member/check/duplicate")
+	@PostMapping("/member/check/email/registed")
 	@ResponseBody
-	public Map<String, Object> doCheckEmailDuplicate( @RequestParam String email ) {
+	public Map<String, Object> doCheckEmailRegisted( @RequestParam String email ) {
 		Map<String, Object> result = new HashMap<>();
 		
 		result.put("status", "OK");
-		result.put("duplicate", this.memberService.isDuplicateEmail(email) );
+		result.put("registed", this.memberService.isRegistedEmail(email) );
 		
 		return result;
 	}

@@ -46,6 +46,6 @@ public interface MemberService {
 	
 	public boolean increaseLoginFailCount(MemberVO memberVO);
 	
-	public boolean isDuplicateEmail(String email);
+	public boolean isRegistedEmail(String email);
 
 }

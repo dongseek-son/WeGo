@@ -155,7 +155,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public boolean isDuplicateEmail(String email) {
+	public boolean isRegistedEmail(String email) {
 		return this.memberDao.selectOneMemberByEmail(email) != null;
 	}
 

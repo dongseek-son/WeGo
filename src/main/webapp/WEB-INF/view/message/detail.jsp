@@ -6,15 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/js/jquery-3.3.1.min.js" charset="UTF-8"></script>
-<script type="text/javascript">
-	$().ready() {
-		
-	}
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/WeGo/css/bootstrap.css">
+<script src="/WeGo/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="/WeGo/js/bootstrap.js" type="text/javascript"></script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/common/navigation.jsp" />
 	<div>
 		발신 : ${messageVO.senderEmail }
 	</div>
