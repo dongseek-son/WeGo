@@ -1,5 +1,7 @@
 package com.ktds.message.vo;
 
+import com.ktds.member.vo.MemberVO;
+
 public class MessageVO {
 
 	private String id;
@@ -13,6 +15,9 @@ public class MessageVO {
 	private String receiverEmail;
 	
 	private String token;
+	
+	private MemberVO senderVO;
+	private MemberVO receiverVO;
 
 	public String getId() {
 		return id;
@@ -92,6 +97,22 @@ public class MessageVO {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public MemberVO getSenderVO() {
+		return senderVO;
+	}
+
+	public void setSenderVO(MemberVO senderVO) {
+		this.senderVO = senderVO;
+	}
+
+	public MemberVO getReceiverVO() {
+		return receiverVO;
+	}
+
+	public void setReceiverVO(MemberVO receiverVO) {
+		this.receiverVO = receiverVO;
 	}
 
 }

@@ -8,12 +8,10 @@
 	margin-bottom : 30px;
 }
 </style>
-
-<div class="container">
-		
-	<div id="title">
-		<h1>로그인</h1>
-	</div>
+	<div class="container">	
+		<div id="title">
+			<h1>로그인</h1>
+		</div>
 		<form id="loginForm" method="post" action="/WeGo/memberlogin" >
 			<div id="email-group" class="form-group">
 				<div class="input-group">
@@ -32,6 +30,4 @@
 			</div>
 		</form>
 	</div>
-	
-
 <jsp:include page="/WEB-INF/view/common/layout/layout_footer.jsp" />

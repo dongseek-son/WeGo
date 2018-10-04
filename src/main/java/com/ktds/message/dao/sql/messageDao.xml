@@ -3,6 +3,31 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MessageDao">
+
+	<resultMap type="MessageVO" id="MessageResultMap">
+		<id property="id" column="MS_ID" />
+		<result property="title" column="TTL" />
+		<result property="detail" column="DTL" />
+		<result property="sendDate" column="SND_DT" />
+		<result property="readDate" column="RD_DT" />
+		<result property="isSenderDelete" column="IS_SND_DLT" />
+		<result property="isReceiverDelete" column="IS_RCV_DLT" />
+		<result property="senderEmail" column="MS_SND_EML" />
+		<result property="receiverEmail" column="MS_RCV_EML" />
+		<association property="senderVO" javaType="MemberVO">
+			<id property="email" column="MM_SND_EML" />
+			<result property="name" column="SND_NM" />
+			<result property="profileFilename" column="SND_PIC_NM" />
+			<result property="authority" column="SND_AUTHRTY" />
+		</association>
+		<association property="receiverVO" javaType="MemberVO">
+			<id property="email" column="MM_RCV_EML" />
+			<result property="name" column="RCV_NM" />
+			<result property="profileFilename" column="RCV_PIC_NM" />
+			<result property="authority" column="RCV_AUTHRTY" />
+		</association>
+	</resultMap>
+
 	
 	<insert id="insertMessage" parameterType="MessageVO">
 		INSERT	INTO MS (
@@ -27,61 +52,109 @@
 		)
 	</insert>
 	
-	<select id="selectMessageList" resultType="MessageVO">
-		SELECT	MS_ID id
-				, TTL title
-				, DTL detail
-				, SND_DT sendDate
-				, RD_DT readDate 
-				, IS_SND_DLT isSenderDelete
-				, IS_RCV_DLT isReceiverDelete
-				, SND_EML senderEmail
-				, RCV_EML receiverEmail
+	<select id="selectMessageList" resultMap="MessageResultMap">
+		SELECT	MS.MS_ID
+				, MS.TTL
+				, MS.DTL
+				, MS.SND_DT
+				, MS.RD_DT
+				, MS.IS_SND_DLT
+				, MS.IS_RCV_DLT
+				, MS.SND_EML MS_SND_EML
+				, MS.RCV_EML MS_RCV_EML
+				, SND_MM.EML MM_SND_EML
+				, SND_MM.NM SND_NM
+				, SND_MM.PIC_NM SND_PIC_NM
+				, SND_MM.AUTHRTY SND_AUTHRTY
+				, RCV_MM.EML MM_RCV_EML
+				, RCV_MM.NM RCV_NM
+				, RCV_MM.PIC_NM RCV_PIC_NM
+				, RCV_MM.AUTHRTY RCV_AUTHRTY
 		FROM	MS
+		        , MM SND_MM
+		        , MM RCV_MM
+		WHERE	MS.SND_EML = SND_MM.EML
+		AND     MS.RCV_EML = RCV_MM.EML
 	</select>
 	
-	<select id="selectSendMessageList" parameterType="string" resultType="MessageVO">
-		SELECT	MS_ID id
-				, TTL title
-				, DTL detail
-				, SND_DT sendDate
-				, RD_DT readDate 
-				, IS_SND_DLT isSenderDelete
-				, IS_RCV_DLT isReceiverDelete
-				, SND_EML senderEmail
-				, RCV_EML receiverEmail
+	<select id="selectSendMessageList" parameterType="string" resultMap="MessageResultMap">
+		SELECT	MS.MS_ID
+				, MS.TTL
+				, MS.DTL
+				, MS.SND_DT
+				, MS.RD_DT
+				, MS.IS_SND_DLT
+				, MS.IS_RCV_DLT
+				, MS.SND_EML MS_SND_EML
+				, MS.RCV_EML MS_RCV_EML
+				, SND_MM.EML MM_SND_EML
+				, SND_MM.NM SND_NM
+				, SND_MM.PIC_NM SND_PIC_NM
+				, SND_MM.AUTHRTY SND_AUTHRTY
+				, RCV_MM.EML MM_RCV_EML
+				, RCV_MM.NM RCV_NM
+				, RCV_MM.PIC_NM RCV_PIC_NM
+				, RCV_MM.AUTHRTY RCV_AUTHRTY
 		FROM	MS
-		WHERE	SND_EML = #{email}
+		        , MM SND_MM
+		        , MM RCV_MM
+		WHERE	MS.SND_EML = SND_MM.EML
+		AND     MS.RCV_EML = RCV_MM.EML
+		AND     MS.SND_EML = #{email}
 		AND		IS_SND_DLT = 0
 	</select>
 	
-	<select id="selectReceiveMessageList" parameterType="string" resultType="MessageVO">
-		SELECT	MS_ID id
-				, TTL title
-				, DTL detail
-				, SND_DT sendDate
-				, RD_DT readDate 
-				, IS_SND_DLT isSenderDelete
-				, IS_RCV_DLT isReceiverDelete
-				, SND_EML senderEmail
-				, RCV_EML receiverEmail
+	<select id="selectReceiveMessageList" parameterType="string" resultMap="MessageResultMap">
+		SELECT	MS.MS_ID
+				, MS.TTL
+				, MS.DTL
+				, MS.SND_DT
+				, MS.RD_DT
+				, MS.IS_SND_DLT
+				, MS.IS_RCV_DLT
+				, MS.SND_EML MS_SND_EML
+				, MS.RCV_EML MS_RCV_EML
+				, SND_MM.EML MM_SND_EML
+				, SND_MM.NM SND_NM
+				, SND_MM.PIC_NM SND_PIC_NM
+				, SND_MM.AUTHRTY SND_AUTHRTY
+				, RCV_MM.EML MM_RCV_EML
+				, RCV_MM.NM RCV_NM
+				, RCV_MM.PIC_NM RCV_PIC_NM
+				, RCV_MM.AUTHRTY RCV_AUTHRTY
 		FROM	MS
-		WHERE	RCV_EML = #{email}
+		        , MM SND_MM
+		        , MM RCV_MM
+		WHERE	MS.SND_EML = SND_MM.EML
+		AND     MS.RCV_EML = RCV_MM.EML
+		AND		RCV_EML = #{email}
 		AND		IS_RCV_DLT = 0
 	</select>
 	
-	<select id="selectOneMessageById" parameterType="string" resultType="MessageVO">
-		SELECT	MS_ID id
-				, TTL title
-				, DTL detail
-				, SND_DT sendDate
-				, RD_DT readDate 
-				, IS_SND_DLT isSenderDelete
-				, IS_RCV_DLT isReceiverDelete
-				, SND_EML senderEmail
-				, RCV_EML receiverEmail
+	<select id="selectOneMessageById" parameterType="string" resultMap="MessageResultMap">
+				SELECT	MS.MS_ID
+				, MS.TTL
+				, MS.DTL
+				, MS.SND_DT
+				, MS.RD_DT
+				, MS.IS_SND_DLT
+				, MS.IS_RCV_DLT
+				, MS.SND_EML MS_SND_EML
+				, MS.RCV_EML MS_RCV_EML
+				, SND_MM.EML MM_SND_EML
+				, SND_MM.NM SND_NM
+				, SND_MM.PIC_NM SND_PIC_NM
+				, SND_MM.AUTHRTY SND_AUTHRTY
+				, RCV_MM.EML MM_RCV_EML
+				, RCV_MM.NM RCV_NM
+				, RCV_MM.PIC_NM RCV_PIC_NM
+				, RCV_MM.AUTHRTY RCV_AUTHRTY
 		FROM	MS
-		WHERE	MS_ID = #{messageId}
+		        , MM SND_MM
+		        , MM RCV_MM
+		WHERE	MS.SND_EML = SND_MM.EML
+		AND     MS.RCV_EML = RCV_MM.EML
+		AND		MS_ID = #{messageId}
 	</select>
 	
 	<update id="updateReadDate" parameterType="string">

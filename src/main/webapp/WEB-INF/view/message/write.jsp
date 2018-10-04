@@ -21,7 +21,7 @@ $().ready(function() {
 	
 	var isRegistedEmail = false;
 	
-	$("#receiverId").blur(function() {
+	$("#receiverEmail").blur(function() {
 		$.post("/WeGo/member/check/email/registed"
 				, {
 					"email": $(this).val()			
@@ -41,6 +41,16 @@ $().ready(function() {
 					}
 				});
 	})
+	
+	$("#sendBtn").click(function() {
+		if ( !isRegistedEmail ) {
+			alert("등록되지 않은 이메일 입니다.");
+			$("#receiverEmail").focus();
+		}
+		else {
+			$("#messageForm").submit();
+		}
+	});
 });
 </script>
 </head>
@@ -52,13 +62,13 @@ $().ready(function() {
 </ul>
 
 <div id="message-wrapper">	
-	<form action="/WeGo/message/write" method="post">
+	<form action="/WeGo/message/write" method="post" id="messageForm">
 		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
-		<input type="hidden" id="senderId" name="senderId" value="${sessionScope._USER_.email }" >	
+		<input type="hidden" id="senderEmail" name="senderEmail" value="${sessionScope._USER_.email }" >	
 		<div id="email-group" class="form-group">
 			<div class="input-group">
 			  	  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-			  	  <input type="text" id="receiverId" name="receiverId" value="${receiverEmail }" placeholder="수신자 ID 입력" class="form-control"/>
+			  	  <input type="text" id="receiverEmail" name="receiverEmail" value="${receiverEmail }" placeholder="수신자 ID 입력" class="form-control"/>
 			  	  <span id="email-icon"></span>
 			 </div>
 			 <span id="email-check" class="help-block text-warning" style="display:none">등록되지 않은 이메일 입니다.</span>

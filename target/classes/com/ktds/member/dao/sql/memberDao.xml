@@ -13,7 +13,7 @@
 								, SALT
 								, PIC_NM
 								, PIC_ORGNM
-								, ATHRTY
+								, AUTHRTY
 								, LTST_LGN
 								, LGN_FL_CNT
 								, LTST_PW_CHNG
@@ -41,7 +41,7 @@
 				, SALT salt
 				, PIC_NM profileFilename
 				, PIC_ORGNM profileOriginFilename
-				, ATHRTY authority
+				, AUTHRTY authority
 				, LTST_LGN latestLogin
 				, LGN_FL_CNT loginFailCount
 				, LTST_PW_CHNG latestPasswordChange
@@ -58,7 +58,7 @@
 				, SALT salt
 				, PIC_NM profileFilename
 				, PIC_ORGNM profileOriginFilename
-				, ATHRTY authority
+				, AUTHRTY authority
 				, LTST_LGN latestLogin
 				, LGN_FL_CNT loginFailCount
 				, LTST_PW_CHNG latestPasswordChange

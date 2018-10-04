@@ -58,7 +58,7 @@ public class MemberController {
 	@GetMapping("/member/logout")
 	public String doMemberLogoutAction( HttpSession session ) {
 		session.invalidate();
-		return "redirect:/member/login";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/member/regist")
@@ -70,7 +70,7 @@ public class MemberController {
 	public ModelAndView doRegistAction(@ModelAttribute @Valid MemberVO memberVO, Errors errors) {
 		
 		if ( errors.hasErrors() ) {
-			ModelAndView view = new ModelAndView("member/regist");
+			ModelAndView view = new ModelAndView("main");
 			view.addObject("memberVO", memberVO);
 			return view;
 		}
@@ -146,7 +146,7 @@ public class MemberController {
 			@ModelAttribute MemberVO memberVO
 			, Errors errors
 			, HttpSession session ) {
-		ModelAndView view = new ModelAndView("redirect:/");
+		ModelAndView view = new ModelAndView("redirect:/member/login");
 		
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
 		System.out.println(user.toString());
@@ -195,6 +195,13 @@ public class MemberController {
 			view.addObject("message", "이메일과 아이디가 올바르지 않습니다.");
 		}
 		
+		return view;
+	}
+	
+	@RequestMapping("/member/loginFail")
+	public ModelAndView viewLoginFailPage() {
+		ModelAndView view = new ModelAndView("redirect:/");
+		view.addObject("message", "잘못된 이메일/패스워드 입니다.");
 		return view;
 	}
 	

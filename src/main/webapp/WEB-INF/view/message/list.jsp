@@ -51,8 +51,8 @@ $().ready(function() {
 			<c:when test="${not empty messageList }">
 				<c:forEach items="${messageList }" var="message">
 					<tr>
-						<td>${message.senderEmail }</td>
-						<td>${message.receiverEmail }</td>
+						<td>${message.senderVO.name }</td>
+						<td>${message.receiverVO.name }</td>
 						<td><a href="/WeGo/message/detail/${message.id }">${message.title }</a></td>
 						<td>${fn:substring(message.sendDate,0,10) }</td>
 					</tr>

@@ -60,6 +60,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO authMember(MemberVO memberVO) {
 		String salt = this.memberDao.selectSaltByEmail(memberVO.getEmail());
+		if ( salt == null ) {
+			return null;
+		}
 		memberVO.setPassword(SHA256Util.getEncrypt(memberVO.getPassword(), salt));
 		return this.memberDao.selectOneMember(memberVO);
 	}
