@@ -219,8 +219,40 @@ $().ready(function () {
 		$("#registModal").modal();
 	}
 	
+	if ( ${not empty emailAuthVO} ) {
+		$("#emailAuthModal").modal();
+	}
+	
 	$("#loginBtn").click(function() {
 		$("#loginForm").submit();
+	});
+	
+	$("#emailAuthBtn").click(function() {
+		$("#emailAuthForm").submit();
+	});
+	
+	$("#findEmailBtn").click(function() {
+		$.post("/WeGo/member/findEmail"
+				, {
+					"name": $("#findEmail-name").val()
+					, "tel": $("#findEmail-tel").val()
+				}
+				, function(response) {
+					if ( response.findEmailVO === null ) {
+						$("#findEmailResult").text("해당 조건에 맞는 이메일이 없습니다.");
+						$("#findEmailResult").closest("div").attr("class", "alert alert-warning");
+						$("#closeBtn").val("회원가입하러 가기");
+						$("#closeBtn").attr("data-toggle", "modal");
+						$("#closeBtn").attr("data-target", "#registModal");
+					}
+					else {
+						$("#findEmailResult").html("찾으시는 이메일은 <strong>[" + response.findEmailVO.email + "]</strong> 입니다.");
+						$("#findEmailResult").closest("div").attr("class", "alert alert-success");
+						$("#closeBtn").val("로그인하러 가기");
+						$("#closeBtn").attr("data-toggle", "modal");
+						$("#closeBtn").attr("data-target", "#loginModal");
+					}
+				});
 	});
 	
 });
@@ -229,8 +261,7 @@ $().ready(function () {
 <div id="background" class="contaiver-fluid">
 	<!-- Modal -->
   <div class="modal fade" id="registModal" role="dialog">
-    <div class="modal-dialog">
-    
+    <div class="modal-dialog"> 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -292,15 +323,13 @@ $().ready(function () {
         <div class="modal-footer">
 				<input type="button" id="registBtn" class="btn btn-warning btn-block disabled" value="회원 가입" />
         </div>
-      </div>
-      
+      </div> 
     </div>
   </div>
   
   <!-- Modal -->
   <div class="modal fade" id="loginModal" role="dialog">
-    <div class="modal-dialog">
-    
+    <div class="modal-dialog">  
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -321,14 +350,75 @@ $().ready(function () {
 			  	  <input type="password" name="password" placeholder="비밀번호 입력" class="form-control"/>
 			 	</div>
 			</div>
-			
+				<a href="#" data-dismiss="modal" data-toggle="modal" data-target="#registModal"><span class="text-right">WeGo는 처음이신가요?</span></a><br>
+				<a href="#" data-dismiss="modal" data-toggle="modal" data-target="#findEmailModal"><span class="text-right">이메일/비밀번호를 잊으셨나요?</span></a>
 		</form>
         </div>
         <div class="modal-footer">
 			<input type="button" id="loginBtn" class="btn btn-sucess btn-block" value="로그인" />
         </div>
       </div>
-      
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="emailAuthModal" role="dialog">
+    <div class="modal-dialog">  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">이메일 인증</h4>
+        </div>
+        <div class="modal-body">
+        	<form action="/WeGo/member/emailAuth" method="post" id="emailAuthForm">
+				<input type="hidden" name="authUrl" value="${emailAuthVO.authUrl }">
+				<input type="hidden" name="email" value="${emailAuthVO.email }">
+				<div>
+					<span>환영합니다. 이메일 인증을 완료하시려면 아래 버튼을 클릭해주세요.</span>	
+				</div>
+			</form>
+        </div>
+        <div class="modal-footer">
+			<input type="button" id="emailAuthBtn" class="btn btn-sucess btn-block" value="이메일 인증완료">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="findEmailModal" role="dialog">
+    <div class="modal-dialog">  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">이메일 찾기</h4>
+        </div>
+        <div class="modal-body">
+        	<div class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				  	<input type="text" id="findEmail-name" placeholder="가입된 이름 입력" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="input-group">
+				  	 <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+				  	 <input type="tel" id="findEmail-tel" placeholder="가입된 전화번호 입력" class="form-control"/>
+				</div>
+			</div>
+			<div>
+				<input type="button" id="findEmailBtn" class="btn btn-sucess btn-block" value="이메일 찾기">
+			</div>
+			<div>
+				<span id="findEmailResult"></span>
+			</div>
+        </div>
+        <div class="modal-footer">
+			<input type="button" id="closeBtn" class="btn btn-sucess btn-block" data-dismiss="modal" value="닫기">
+        </div>
+      </div>
     </div>
   </div>
   

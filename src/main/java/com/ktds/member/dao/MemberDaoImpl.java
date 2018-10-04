@@ -104,4 +104,9 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 		return this.getSqlSession().update("MemberDao.updateLatestLogin", memberVO);
 	}
 	
+	@Override
+	public MemberVO selectOneMemberByNameAndTel(MemberVO memberVO) {
+		return this.getSqlSession().selectOne("MemberDao.selectOneMemberByNameAndTel", memberVO);
+	}
+	
 }

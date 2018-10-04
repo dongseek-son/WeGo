@@ -88,7 +88,7 @@ public class MemberController {
 				+ "<a href='" + url + "'><p>" + url + "</p></a><br>"
 				+ "감사합니다.";
 		String alertMessage = "이메일이 발송되었습니다.\\n1시간내에 이메일 인증을 완료해주세요.";
-		String redirectUrl = "/WeGo/member/login";
+		String redirectUrl = "/WeGo/";
 		
 		ModelAndView view = new ModelAndView("common/util/sendEmail");
 		view.addObject("email", email);
@@ -214,7 +214,7 @@ public class MemberController {
 			view.addObject("message", "잘못된 접근입니다.");
 		}
 		else {
-			view.setViewName("member/emailAuth");
+			view.setViewName("main");
 			view.addObject("emailAuthVO", emailAuthVO);			
 		}
 		return view;
@@ -346,6 +346,19 @@ public class MemberController {
 			view.addObject("message", "오류가 발생하였습니다.\\n관리자에게 문의 바랍니다.");
 		}
 		return view;
+	}
+	
+	@RequestMapping("/member/findEmail")
+	@ResponseBody
+	public Map<String, Object> doFindEmailAction(@RequestParam String name, @RequestParam String tel) {
+		Map<String, Object> result = new HashMap<>();
+		
+		MemberVO findEmailVO = this.memberService.readOneMemberByNameAndTel(name, tel);
+		
+		result.put("status", "OK");
+		result.put("findEmailVO", findEmailVO );
+		
+		return result;
 	}
 
 }

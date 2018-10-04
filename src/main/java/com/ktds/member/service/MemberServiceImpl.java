@@ -161,5 +161,13 @@ public class MemberServiceImpl implements MemberService {
 	public boolean isRegistedEmail(String email) {
 		return this.memberDao.selectOneMemberByEmail(email) != null;
 	}
+	
+	@Override
+	public MemberVO readOneMemberByNameAndTel(String name, String tel) {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setName(name);
+		memberVO.setTel(tel);
+		return this.memberDao.selectOneMemberByNameAndTel(memberVO);
+	}
 
 }

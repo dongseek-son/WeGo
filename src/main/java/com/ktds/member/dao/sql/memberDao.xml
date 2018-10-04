@@ -154,4 +154,13 @@
 		WHERE	EML = #{email}
 	</update>
 	
+	<select id="selectOneMemberByNameAndTel" parameterType="MemberVO" resultType="MemberVO">
+		SELECT	EML email
+				, NM name
+				, TL tel
+		FROM	MM
+		WHERE	NM = #{name}
+		AND		TL = #{tel}
+	</select>
+	
 </mapper>

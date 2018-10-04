@@ -37,5 +37,7 @@ public interface MemberDao {
 	public int updateLoginFailCount(MemberVO memberVO);
 	
 	public int updateLatestLogin(MemberVO memberVO);
+	
+	public MemberVO selectOneMemberByNameAndTel(MemberVO memberVO);
 
 }

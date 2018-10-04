@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>WeGo - 쪽지</title>
 <link rel="stylesheet" href="/WeGo/css/bootstrap.css">
 <style>
 #message-wrapper {
