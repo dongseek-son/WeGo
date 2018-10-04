@@ -1,4 +1,4 @@
-package com.ktds.common.web;
+package com.ktds.common.util;
 
 import java.io.File;
 import java.io.FileInputStream;

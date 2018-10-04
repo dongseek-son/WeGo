@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +12,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,10 +31,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ktds.common.member.Member;
 import com.ktds.common.session.Session;
-import com.ktds.common.web.DownloadUtil;
+import com.ktds.common.util.DownloadUtil;
 import com.ktds.member.service.MemberService;
 import com.ktds.member.vo.EmailAuthVO;
-import com.ktds.member.vo.MemberMongoVO;
 import com.ktds.member.vo.MemberVO;
 import com.ktds.security.User;
 
@@ -50,11 +49,6 @@ public class MemberController {
 	
 	@Value("${upload.profile.path}")
 	private String uploadPath;
-	
-	@RequestMapping("/")
-	public String viewMainPage() {
-		return "main";
-	}
 	
 	@GetMapping("/member/login")
 	public String viewLoginPage() {
@@ -73,8 +67,40 @@ public class MemberController {
 	}
 	
 	@PostMapping("/member/regist")
-	public String doRegistAction(@ModelAttribute MemberVO memberVO) {
+	public ModelAndView doRegistAction(@ModelAttribute @Valid MemberVO memberVO, Errors errors) {
 		
+		if ( errors.hasErrors() ) {
+			ModelAndView view = new ModelAndView("member/regist");
+			view.addObject("memberVO", memberVO);
+			return view;
+		}
+		
+		this.doUploadProfileAction(memberVO);
+		
+		this.memberService.createMember(memberVO);
+		String url = "http://localhost:8080/WeGo/member/emailAuth/" + this.memberService.createEmailAuth(memberVO.getEmail());
+		
+		String email = memberVO.getEmail();
+		String title = "Going together, WeGO! 가입 인증 메일 입니다.";
+		String detail = "<h1>Going together, WeGO!</h1><br>"
+				+ "WeGo의 새로운 회원이 되신것을 환영합니다.<br>"
+				+ "WeGo의 기능을 사용하시려면, 아래의 주소를 통하여 이메일 인증을 완료해주세요.<br>"
+				+ "<a href='" + url + "'><p>" + url + "</p></a><br>"
+				+ "감사합니다.";
+		String alertMessage = "이메일이 발송되었습니다.\\n1시간내에 이메일 인증을 완료해주세요.";
+		String redirectUrl = "/WeGo/member/login";
+		
+		ModelAndView view = new ModelAndView("common/util/sendEmail");
+		view.addObject("email", email);
+		view.addObject("title", title);
+		view.addObject("detail", detail);
+		view.addObject("alertMessage", alertMessage);
+		view.addObject("redirectUrl", redirectUrl);
+		
+		return view;
+	}
+	
+	public void doUploadProfileAction(MemberVO memberVO ) {
 		MultipartFile uploadFile = memberVO.getProfileFile();
 		
 		if ( !uploadFile.isEmpty() ) {
@@ -113,8 +139,6 @@ public class MemberController {
 				}
 			}
 		}
-		this.memberService.createMember(memberVO);
-		return "redirect:/member/emailAuth/" + this.memberService.createEmailAuth(memberVO.getEmail());
 	}
 	
 	@RequestMapping("/member/loginSuccess")
@@ -250,7 +274,7 @@ public class MemberController {
 	public Map<String, Object> doCheckNamePattern( @RequestParam String name ) {
 		Map<String, Object> result = new HashMap<>();
 		
-		String namePolicy = "(?=.*[0-9a-zA-Z가-힣]).{2,18}";
+		String namePolicy = "^[0-9a-zA-Z가-힣]{2,18}$";
 		
 		Pattern pattern = Pattern.compile(namePolicy);
 		Matcher matcher = pattern.matcher(name);
@@ -266,7 +290,7 @@ public class MemberController {
 	public Map<String, Object> doCheckTelPattern( @RequestParam String tel ) {
 		Map<String, Object> result = new HashMap<>();
 		
-		String telPolicy = "(?=.*[0-9]).{10,11}";
+		String telPolicy = "^[0-9]{9,11}$";
 		
 		Pattern pattern = Pattern.compile(telPolicy);
 		Matcher matcher = pattern.matcher(tel);
@@ -312,11 +336,9 @@ public class MemberController {
 			view.addObject("message", "비밀번호가 변경 되었습니다.");
 		}
 		else {
-			view.addObject("message", "오류가 발생하였습니다. 관리자에게 문의 바랍니다.");
+			view.addObject("message", "오류가 발생하였습니다.\\n관리자에게 문의 바랍니다.");
 		}
 		return view;
 	}
-	
-	
 
 }

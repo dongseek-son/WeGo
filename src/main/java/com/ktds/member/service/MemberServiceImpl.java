@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ktds.common.authority.Authority;
 import com.ktds.common.member.Member;
-import com.ktds.common.web.SHA256Util;
+import com.ktds.common.util.SHA256Util;
 import com.ktds.member.dao.MemberDao;
 import com.ktds.member.dao.MemberDaoForMongo;
 import com.ktds.member.vo.EmailAuthVO;

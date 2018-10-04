@@ -44,8 +44,6 @@
  	   	</s:headers>
 	</s:http>
 
-	<context:component-scan base-package="com.ktds.member" />
-	<context:annotation-config />
 	<bean	id="userService"
 			class="com.ktds.security.UserService">
 	</bean>

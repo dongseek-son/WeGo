@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.ktds.common.web.DownloadUtil;
+import com.ktds.common.util.DownloadUtil;
 
 import io.github.seccoding.web.mimetype.ExtFilter;
 import io.github.seccoding.web.mimetype.ExtensionFilter;

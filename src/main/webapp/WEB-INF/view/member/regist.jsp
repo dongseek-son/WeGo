@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <jsp:include page="/WEB-INF/view/common/layout/layout_header.jsp" />
 <style>
@@ -168,7 +169,7 @@ $().ready(function () {
 					else {
 						$("#tel-group").attr("class","form-group has-warning has-feedback");
 						$("#tel-check").attr("class", "text-warning");
-						$("#tel-check").text("전화번호는 숫자만 입력해주세요.(10-11자)");
+						$("#tel-check").text("전화번호는 숫자만 입력해주세요.(9-11자)");
 						$("#tel-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
 						isTelPattern = false;
 					}
@@ -177,7 +178,7 @@ $().ready(function () {
 	});
 	
 	$("#registBtn").click(function () {
-		if ( !isEmailPattern ) {
+ 		if ( !isEmailPattern ) {
 			alert("올바른 이메일 형식이 아닙니다.");
 			$("#email").focus();
 		}
@@ -198,13 +199,21 @@ $().ready(function () {
 			$("#name").focus();
 		}
 		else if ( !isTelPattern ) {
-			alert("전화번호는 숫자만 입력해주세요.(10-11자)");
+			alert("전화번호는 숫자만 입력해주세요.(9-11자)");
 			$("#tel").focus();
 		}
-		else {
+		else { 
 			$("#registForm").submit();
-		}
+	 	} 
 	});
+	
+	if ( ${not empty memberVO} ) {
+		$("#email").keyup();
+		$("#email").blur();
+		$("#name").keyup();
+		$("#tel").keyup();
+	}
+	
 });
 </script>
 
@@ -213,11 +222,11 @@ $().ready(function () {
 		<div id="title">
 			<h1>회원 가입</h1>
 		</div>
-		<form id="registForm" method="post" action="/WeGo/member/regist" enctype="multipart/form-data" >
+		<form:form id="registForm" method="post" action="/WeGo/member/regist" enctype="multipart/form-data" autocomplete="off" >
 			<div id="email-group" class="form-group">
 				<div class="input-group">
 			  	  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-			  	  <input type="email" id="email" name="email" placeholder="이메일 입력" class="form-control"/>
+			  	  <input type="email" id="email" name="email" placeholder="이메일 입력" class="form-control" value="${memberVO.email }"/>
 			  	  <span id="email-icon"></span>
 			 	</div>
 			 	<span id="email-check" class="help-block"></span>
@@ -241,7 +250,7 @@ $().ready(function () {
 			<div id="name-group" class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<input type="text" id="name" name="name" placeholder="이름 입력" class="form-control"/>
+					<input type="text" id="name" name="name" placeholder="이름 입력" class="form-control" value="${memberVO.name }"/>
 					<span id="name-icon"></span>
 				</div>
 				<span id="name-check" class="help-block"></span>
@@ -249,7 +258,7 @@ $().ready(function () {
 			<div id="tel-group" class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-					<input type="tel" id="tel" name="tel" placeholder="전화번호 입력" class="form-control"/>
+					<input type="tel" id="tel" name="tel" placeholder="전화번호 입력" class="form-control" value="${memberVO.tel }"/>
 					<span id="tel-icon"></span>
 				</div>
 				<span id="tel-check" class="help-block"></span>
@@ -265,6 +274,6 @@ $().ready(function () {
 			<div class="form-group">
 				<input type="button" id="registBtn" class="btn btn-warning btn-block disabled" value="회원 가입" />
 			</div>
-		</form>
+		</form:form>
 	</div>
 <jsp:include page="/WEB-INF/view/common/layout/layout_footer.jsp" />

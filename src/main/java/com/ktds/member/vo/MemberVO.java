@@ -30,13 +30,13 @@ public class MemberVO {
 	private String password;
 	@NotEmpty( message="이름은 필수 입력 값입니다." )
 	@Pattern( 
-			regexp="(?=.*[0-9]).{10,11}"
+			regexp="^[0-9a-zA-z가-힣]{2,18}$"
 			, message="이름은 한글, 영어, 숫자만 허용됩니다.(2-18자)" )
 	private String name;
 	@NotEmpty( message="전화번호는 필수 입력 값입니다." )
 	@Pattern( 
-			regexp="(?=.*[0-9a-zA-Z가-힣]).{2,18}"
-			, message="전화번호는 숫자만 입력해주세요.(10-11자)" )
+			regexp="^[0-9]{9,11}$"
+			, message="전화번호는 숫자만 입력해주세요.(9-11자)" )
 	private String tel;
 	private String salt;
 	private String profileFilename;

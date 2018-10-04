@@ -1,4 +1,4 @@
-package com.ktds.common.web;
+package com.ktds.common.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

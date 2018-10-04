@@ -1,4 +1,4 @@
-package com.ktds.common.web;
+package com.ktds.common.util;
 
 import java.util.Properties;
 import java.util.regex.Pattern;
@@ -16,7 +16,6 @@ public class EmailUtil
 	private String emailPassword;
 
 	public EmailUtil(String sendEmail, String emailPassword) {
-		super();
 		this.sendEmail = sendEmail;
 		this.emailPassword = emailPassword;
 	}
