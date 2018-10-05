@@ -1,7 +1,7 @@
 package com.ktds.member.service;
 
 import com.ktds.member.vo.EmailAuthVO;
-import com.ktds.member.vo.MemberMongoVO;
+import com.ktds.member.vo.MemberVOForMongo;
 import com.ktds.member.vo.MemberVO;
 
 public interface MemberService {
@@ -36,11 +36,11 @@ public interface MemberService {
 	
 	public boolean updateRegistDate(String email);
 
-	public void createMemberMongoVO(MemberMongoVO memberMongoVO);
+	public void createMemberVOForMongo(MemberVOForMongo memberVOForMongo);
 	
-	public void modifyMemberMongoVO(MemberMongoVO memberMongoVO);
+	public void modifyMemberVOForMongo(MemberVOForMongo memberVOForMongo);
 	
-	public MemberMongoVO readOntMemberMongoVOByEmail(String email);
+	public MemberVOForMongo readOneMemberVOForMongoByEmail(String email);
 	
 	public boolean modifyPassword(String email, String password);
 	

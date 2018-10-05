@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.ktds.member.vo.EmailAuthVO;
-import com.ktds.member.vo.MemberMongoVO;
+import com.ktds.member.vo.MemberVOForMongo;
 import com.ktds.member.vo.MemberVO;
 
 @Repository

@@ -3,7 +3,7 @@ package com.ktds.member.dao;
 import java.util.List;
 
 import com.ktds.member.vo.EmailAuthVO;
-import com.ktds.member.vo.MemberMongoVO;
+import com.ktds.member.vo.MemberVOForMongo;
 import com.ktds.member.vo.MemberVO;
 
 public interface MemberDao {

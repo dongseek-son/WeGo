@@ -6,7 +6,7 @@ public class GoalVO {
 	private String title;
 	private String detail;
 	private String parentGoalId;
-	private String memberId;
+	private String email;
 	private boolean isSuccess;
 	private boolean isBlock;
 	private String writeDate;
@@ -46,14 +46,6 @@ public class GoalVO {
 
 	public void setParentGoalId(String parentGoalId) {
 		this.parentGoalId = parentGoalId;
-	}
-
-	public String getMemberId() {
-		return memberId;
-	}
-
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
 	}
 
 	public boolean isSuccess() {
@@ -118,6 +110,14 @@ public class GoalVO {
 
 	public void setModifyDate(String modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

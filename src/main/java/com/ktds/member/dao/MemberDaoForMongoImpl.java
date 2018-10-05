@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import com.ktds.member.vo.MemberMongoVO;
+import com.ktds.member.vo.MemberVOForMongo;
 
 @Repository
 public class MemberDaoForMongoImpl implements MemberDaoForMongo {
@@ -22,49 +22,49 @@ public class MemberDaoForMongoImpl implements MemberDaoForMongo {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public void insertMemberMongoVO(MemberMongoVO memberMongoVO) {
-		this.mongoTemplate.insert(memberMongoVO, "member");	
+	public void insertMemberVOForMongo(MemberVOForMongo memberVOForMongo) {
+		this.mongoTemplate.insert(memberVOForMongo, "member");	
 	}
 	
 	@Override
-	public void updateMemberMongoVO(MemberMongoVO memberMongoVO) {
-		Query query = new Query(new Criteria("email").is(memberMongoVO.getEmail()));
+	public void updateMemberVOForMongo(MemberVOForMongo memberVOForMongo) {
+		Query query = new Query(new Criteria("email").is(memberVOForMongo.getEmail()));
 		
 		Update update = new Update();
-		update.set("adviceHashtags", memberMongoVO.getAdviceHashtags());
-		update.set("concernHashtags", memberMongoVO.getConcernHashtags());
+		update.set("adviceTagList", memberVOForMongo.getAdviceTagList());
+		update.set("concernTagList", memberVOForMongo.getConcernTagList());
 		
 		this.mongoTemplate.updateFirst(query, update, "member");
 	}
 	
 	@Override
-	public void deleteMemberMongoVO(MemberMongoVO memberMongoVO) {
-		Query query = new Query(new Criteria("email").is(memberMongoVO.getEmail()));
+	public void deleteMemberVOForMongo(MemberVOForMongo memberVOForMongo) {
+		Query query = new Query(new Criteria("email").is(memberVOForMongo.getEmail()));
 		this.mongoTemplate.remove(query, "member");
 	}
 	
 	@Override
-	public MemberMongoVO findOneMemberMongoVOByEmail(String email) {
+	public MemberVOForMongo findOneMemberVOForMongoByEmail(String email) {
 		Query query = new Query(new Criteria("email").is(email));
-		return this.mongoTemplate.findOne(query, MemberMongoVO.class, "member");
+		return this.mongoTemplate.findOne(query, MemberVOForMongo.class, "member");
 	}
 	
 	@Override
-	public List<MemberMongoVO> findAllMemberMongoVOByAdviceHashtag(String hashtag) {
-		Query query = new Query(new Criteria("adviceHashtags").all(hashtag));
-		return this.mongoTemplate.find(query, MemberMongoVO.class);
+	public List<MemberVOForMongo> findAllMemberVOForMongoByAdviceTag(String tag) {
+		Query query = new Query(new Criteria("adviceTagList").all(tag));
+		return this.mongoTemplate.find(query, MemberVOForMongo.class);
 	}
 	
 	@Override
-	public List<MemberMongoVO> findAllMemberMongoVOByAdviceHashtag(String h1, String h2) {
-		Query query = new Query(new Criteria("adviceHashtags").all(h1, h2));
-		return this.mongoTemplate.find(query, MemberMongoVO.class);
+	public List<MemberVOForMongo> findAllMemberVOForMongoByAdviceTag(String tag1, String tag2) {
+		Query query = new Query(new Criteria("adviceTagList").all(tag1, tag2));
+		return this.mongoTemplate.find(query, MemberVOForMongo.class);
 	}
 	
 	@Override
-	public List<MemberMongoVO> findAllMemberMongoVOByAdviceHashtag(String h1, String h2, String h3) {
-		Query query = new Query(new Criteria("adviceHashtags").all(h1, h2, h3));
-		return this.mongoTemplate.find(query, MemberMongoVO.class);
+	public List<MemberVOForMongo> findAllMemberVOForMongoByAdviceTag(String tag1, String tag2, String tag3) {
+		Query query = new Query(new Criteria("adviceTagList").all(tag1, tag2, tag3));
+		return this.mongoTemplate.find(query, MemberVOForMongo.class);
 	}
 	
 }

@@ -13,7 +13,7 @@ import com.ktds.common.util.SHA256Util;
 import com.ktds.member.dao.MemberDao;
 import com.ktds.member.dao.MemberDaoForMongo;
 import com.ktds.member.vo.EmailAuthVO;
-import com.ktds.member.vo.MemberMongoVO;
+import com.ktds.member.vo.MemberVOForMongo;
 import com.ktds.member.vo.MemberVO;
 
 @Service
@@ -127,18 +127,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void createMemberMongoVO(MemberMongoVO memberMongoVO) {
-		this.memberDaoForMongo.insertMemberMongoVO(memberMongoVO);
+	public void createMemberVOForMongo(MemberVOForMongo memberVOForMongo) {
+		this.memberDaoForMongo.insertMemberVOForMongo(memberVOForMongo);
 	}
 	
 	@Override
-	public void modifyMemberMongoVO(MemberMongoVO memberMongoVO) {
-		this.memberDaoForMongo.updateMemberMongoVO(memberMongoVO);
+	public void modifyMemberVOForMongo(MemberVOForMongo memberVOForMongo) {
+		this.memberDaoForMongo.updateMemberVOForMongo(memberVOForMongo);
 	}
 	
 	@Override
-	public MemberMongoVO readOntMemberMongoVOByEmail(String email) {
-		return this.memberDaoForMongo.findOneMemberMongoVOByEmail(email);
+	public MemberVOForMongo readOneMemberVOForMongoByEmail(String email) {
+		return this.memberDaoForMongo.findOneMemberVOForMongoByEmail(email);
 	}
 	
 	@Override

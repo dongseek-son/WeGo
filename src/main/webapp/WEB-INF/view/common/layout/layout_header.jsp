@@ -12,8 +12,6 @@
 <style type="text/css">
 .container {
 	width: 1170px;
-	margin-top: 50px;
-	margin-bottom: 50px;
 }
 
 footer {

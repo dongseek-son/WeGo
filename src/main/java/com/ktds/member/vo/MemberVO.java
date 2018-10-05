@@ -47,7 +47,7 @@ public class MemberVO {
 	private String latestPasswordChange;
 	private String registDate;
 	
-	private MemberMongoVO memberMongoVO;
+	private MemberVOForMongo memberMongoVO;
 
 	private MultipartFile profileFile;
 
@@ -155,11 +155,11 @@ public class MemberVO {
 		this.registDate = registDate;
 	}
 
-	public MemberMongoVO getMemberMongoVO() {
+	public MemberVOForMongo getMemberMongoVO() {
 		return memberMongoVO;
 	}
 
-	public void setMemberMongoVO(MemberMongoVO memberMongoVO) {
+	public void setMemberMongoVO(MemberVOForMongo memberMongoVO) {
 		this.memberMongoVO = memberMongoVO;
 	}
 

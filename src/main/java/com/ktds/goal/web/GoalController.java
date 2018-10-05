@@ -10,16 +10,26 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.ktds.common.session.Session;
 import com.ktds.common.util.DownloadUtil;
+import com.ktds.goal.service.GoalService;
+import com.ktds.goal.vo.GoalVOForForm;
+import com.ktds.member.vo.MemberVO;
+import com.nhncorp.lucy.security.xss.XssFilter;
 
 import io.github.seccoding.web.mimetype.ExtFilter;
 import io.github.seccoding.web.mimetype.ExtensionFilter;
@@ -28,12 +38,36 @@ import io.github.seccoding.web.mimetype.ExtensionFilterFactory;
 @Controller
 public class GoalController {
 	
+	@Autowired
+	private GoalService goalService;
+	
 	@Value("${upload.image.path}")
 	private String uploadPath;
 	
 	@GetMapping("mygoal/write")
-	private String viewMyGoalWirtePage() {
+	private String viewMyGoalWritePage() {
 		return "mygoal/write";
+	}
+	
+	@PostMapping("mygoal/write")
+	public ModelAndView doMyGoalWriteAction(@ModelAttribute GoalVOForForm goalVOForForm
+			, @SessionAttribute(name=Session.USER) MemberVO memberVO
+			, HttpServletRequest request) {
+		ModelAndView view = new ModelAndView("mygoal/write");
+		
+		String sessionToken = (String)request.getSession().getAttribute(Session.CSRF);
+		if ( !goalVOForForm.getToken().equals(sessionToken) ) {
+			throw new RuntimeException("잘못된 접근 입니다.");
+		}
+		
+		XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
+		goalVOForForm.setTitle( filter.doFilter(goalVOForForm.getTitle()) );
+		goalVOForForm.setDetail( filter.doFilter(goalVOForForm.getDetail()) );
+		
+		goalVOForForm.setEmail(memberVO.getEmail());
+		
+		this.goalService.createGoal(goalVOForForm);
+		return view;
 	}
 
 	@RequestMapping("mygoal/imageupload")
@@ -91,4 +125,5 @@ public class GoalController {
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
+	
 }

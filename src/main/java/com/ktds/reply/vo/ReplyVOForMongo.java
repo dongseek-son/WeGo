@@ -1,5 +1,5 @@
 package com.ktds.reply.vo;
 
-public class ReplyMongoVO {
+public class ReplyVOForMongo {
 
 }

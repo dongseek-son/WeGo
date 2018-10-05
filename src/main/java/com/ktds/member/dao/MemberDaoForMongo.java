@@ -2,20 +2,20 @@ package com.ktds.member.dao;
 
 import java.util.List;
 
-import com.ktds.member.vo.MemberMongoVO;
+import com.ktds.member.vo.MemberVOForMongo;
 
 public interface MemberDaoForMongo {
 
-	public void insertMemberMongoVO(MemberMongoVO memberMongoVO);
+	public void insertMemberVOForMongo(MemberVOForMongo memberVOForMongo);
 	
-	public void updateMemberMongoVO(MemberMongoVO memberMongoVO);
+	public void updateMemberVOForMongo(MemberVOForMongo memberVOForMongo);
 	
-	public void deleteMemberMongoVO(MemberMongoVO memberMongoVO);
+	public void deleteMemberVOForMongo(MemberVOForMongo memberVOForMongo);
 	
-	public MemberMongoVO findOneMemberMongoVOByEmail(String email);
+	public MemberVOForMongo findOneMemberVOForMongoByEmail(String email);
 	
-	public List<MemberMongoVO> findAllMemberMongoVOByAdviceHashtag(String hashtag);
-	public List<MemberMongoVO> findAllMemberMongoVOByAdviceHashtag(String h1, String h2);
-	public List<MemberMongoVO> findAllMemberMongoVOByAdviceHashtag(String h1, String h2, String h3);
+	public List<MemberVOForMongo> findAllMemberVOForMongoByAdviceTag(String tag);
+	public List<MemberVOForMongo> findAllMemberVOForMongoByAdviceTag(String tag1, String tag2);
+	public List<MemberVOForMongo> findAllMemberVOForMongoByAdviceTag(String tag1, String tag2, String tag3);
 	
 }
