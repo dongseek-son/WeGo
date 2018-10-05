@@ -146,7 +146,7 @@ public class MemberController {
 			@ModelAttribute MemberVO memberVO
 			, Errors errors
 			, HttpSession session ) {
-		ModelAndView view = new ModelAndView("redirect:/member/login");
+		ModelAndView view = new ModelAndView("main");
 		
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
 		System.out.println(user.toString());
@@ -200,14 +200,14 @@ public class MemberController {
 	
 	@RequestMapping("/member/loginFail")
 	public ModelAndView viewLoginFailPage() {
-		ModelAndView view = new ModelAndView("redirect:/");
+		ModelAndView view = new ModelAndView("main");
 		view.addObject("message", "잘못된 이메일/패스워드 입니다.");
 		return view;
 	}
 	
 	@GetMapping("/member/emailAuth/{authUrl}")
 	public ModelAndView viewEmailAuthPage(@PathVariable String authUrl) {
-		ModelAndView view = new ModelAndView("redirect:/");
+		ModelAndView view = new ModelAndView("main");
 		EmailAuthVO emailAuthVO = this.memberService.readOneEmailAuth(authUrl);
 		
 		if ( emailAuthVO == null ) {
@@ -222,7 +222,7 @@ public class MemberController {
 	
 	@PostMapping("/member/emailAuth")
 	public ModelAndView doEmailAuthAction(@ModelAttribute EmailAuthVO emailAuthVO) {
-		ModelAndView view = new ModelAndView("redirect:/");
+		ModelAndView view = new ModelAndView("main");
 		if ( this.memberService.updateRegistDate(emailAuthVO.getEmail())
 				&& this.memberService.removeOneEmailAuth(emailAuthVO.getAuthUrl()) ) {
 			view.addObject("message", "이메일 인증이 완료되었습니다.");
@@ -317,17 +317,48 @@ public class MemberController {
 		}
 	}
 	
+	@PostMapping("/member/passwordInitSend")
+	public ModelAndView doPasswordInitSendAction(@RequestParam String email, @RequestParam String tel) {
+		ModelAndView view = new ModelAndView("main");
+		MemberVO memberVO = this.memberService.readOneMemberByEmail(email);
+		
+		if ( memberVO.getTel().equals(tel) ) {
+			String url = "http://localhost:8080/WeGo/member/passwordInit/" + this.memberService.createEmailAuth(memberVO.getEmail());
+			
+			String title = "Going together, WeGO! 비밀번호 재설정 메일 입니다.";
+			String detail = "<h1>Going together, WeGO!</h1><br>"
+					+ "WeGo의 비밀번호 재설정을 위한 메일 입니다..<br>"
+					+ "회원님의 비밀번호를 재설정하시려면, 아래의 주소를 통하여 접속해주세요.<br>"
+					+ "<a href='" + url + "'><p>" + url + "</p></a><br>"
+					+ "감사합니다.";
+			String alertMessage = "이메일이 발송되었습니다.\\n해당 메일을 통하여 비밀번호를 초기화하세요.";
+			String redirectUrl = "/WeGo/";
+			
+			view.setViewName("common/util/sendEmail");
+			view.addObject("email", email);
+			view.addObject("title", title);
+			view.addObject("detail", detail);
+			view.addObject("alertMessage", alertMessage);
+			view.addObject("redirectUrl", redirectUrl);
+		}
+		else {
+			view.addObject("message", "입력하신 정보가 맞지않습니다.\\n초기화면으로 돌아갑니다.");
+		}
+
+		return view;
+	}
+	
 	@GetMapping("/member/passwordInit/{authUrl}")
 	public ModelAndView viewPasswordInitPage(@PathVariable String authUrl) {
-		ModelAndView view = new ModelAndView("redirect:/");
+		ModelAndView view = new ModelAndView("main");
 		EmailAuthVO emailAuthVO = this.memberService.readOneEmailAuth(authUrl);
 		
 		if ( emailAuthVO == null ) {
 			view.addObject("message", "잘못된 접근입니다.");
 		}
 		else {
-			view.setViewName("member/passwordInit");
-			view.addObject("emailAuthVO", emailAuthVO);			
+			view.setViewName("main");
+			view.addObject("emailAuthVOForPasswordInit", emailAuthVO);			
 		}
 		return view;
 	}
@@ -337,7 +368,7 @@ public class MemberController {
 			@RequestParam String authUrl
 			, @RequestParam String email
 			, @RequestParam String password) {
-		ModelAndView view = new ModelAndView("redirect:/");
+		ModelAndView view = new ModelAndView("main");
 		if ( this.memberService.modifyPassword(email, password) 
 				&& this.memberService.removeOneEmailAuth(authUrl) ) {
 			view.addObject("message", "비밀번호가 변경 되었습니다.");
