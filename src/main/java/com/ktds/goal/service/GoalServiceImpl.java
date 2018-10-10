@@ -18,16 +18,16 @@ public class GoalServiceImpl implements GoalService {
 	@Autowired
 	private GoalDaoForMongo goalDaoForMongo;
 	
-	private GoalVO separateGoalVOFromGoalVOForForm(GoalVOForForm goalVOForForm) {
+	private GoalVO separateGoalVOFromGoalVOForForm(GoalVOForForm goalVOForForm, String mongoId) {
 		GoalVO goalVO = new GoalVO();
 		
-		goalVO.setId(goalVOForForm.getId());
 		goalVO.setTitle(goalVOForForm.getTitle());
 		goalVO.setDetail(goalVOForForm.getDetail());
 		goalVO.setParentGoalId(goalVOForForm.getParentGoalId());
 		goalVO.setEmail(goalVOForForm.getEmail());
 		goalVO.setOpen(goalVOForForm.getIsOpen() != null);
 		goalVO.setDurablity(goalVOForForm.getIsDurablity() != null);
+		goalVO.setMongoId(mongoId);
 		
 		return goalVO;
 	}
@@ -35,7 +35,6 @@ public class GoalServiceImpl implements GoalService {
 	private GoalVOForMongo separateGoalVOForMongoFromGoalVOForForm(GoalVOForForm goalVOForForm) {
 		GoalVOForMongo goalVOForMongo = new GoalVOForMongo();
 		
-		goalVOForMongo.setGoalId(goalVOForForm.getId());
 		goalVOForMongo.setTagList(goalVOForForm.getTagList());
 		
 		return goalVOForMongo;
@@ -43,10 +42,8 @@ public class GoalServiceImpl implements GoalService {
 	
 	@Override
 	public boolean createGoal(GoalVOForForm goalVOForForm) {
-		boolean isSuccess = this.goalDao.insertGoal(this.separateGoalVOFromGoalVOForForm(goalVOForForm)) > 0;
-		goalVOForForm.setId(this.goalDao.selectLatestModifyGoalIdByEmail(goalVOForForm.getEmail()));
-		this.goalDaoForMongo.insertGoalDaoForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
-		return isSuccess;
+		String mongoId = this.goalDaoForMongo.insertGoalDaoForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
+		return this.goalDao.insertGoal(this.separateGoalVOFromGoalVOForForm(goalVOForForm, mongoId)) > 0;
 	}
 
 }

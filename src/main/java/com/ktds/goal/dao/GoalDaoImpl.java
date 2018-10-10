@@ -28,9 +28,4 @@ public class GoalDaoImpl extends SqlSessionDaoSupport implements GoalDao {
 		return this.getSqlSession().insert("GoalDao.insertGoal", goalVO);
 	}
 	
-	@Override
-	public String selectLatestModifyGoalIdByEmail(String email) {
-		return this.getSqlSession().selectOne("GoalDao.selectLatestModifyGoalIdByEmail", email);
-	}
-
 }

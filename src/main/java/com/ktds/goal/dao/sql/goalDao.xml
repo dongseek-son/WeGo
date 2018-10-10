@@ -21,6 +21,7 @@
 						, IS_DRBLTY
 						, IS_BST
 						, MDFY_DT
+						, MNG_ID
 					)
 	VALUES (
 				'MS-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(GL_ID_SEQ.NEXTVAL, 6, '0')
@@ -38,18 +39,8 @@
 				, #{isDurablity}
 				, 0
 				, SYSDATE
+				, #{mongoId}
 	)
 </insert>
-
-<select id="selectLatestModifyGoalIdByEmail" parameterType="string" resultType="string">
-	SELECT  GL_ID
-	FROM    (
-	            SELECT  ROWNUM, GL_ID
-	            FROM    GL
-	            WHERE   EML = #{email}
-	            ORDER   BY MDFY_DT DESC
-	        )
-	WHERE   ROWNUM = 1
-</select>
 	
 </mapper>

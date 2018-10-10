@@ -6,6 +6,4 @@ public interface GoalDao {
 
 	public int insertGoal(GoalVO goalVO);
 	
-	public String selectLatestModifyGoalIdByEmail(String email);
-	
 }

@@ -9,17 +9,8 @@ public class GoalVOForMongo {
 	@Id
 	private String id;
 
-	private String goalId;
 	private List<String> tagList;
 	private List<String> recomendEmailList;
-	
-	
-
-	@Override
-	public String toString() {
-		return "GoalVOForMongo [id=" + id + ", goalId=" + goalId + ", tagList=" + tagList + ", recomendEmailList="
-				+ recomendEmailList + "]";
-	}
 
 	public String getId() {
 		return id;
@@ -27,14 +18,6 @@ public class GoalVOForMongo {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getGoalId() {
-		return goalId;
-	}
-
-	public void setGoalId(String goalId) {
-		this.goalId = goalId;
 	}
 
 	public List<String> getTagList() {

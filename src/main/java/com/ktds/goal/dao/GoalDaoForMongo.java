@@ -4,6 +4,6 @@ import com.ktds.goal.vo.GoalVOForMongo;
 
 public interface GoalDaoForMongo {
 
-	public void insertGoalDaoForMongo(GoalVOForMongo goalVOForMongo);
+	public String insertGoalDaoForMongo(GoalVOForMongo goalVOForMongo);
 	
 }
