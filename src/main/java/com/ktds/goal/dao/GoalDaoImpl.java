@@ -1,6 +1,7 @@
 package com.ktds.goal.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -48,6 +49,11 @@ public class GoalDaoImpl extends SqlSessionDaoSupport implements GoalDao {
 	@Override
 	public GoalVO selectLatestModifyGoalByEmail(String email) {
 		return this.getSqlSession().selectOne("GoalDao.selectLatestModifyGoalByEmail", email);
+	}
+	
+	@Override
+	public List<GoalVO> selectGoalListByLevel(Map<String, Object> param) {
+		return this.getSqlSession().selectList("GoalDao.selectGoalListByLevel", param);
 	}
 	
 }

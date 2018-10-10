@@ -1,6 +1,8 @@
 package com.ktds.goal.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,17 @@ public class GoalServiceImpl implements GoalService {
 		return goalVO;
 	}
 	
+	private List<GoalVO> combineGoalVOForMongoToGoalVOList(List<GoalVO> goalVOList) {
+		
+		if ( goalVOList.size() > 0 ) {
+			for ( GoalVO goalVO : goalVOList ) {
+				this.combineGoalVOForMongoToGoalVO(goalVO);
+			}
+		}
+		
+		return goalVOList;
+	}
+	
 	@Override
 	public boolean createGoal(GoalVOForForm goalVOForForm) {
 		String mongoId = this.goalDaoForMongo.insertGoalVOForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
@@ -70,16 +83,20 @@ public class GoalServiceImpl implements GoalService {
 
 	@Override
 	public List<GoalVO> readChildrenGoalList(String id) {
-		List<GoalVO> childrenGoalList = this.goalDao.selectChildrenGoalList(id);
-		for ( GoalVO goalVO : childrenGoalList ) {
-			this.combineGoalVOForMongoToGoalVO(goalVO);
-		}
-		return childrenGoalList;
+		return this.combineGoalVOForMongoToGoalVOList(this.goalDao.selectChildrenGoalList(id));
 	}
 
 	@Override
 	public GoalVO readLatestModifyGoalByEmail(String email) {
 		return this.combineGoalVOForMongoToGoalVO(this.goalDao.selectLatestModifyGoalByEmail(email));
+	}
+	
+	@Override
+	public List<GoalVO> readGoalListByLevel(String email, int level) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("email", email);
+		param.put("level", level);
+		return this.combineGoalVOForMongoToGoalVOList(this.goalDao.selectGoalListByLevel(param));
 	}
 
 }

@@ -50,7 +50,21 @@
 
 	$().ready( function() {
 		
-		
+		$(".concernTag").click(function() {
+			var concernTag = $(this).data("tag");
+			$.post("/WeGo/member/concerntag/add"
+					, {
+						"concernTag" : concernTag
+					}
+					, function(response) {
+						if ( response.isSuccess ) {
+							alert("#" + concernTag + " 을(를) 관심태그에 추가하였습니다.");
+						}
+						else {
+							alert("오류가 발생하였습니다. \\n관리자에게 문의하세요.");
+						}
+					});
+		});
 		
 	});
 </script>
@@ -131,7 +145,7 @@
 									<li class="dropdown-header">#${tag }</li>
 									<li class="divider"></li>
 									<li><a href="#">채팅</a></li>
-									<li><a href="#">관심 태그 추가</a></li>
+									<li><a class="concernTag" href="#" data-tag="${tag}">관심 태그 추가</a></li>
 								</ul>
 							</li>
 						</ul>

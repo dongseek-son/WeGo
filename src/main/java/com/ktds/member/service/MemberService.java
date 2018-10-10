@@ -36,9 +36,11 @@ public interface MemberService {
 	
 	public boolean updateRegistDate(String email);
 
-	public void createMemberVOForMongo(MemberVOForMongo memberVOForMongo);
+	public boolean createMemberVOForMongo(MemberVOForMongo memberVOForMongo);
 	
-	public void modifyMemberVOForMongo(MemberVOForMongo memberVOForMongo);
+	public boolean modifyMemberVOForMongo(MemberVOForMongo memberVOForMongo);
+	
+	public boolean modifyMemberVOForMongoAddConcernTag(String email, String concernTag);
 	
 	public MemberVOForMongo readOneMemberVOForMongoByEmail(String email);
 	

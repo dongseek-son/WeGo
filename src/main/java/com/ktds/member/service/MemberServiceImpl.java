@@ -14,6 +14,7 @@ import com.ktds.member.dao.MemberDao;
 import com.ktds.member.dao.MemberDaoForMongo;
 import com.ktds.member.vo.EmailAuthVO;
 import com.ktds.member.vo.MemberVOForMongo;
+import com.mongodb.client.result.UpdateResult;
 import com.ktds.member.vo.MemberVO;
 
 @Service
@@ -127,13 +128,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void createMemberVOForMongo(MemberVOForMongo memberVOForMongo) {
-		this.memberDaoForMongo.insertMemberVOForMongo(memberVOForMongo);
+	public boolean createMemberVOForMongo(MemberVOForMongo memberVOForMongo) {
+		return this.memberDaoForMongo.insertMemberVOForMongo(memberVOForMongo) != null;
 	}
 	
 	@Override
-	public void modifyMemberVOForMongo(MemberVOForMongo memberVOForMongo) {
-		this.memberDaoForMongo.updateMemberVOForMongo(memberVOForMongo);
+	public boolean modifyMemberVOForMongo(MemberVOForMongo memberVOForMongo) {
+		return this.memberDaoForMongo.updateMemberVOForMongo(memberVOForMongo).getModifiedCount() > 0;
+	}
+	
+	@Override
+	public boolean modifyMemberVOForMongoAddConcernTag(String email, String concernTag) {
+		return this.memberDaoForMongo.upsertAddConcernTag(email, concernTag) != null;
 	}
 	
 	@Override
@@ -169,5 +175,5 @@ public class MemberServiceImpl implements MemberService {
 		memberVO.setTel(tel);
 		return this.memberDao.selectOneMemberByNameAndTel(memberVO);
 	}
-
+	
 }

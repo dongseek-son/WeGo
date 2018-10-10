@@ -14,7 +14,7 @@ $().ready(function() {
 			<a class="navbar-brand" href="#">WeGo</a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li><a href="/WeGo/mygoal/write">My Goal</a></li>
+			<li><a href="/WeGo/mygoal/detail">My Goal</a></li>
 			<li><a href="#">Our Goal</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">

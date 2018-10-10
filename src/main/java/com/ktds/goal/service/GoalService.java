@@ -17,4 +17,6 @@ public interface GoalService {
 	
 	public GoalVO readLatestModifyGoalByEmail(String email);
 	
+	public List<GoalVO> readGoalListByLevel(String email, int level);
+	
 }

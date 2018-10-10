@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -188,7 +189,7 @@ public class MemberController {
 		if( loginMemberVO != null ) {
 			session.setAttribute(Session.USER, loginMemberVO);
 			session.setAttribute(Session.CSRF, UUID.randomUUID().toString());
-			view.setViewName("redirect:/mygoal/write");
+			view.setViewName("redirect:/mygoal/detail");
 			return view;
 		}
 		else {
@@ -388,6 +389,19 @@ public class MemberController {
 		
 		result.put("status", "OK");
 		result.put("findEmailVO", findEmailVO );
+		
+		return result;
+	}
+	
+	@PostMapping("/member/concerntag/add")
+	@ResponseBody
+	public Map<String, Object> doTagAddAction(
+			@RequestParam String concernTag
+			, @SessionAttribute(value=Session.USER) MemberVO memberVO) {
+		Map<String, Object> result = new HashMap<>();
+		
+		result.put("status", "OK");
+		result.put("isSuccess", this.memberService.modifyMemberVOForMongoAddConcernTag(memberVO.getEmail(), concernTag) );
 		
 		return result;
 	}

@@ -141,5 +141,44 @@
 	)
 	WHERE	ROWNUM = 1
 </select>
+
+<select id="selectGoalListByLevel" parameterType="map" resultType="GoalVO">
+	SELECT  GL_ID id
+			, TTL title
+			, DTL detail
+			, PRNT_GL_ID parentGoalId
+			, EML email
+			, IS_SCCSS isSuccess
+			, IS_BLCK isBlock
+			, WRT_DT writeDate
+			, IS_OPN isOpen
+			, IS_DLT isDetail
+			, IS_DRBLTY isDurablity
+			, IS_BST isBoast
+			, MDFY_DT modifyDate
+			, MNG_ID mongoId
+	FROM    (
+	            SELECT  LEVEL lv
+	                    , GL_ID id
+						, TTL title
+						, DTL detail
+						, PRNT_GL_ID parentGoalId
+						, EML email
+						, IS_SCCSS isSuccess
+						, IS_BLCK isBlock
+						, WRT_DT writeDate
+						, IS_OPN isOpen
+						, IS_DLT isDetail
+						, IS_DRBLTY isDurablity
+						, IS_BST isBoast
+						, MDFY_DT modifyDate
+						, MNG_ID mongoId
+	            FROM    GL
+	            WHERE	EML = #{email}
+	            START   WITH PRNT_GL_ID is null
+	            CONNECT BY PRIOR GL_ID = PRNT_GL_ID
+	)
+	WHERE LV = #{level}
+</select>
 	
 </mapper>
