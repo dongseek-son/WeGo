@@ -1,5 +1,7 @@
 package com.ktds.goal.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.slf4j.Logger;
@@ -26,6 +28,26 @@ public class GoalDaoImpl extends SqlSessionDaoSupport implements GoalDao {
 	@Override
 	public int insertGoal(GoalVO goalVO) {
 		return this.getSqlSession().insert("GoalDao.insertGoal", goalVO);
+	}
+	
+	@Override
+	public GoalVO selectGoal(String id) {
+		return this.getSqlSession().selectOne("GoalDao.selectGoal", id);
+	}
+	
+	@Override
+	public GoalVO selectParentGoal(String id) {
+		return this.getSqlSession().selectOne("GoalDao.selectParentGoal", id);
+	}
+	
+	@Override
+	public List<GoalVO> selectChildrenGoalList(String id) {
+		return this.getSqlSession().selectList("GoalDao.selectChildrenGoalList", id);
+	}
+	
+	@Override
+	public GoalVO selectLatestModifyGoalByEmail(String email) {
+		return this.getSqlSession().selectOne("GoalDao.selectLatestModifyGoalByEmail", email);
 	}
 	
 }

@@ -16,6 +16,8 @@ public class GoalVO {
 	private boolean isBoast;
 	private String modifyDate;
 	private String mongoId;
+	
+	private GoalVOForMongo goalVOForMongo;
 
 	public String getId() {
 		return id;
@@ -127,6 +129,14 @@ public class GoalVO {
 
 	public void setMongoId(String mongoId) {
 		this.mongoId = mongoId;
+	}
+
+	public GoalVOForMongo getGoalVOForMongo() {
+		return goalVOForMongo;
+	}
+
+	public void setGoalVOForMongo(GoalVOForMongo goalVOForMongo) {
+		this.goalVOForMongo = goalVOForMongo;
 	}
 
 }

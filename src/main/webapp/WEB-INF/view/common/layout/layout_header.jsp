@@ -39,6 +39,6 @@ footer {
 		</c:choose>
 	</header>
 	<section class="inline">
-		<section>
+		<section style="margin-bottom: 70px;">
 			
 		

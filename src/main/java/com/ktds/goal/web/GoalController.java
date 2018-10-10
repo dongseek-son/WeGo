@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ktds.common.session.Session;
 import com.ktds.common.util.DownloadUtil;
 import com.ktds.goal.service.GoalService;
+import com.ktds.goal.vo.GoalVO;
 import com.ktds.goal.vo.GoalVOForForm;
 import com.ktds.member.vo.MemberVO;
 import com.nhncorp.lucy.security.xss.XssFilter;
@@ -45,8 +46,10 @@ public class GoalController {
 	private String uploadPath;
 	
 	@GetMapping("mygoal/write")
-	private String viewMyGoalWritePage() {
-		return "mygoal/write";
+	private ModelAndView viewMyGoalWritePage() {
+		ModelAndView view = new ModelAndView("mygoal/write");
+		view.addObject("parentGoal", this.goalService.readOneGoal("MS-2018101010-000007"));
+		return view;
 	}
 	
 	@PostMapping("mygoal/write")
@@ -123,6 +126,26 @@ public class GoalController {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
+	}
+	
+	@RequestMapping("/mygoal/detail")
+	public ModelAndView viewMyGoalDetailPage(@SessionAttribute(name=Session.USER) MemberVO memberVO) {
+		ModelAndView view = new ModelAndView("mygoal/detail");
+		GoalVO goalVO = this.goalService.readLatestModifyGoalByEmail(memberVO.getEmail());
+		view.addObject("goalVO", goalVO);
+		view.addObject("parentGoal", this.goalService.readParentGoal(goalVO.getId()));
+		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalVO.getId()));
+		return view;
+	}
+	
+	@RequestMapping("/mygoal/detail/{goalId}")
+	public ModelAndView viewMyGoalDetailPage(@PathVariable String goalId) {
+		ModelAndView view = new ModelAndView("mygoal/detail");
+		GoalVO goalVO = this.goalService.readOneGoal(goalId);
+		view.addObject("goalVO", goalVO);
+		view.addObject("parentGoal", this.goalService.readParentGoal(goalVO.getId()));
+		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalVO.getId()));
+		return view;
 	}
 	
 }

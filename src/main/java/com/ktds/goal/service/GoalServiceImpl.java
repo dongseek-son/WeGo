@@ -1,5 +1,7 @@
 package com.ktds.goal.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,10 +42,44 @@ public class GoalServiceImpl implements GoalService {
 		return goalVOForMongo;
 	}
 	
+	private GoalVO combineGoalVOForMongoToGoalVO(GoalVO goalVO) {
+	
+		if ( goalVO != null ) {
+			goalVO.setGoalVOForMongo(this.goalDaoForMongo.findGoalVOForMongo(goalVO.getMongoId()));
+		}
+		
+		return goalVO;
+	}
+	
 	@Override
 	public boolean createGoal(GoalVOForForm goalVOForForm) {
-		String mongoId = this.goalDaoForMongo.insertGoalDaoForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
+		String mongoId = this.goalDaoForMongo.insertGoalVOForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
 		return this.goalDao.insertGoal(this.separateGoalVOFromGoalVOForForm(goalVOForForm, mongoId)) > 0;
+	}
+	
+	@Override
+	public GoalVO readOneGoal(String id) {
+		GoalVO goalVO = this.goalDao.selectGoal(id);
+		return this.combineGoalVOForMongoToGoalVO(goalVO);
+	}
+
+	@Override
+	public GoalVO readParentGoal(String id) {
+		return this.combineGoalVOForMongoToGoalVO(this.goalDao.selectParentGoal(id));
+	}
+
+	@Override
+	public List<GoalVO> readChildrenGoalList(String id) {
+		List<GoalVO> childrenGoalList = this.goalDao.selectChildrenGoalList(id);
+		for ( GoalVO goalVO : childrenGoalList ) {
+			this.combineGoalVOForMongoToGoalVO(goalVO);
+		}
+		return childrenGoalList;
+	}
+
+	@Override
+	public GoalVO readLatestModifyGoalByEmail(String email) {
+		return this.combineGoalVOForMongoToGoalVO(this.goalDao.selectLatestModifyGoalByEmail(email));
 	}
 
 }

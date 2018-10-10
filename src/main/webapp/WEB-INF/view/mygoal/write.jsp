@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/view/common/layout/layout_header.jsp" />
 <style type="text/css">
 .goal-mini {
 	border: 1px solid;
+}
+.tag-div {
+	display: inline-block;
 }
 </style>
 <script type="text/javascript" src="/WeGo/js/ckeditor.js" charset="utf-8"></script>
@@ -32,9 +36,9 @@
 			                'alignRight'
 			            ]
 			        }
-				 } 
+				 }
 		);
-		
+		 
 		 var index = 1;
 		 
 		$("#append-tag").click(function() {
@@ -61,10 +65,12 @@
 	<div class="row">
     	<div class="col-sm-2">
     		<div class="goal-mini">
-    			<div>title</div>
-    			<div>date</div>
+    			<div>${parentGoal.title }</div>
+    			<div>${parentGoal.modifyDate }</div>
     			<div>progressbar</div>
-    			<div>hashtags</div>
+    			<c:forEach var="tag" items="${parentGoal.goalVOForMongo.tagList }">
+    				<div class="tag-div">#${tag } </div>
+    			</c:forEach>
     		</div>
     		<div>lv1</div>
     	</div>
