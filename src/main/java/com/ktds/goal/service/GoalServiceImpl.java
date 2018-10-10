@@ -43,8 +43,10 @@ public class GoalServiceImpl implements GoalService {
 	
 	@Override
 	public boolean createGoal(GoalVOForForm goalVOForForm) {
+		boolean isSuccess = this.goalDao.insertGoal(this.separateGoalVOFromGoalVOForForm(goalVOForForm)) > 0;
+		goalVOForForm.setId(this.goalDao.selectLatestModifyGoalIdByEmail(goalVOForForm.getEmail()));
 		this.goalDaoForMongo.insertGoalDaoForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
-		return this.goalDao.insertGoal(this.separateGoalVOFromGoalVOForForm(goalVOForForm)) > 0;
+		return isSuccess;
 	}
 
 }

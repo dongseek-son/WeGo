@@ -72,8 +72,7 @@ public class GoalController {
 
 	@RequestMapping("mygoal/imageupload")
 	@ResponseBody
-	public Map<String, Object> imageUpload(MultipartHttpServletRequest multiFile
-			, HttpServletRequest req) throws Exception {
+	public Map<String, Object> imageUpload(MultipartHttpServletRequest multiFile) throws Exception {
 		Map<String, Object> result = new HashMap<>();
 		MultipartFile uploadFile = multiFile.getFile("upload");
 

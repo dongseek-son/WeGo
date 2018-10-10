@@ -4,6 +4,8 @@ import com.ktds.goal.vo.GoalVO;
 
 public interface GoalDao {
 
-	public int insertGoal(GoalVO goalVO);	
+	public int insertGoal(GoalVO goalVO);
+	
+	public String selectLatestModifyGoalIdByEmail(String email);
 	
 }

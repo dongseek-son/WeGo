@@ -19,6 +19,7 @@ private Logger logger = LoggerFactory.getLogger(MemberDaoForMongoImpl.class);
 
 	@Override
 	public void insertGoalDaoForMongo(GoalVOForMongo goalVOForMongo) {
+		System.out.println(goalVOForMongo.toString());
 		this.mongoTemplate.insert(goalVOForMongo, "goal");
 	}
 

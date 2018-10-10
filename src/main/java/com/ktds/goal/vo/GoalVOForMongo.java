@@ -12,6 +12,14 @@ public class GoalVOForMongo {
 	private String goalId;
 	private List<String> tagList;
 	private List<String> recomendEmailList;
+	
+	
+
+	@Override
+	public String toString() {
+		return "GoalVOForMongo [id=" + id + ", goalId=" + goalId + ", tagList=" + tagList + ", recomendEmailList="
+				+ recomendEmailList + "]";
+	}
 
 	public String getId() {
 		return id;
