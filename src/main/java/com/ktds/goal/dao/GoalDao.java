@@ -19,4 +19,6 @@ public interface GoalDao {
 	
 	public List<GoalVO> selectGoalListByLevel(Map<String, Object> param);
 	
+	public GoalVO selectGoalByMongoId(String mongoId);
+	
 }

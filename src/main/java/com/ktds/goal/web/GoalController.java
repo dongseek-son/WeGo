@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -48,6 +49,10 @@ public class GoalController {
 	@GetMapping("mygoal/write")
 	private ModelAndView viewMyGoalWritePage() {
 		ModelAndView view = new ModelAndView("mygoal/write");
+		List<GoalVO> goalVOList = this.goalService.readGoalVOListByTag("2");
+		for ( GoalVO goalVO : goalVOList ) {
+			System.out.println(goalVO.toString());
+		}
 		view.addObject("parentGoal", this.goalService.readOneGoal("MS-2018101010-000007"));
 		return view;
 	}

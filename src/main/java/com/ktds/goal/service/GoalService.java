@@ -19,4 +19,6 @@ public interface GoalService {
 	
 	public List<GoalVO> readGoalListByLevel(String email, int level);
 	
+	public List<GoalVO> readGoalVOListByTag(String tag);
+	
 }

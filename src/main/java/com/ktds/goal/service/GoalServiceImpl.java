@@ -1,5 +1,6 @@
 package com.ktds.goal.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,4 +100,20 @@ public class GoalServiceImpl implements GoalService {
 		return this.combineGoalVOForMongoToGoalVOList(this.goalDao.selectGoalListByLevel(param));
 	}
 
+	@Override
+	public List<GoalVO> readGoalVOListByTag(String tag) {
+		List<GoalVOForMongo> goalVOForMongoList = this.goalDaoForMongo.findGoalVOForMongoListByTag(tag);
+		
+		if ( goalVOForMongoList.size() > 0 ) {
+			List<GoalVO> goalVOList = new ArrayList<GoalVO>();
+			for ( GoalVOForMongo goalVOForMongo : goalVOForMongoList ) {
+				GoalVO goalVO = this.goalDao.selectGoalByMongoId(goalVOForMongo.getId());
+				goalVO.setGoalVOForMongo(goalVOForMongo);
+				goalVOList.add(goalVO);
+			}
+			return goalVOList;			
+		}
+		return null;
+	}
+	
 }

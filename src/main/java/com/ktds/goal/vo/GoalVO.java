@@ -19,6 +19,15 @@ public class GoalVO {
 	
 	private GoalVOForMongo goalVOForMongo;
 
+	@Override
+	public String toString() {
+		return "GoalVO [id=" + id + ", title=" + title + ", detail=" + detail + ", parentGoalId=" + parentGoalId
+				+ ", email=" + email + ", isSuccess=" + isSuccess + ", isBlock=" + isBlock + ", writeDate=" + writeDate
+				+ ", isOpen=" + isOpen + ", isDelete=" + isDelete + ", isDurablity=" + isDurablity + ", isBoast="
+				+ isBoast + ", modifyDate=" + modifyDate + ", mongoId=" + mongoId + ", goalVOForMongo=" + goalVOForMongo
+				+ "]";
+	}
+
 	public String getId() {
 		return id;
 	}

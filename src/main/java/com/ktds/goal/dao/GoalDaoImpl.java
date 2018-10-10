@@ -56,4 +56,9 @@ public class GoalDaoImpl extends SqlSessionDaoSupport implements GoalDao {
 		return this.getSqlSession().selectList("GoalDao.selectGoalListByLevel", param);
 	}
 	
+	@Override
+	public GoalVO selectGoalByMongoId(String mongoId) {
+		return this.getSqlSession().selectOne("GoalDao.selectGoalByMongoId", mongoId);
+	}
+	
 }
