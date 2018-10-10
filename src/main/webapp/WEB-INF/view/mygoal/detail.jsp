@@ -15,11 +15,33 @@
 	width: 100%;
 	min-height: 700px;
 }
-#title-date-div, #info-div > div {
+#title-bar div {
 	display: inline-block;
+	font-size: 24px;
 }
 #info-div {
 	float: right;
+}
+.tag-ul {
+	list-style: none;
+	padding: 0px;
+	display: inline-block;
+}
+.dropdown-menu-tag {
+	background-color: #90C226;
+}
+.dropdown-menu-tag .dropdown-header {
+	font-size: 17px;
+}
+.dropdown-menu-tag .divider {
+	margin: 4px 0 9px 0;
+}
+.dropdown-menu-tag > li > a {
+	color: #22741C;
+}
+.dropdown-menu-tag > li > a:hover, .dropdown-menu > li > a:focus {
+	color: #90C226;
+	background-color: #22741C;
 }
 </style>
 <script type="text/javascript" src="/WeGo/js/ckeditor.js" charset="utf-8"></script>
@@ -43,7 +65,19 @@
 		    			<div>${parentGoal.modifyDate }</div>
 		    			<div>progressbar</div>
 		    			<c:forEach var="tag" items="${parentGoal.goalVOForMongo.tagList }">
-		    				<div class="tag-div">#${tag } </div>
+		    				<ul class="tag-ul">
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<div class="tag-div">#${tag } </div>
+									</a>
+									<ul class="dropdown-menu dropdown-menu-tag">
+										<li class="dropdown-header">#${tag }</li>
+										<li class="divider"></li>
+										<li><a href="#">채팅</a></li>
+										<li><a href="#">관심 태그 추가</a></li>
+									</ul>
+								</li>
+							</ul>
 		    			</c:forEach>
 		    		</div>
     			</c:when>
@@ -59,36 +93,48 @@
     		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
 			<div id="detail">
 				<div id="title-bar">
-					<div id="title-date-div">
-						<div id="title-div">
-							<span>${goalVO.title }</span>
-						</div>
+					<div id="title-div">
+						<span>${goalVO.title }</span>
+					</div>
+					<div id="info-div">
+						<c:if test="${!goalVO.isOpen() }">
+							<div>
+								<span class="glyphicon glyphicon-lock" title="비공개"></span>
+							</div>
+						</c:if>
+						<c:if test="${goalVO.isDurablity() }">
+							<div>
+								<span class="glyphicon glyphicon-repeat" title="지속성"></span>
+							</div>
+						</c:if>
+					</div>
+				</div>
+				<div id="title-date-div">
 						<div>
 							<span>작성일 : ${goalVO.writeDate }</span>
 						</div>
 						<div>
 							<span>최근수정일 : ${goalVO.modifyDate }</span>
 						</div>						
-					</div>
-					<div id="info-div">
-						<c:if test="${!goalVO.isOpen() }">
-							<div>
-								<h4><span class="glyphicon glyphicon-lock" title="비공개"></span></h4>
-							</div>
-						</c:if>
-						<c:if test="${goalVO.isDurablity() }">
-							<div>
-								<h4><span class="glyphicon glyphicon-repeat" title="지속성"></span></h4>
-							</div>
-						</c:if>
-					</div>
 				</div>
 				<div id="detail-div">
 					<span>${goalVO.detail }</span>
 				</div>
 				<div id="hashtags-div">
 					<c:forEach var="tag" items="${goalVO.goalVOForMongo.tagList }">
-		    				<div class="tag-div">#${tag } </div>
+		    			<ul class="tag-ul">
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									<div class="tag-div">#${tag } </div>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-tag">
+									<li class="dropdown-header">#${tag }</li>
+									<li class="divider"></li>
+									<li><a href="#">채팅</a></li>
+									<li><a href="#">관심 태그 추가</a></li>
+								</ul>
+							</li>
+						</ul>
 		    		</c:forEach>
 				</div>
 				<div>
@@ -105,7 +151,19 @@
 			    			<div>${childGoal.modifyDate }</div>
 			    			<div>progressbar</div>
 			    			<c:forEach var="tag" items="${childGoal.goalVOForMongo.tagList }">
-			    				<div class="tag-div">#${tag } </div>
+			    				<ul class="tag-ul">
+									<li class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+											<div class="tag-div">#${tag } </div>
+										</a>
+										<ul class="dropdown-menu dropdown-menu-tag">
+											<li class="dropdown-header">#${tag }</li>
+											<li class="divider"></li>
+											<li><a href="#">채팅</a></li>
+											<li><a href="#">관심 태그 추가</a></li>
+										</ul>
+									</li>
+								</ul>
 			    			</c:forEach>
 			    		</div>
 	  				</c:forEach>
