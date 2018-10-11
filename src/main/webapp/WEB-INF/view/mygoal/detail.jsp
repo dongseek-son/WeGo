@@ -43,9 +43,21 @@
 	color: #90C226;
 	background-color: #22741C;
 }
+#detail-hashtags-div {
+	border: 2px solid #90C226;
+	min-height: 500px;
+	position: relative;
+}
+#hashtags-div {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	border-top: 1px dashed #999;
+	padding: 10px 10px 0px 10px ;
+}
+
 </style>
-<script type="text/javascript" src="/WeGo/js/ckeditor.js" charset="utf-8"></script>
-<script type="text/javascript" src="/WeGo/js/translations/ko.js" charset="utf-8"></script>
+
 <script type="text/javascript">
 
 	$().ready( function() {
@@ -88,7 +100,7 @@
 										<li class="dropdown-header">#${tag }</li>
 										<li class="divider"></li>
 										<li><a href="#">채팅</a></li>
-										<li><a href="#">관심 태그 추가</a></li>
+										<li><a class="concernTag" href="#" data-tag="${tag}">관심 태그 추가</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -123,33 +135,31 @@
 						</c:if>
 					</div>
 				</div>
-				<div id="title-date-div">
-						<div>
-							<span>작성일 : ${goalVO.writeDate }</span>
-						</div>
-						<div>
-							<span>최근수정일 : ${goalVO.modifyDate }</span>
-						</div>						
+				<div id="date-div">
+					<span>작성일 : ${goalVO.writeDate } / </span>
+					<span>최근수정일 : ${goalVO.modifyDate }</span>			
 				</div>
-				<div id="detail-div">
-					<span>${goalVO.detail }</span>
-				</div>
-				<div id="hashtags-div">
-					<c:forEach var="tag" items="${goalVO.goalVOForMongo.tagList }">
-		    			<ul class="tag-ul">
-							<li class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-									<div class="tag-div">#${tag } </div>
-								</a>
-								<ul class="dropdown-menu dropdown-menu-tag">
-									<li class="dropdown-header">#${tag }</li>
-									<li class="divider"></li>
-									<li><a href="#">채팅</a></li>
-									<li><a class="concernTag" href="#" data-tag="${tag}">관심 태그 추가</a></li>
-								</ul>
-							</li>
-						</ul>
-		    		</c:forEach>
+				<div id="detail-hashtags-div">
+					<div id="detail-div" class="cke_editable cke_editable_themed cke_contents_ltr cke_show_borders">
+						${goalVO.detail }
+					</div>
+					<div id="hashtags-div">
+						<c:forEach var="tag" items="${goalVO.goalVOForMongo.tagList }">
+			    			<ul class="tag-ul">
+								<li class="dropup">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<div class="tag-div">#${tag } </div>
+									</a>
+									<ul class="dropdown-menu dropdown-menu-tag">
+										<li><a href="#">채팅</a></li>
+										<li><a class="concernTag" href="#" data-tag="${tag}">관심 태그 추가</a></li>
+										<li class="divider"></li>
+										<li class="dropdown-header">#${tag }</li>
+									</ul>
+								</li>
+							</ul>
+			    		</c:forEach>
+					</div>
 				</div>
 				<div>
 				
@@ -174,7 +184,7 @@
 											<li class="dropdown-header">#${tag }</li>
 											<li class="divider"></li>
 											<li><a href="#">채팅</a></li>
-											<li><a href="#">관심 태그 추가</a></li>
+											<li><a class="concernTag" href="#" data-tag="${tag}">관심 태그 추가</a></li>
 										</ul>
 									</li>
 								</ul>

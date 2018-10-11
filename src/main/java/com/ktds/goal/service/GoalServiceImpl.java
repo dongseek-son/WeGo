@@ -1,10 +1,12 @@
 package com.ktds.goal.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,7 @@ public class GoalServiceImpl implements GoalService {
 		GoalVOForMongo goalVOForMongo = new GoalVOForMongo();
 		
 		goalVOForMongo.setTagList(goalVOForForm.getTagList());
+		goalVOForMongo.setModifyDate(new DateTime().plusHours(9));
 		
 		return goalVOForMongo;
 	}

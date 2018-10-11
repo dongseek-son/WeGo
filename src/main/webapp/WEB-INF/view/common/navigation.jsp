@@ -8,7 +8,7 @@ $().ready(function() {
 	});
 });
 </script>
-<nav class="navbar navbar-wego">
+<nav class="navbar navbar-wego navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">WeGo</a>

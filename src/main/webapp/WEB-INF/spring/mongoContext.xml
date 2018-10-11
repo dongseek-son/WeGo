@@ -19,4 +19,6 @@
 		<constructor-arg name="databaseName" value="wego" />
 	</bean>
 
+<!--  	<mongo:repositories base-package="com.ktds" /> -->
+	
 </beans>

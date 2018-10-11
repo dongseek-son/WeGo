@@ -8,6 +8,14 @@
 <meta charset="UTF-8">
 <title>Going Together - WeGo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/scayt/skins/moono-lisa/scayt.css">
+<link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/scayt/dialogs/dialog.css">
+<link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/tableselection/styles/tableselection.css">
+<link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/wsc/skins/moono-lisa/wsc.css">
+<link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/copyformatting/styles/copyformatting.css">
+<!-- <link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/wsc/dialogs/wsc.css"> -->
+<link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/templates/dialogs/templates.css">
+<link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/colordialog/dialogs/colordialog.css">
 <link rel="stylesheet" href="/WeGo/css/bootstrap.css">
 <style type="text/css">
 .container {
@@ -20,6 +28,9 @@ footer {
 	bottom: 0px;
 	width: 100%;
 	height: 50px;
+}
+#body-wrapper {
+	margin-top: 60px;
 }
 </style>
 <script src="/WeGo/js/jquery-3.3.1.min.js" type="text/javascript"></script>
@@ -38,7 +49,7 @@ footer {
 			</c:otherwise>
 		</c:choose>
 	</header>
-	<section class="inline">
-		<section style="margin-bottom: 70px;">
+	<section id="body-wrapper">
+		<section style="margin-bottom: 48px;">
 			
 		

@@ -12,13 +12,21 @@
 	display: inline-block;
 }
 </style>
-<script type="text/javascript" src="/WeGo/js/ckeditor.js" charset="utf-8"></script>
-<script type="text/javascript" src="/WeGo/js/translations/ko.js" charset="utf-8"></script>
+<script type="text/javascript" src="/WeGo/js/ckeditor/ckeditor.js" charset="utf-8"></script>
+<script type="text/javascript" src="/WeGo/js/ckeditor/lang/ko.js" charset="utf-8"></script>
 <script type="text/javascript">
 
 	$().ready( function() {
 		
-		 ClassicEditor.create(
+		CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
+		CKEDITOR.config.height = 280;
+		CKEDITOR.config.uiColor = '#90C226';
+		CKEDITOR.replace('editor',{
+			filebrowserUploadUrl: 'http://localhost:8080/WeGo/mygoal/imageupload'
+		});
+
+		
+/* 		 ClassicEditor.create(
 				 document.querySelector( '#editor' ), {
 					 language: 'ko'
 		             , ckfinder: {
@@ -37,7 +45,7 @@
 			            ]
 			        }
 				 }
-		);
+		); */
 		 
 		 var index = 1;
 		 
