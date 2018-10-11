@@ -139,6 +139,12 @@ public class GoalController {
 	public ModelAndView viewMyGoalDetailPage(@SessionAttribute(name=Session.USER) MemberVO memberVO) {
 		ModelAndView view = new ModelAndView("mygoal/detail");
 		GoalVO goalVO = this.goalService.readLatestModifyGoalByEmail(memberVO.getEmail());
+		if ( goalVO == null ) {
+			view.setViewName("mygoal/write");
+			view.addObject("noGoal", true);
+//			view.addObject("message", "등록된 목표가 없습니다. \\n첫 목표를 등록해주세요.");
+			return view;
+		}
 		view.addObject("goalVO", goalVO);
 		view.addObject("parentGoal", this.goalService.readParentGoal(goalVO.getId()));
 		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalVO.getId()));

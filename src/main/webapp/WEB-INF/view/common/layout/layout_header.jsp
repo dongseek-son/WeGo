@@ -35,6 +35,16 @@ footer {
 </style>
 <script src="/WeGo/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="/WeGo/js/bootstrap.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var message = "${param.message}";
+	if ( message != "" ) {
+		alert(message);
+	}
+	var message = "${message}";
+	if ( message != "" ) {
+		alert(message);
+	}
+</script>
 </head>
 <body>
 

@@ -13,7 +13,8 @@
 }
 #detail {
 	width: 100%;
-	min-height: 700px;
+	border: 2px solid #90C226;
+	background-color: #F2FFED;
 }
 #title-bar div {
 	display: inline-block;
@@ -44,9 +45,9 @@
 	background-color: #22741C;
 }
 #detail-hashtags-div {
-	border: 2px solid #90C226;
 	min-height: 500px;
 	position: relative;
+	border-top: 1px dashed #999;
 }
 #hashtags-div {
 	position: absolute;
@@ -55,7 +56,6 @@
 	border-top: 1px dashed #999;
 	padding: 10px 10px 0px 10px ;
 }
-
 </style>
 
 <script type="text/javascript">
@@ -160,9 +160,6 @@
 							</ul>
 			    		</c:forEach>
 					</div>
-				</div>
-				<div>
-				
 				</div>
 			</div>
     	</div>

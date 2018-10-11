@@ -18,6 +18,10 @@
 
 	$().ready( function() {
 		
+		if ( ${noGoal} ) {
+			$("#noGoalModal").modal();
+		}
+		
 		CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
 		CKEDITOR.config.height = 280;
 		CKEDITOR.config.uiColor = '#90C226';
@@ -115,5 +119,29 @@
   		</div>
   	</div>
 </div>
+
+<!-- Modal -->
+  <div class="modal fade" id="noGoalModal" role="dialog">
+    <div class="modal-dialog">  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title text-center">WeGo에 오신 것을 환영합니다.</h4>
+        </div>
+        <div class="modal-body text-center">
+        	<span>
+        		안녕하세요. ${sessionScope._USER_.name } 님.<br>
+        		WeGo에 오신 것을 환영합니다.<br><br>
+        		아직 등록하신 목표가 없으시군요.<br><br>
+        		새로운 목표를 등록하여<br> WeGo와 함께 원하시는 목표를 꼭 성취하시길 바랍니다.<br> 
+        	</span>
+        </div>
+        <div class="modal-footer">
+			<input type="button" id="noGoalBtn" class="btn btn-block btn-success" data-dismiss="modal" value="목표 등록하러 가기">
+        </div>
+      </div>
+    </div>
+  </div>
 
 <jsp:include page="/WEB-INF/view/common/layout/layout_footer.jsp" />
