@@ -15,7 +15,7 @@
 			<div id="email-group" class="form-group email-groups">
 				<div class="input-group">
 			  	  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-			  	  <input type="email" id="email" name="email" placeholder="이메일 입력" class="form-control emails" value="${memberVO.email }"/>
+			  	  <input type="email" id="email" name="email" placeholder="이메일 입력" class="form-control emails" value="${registVO.email }"/>
 			  	  <span id="email-icon" class="email-icons"></span>
 			 	</div>
 			 	<span id="email-check" class="help-block email-checks"></span>
@@ -39,7 +39,7 @@
 			<div id="name-group" class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<input type="text" id="name" name="name" placeholder="이름 입력" class="form-control" value="${memberVO.name }"/>
+					<input type="text" id="name" name="name" placeholder="이름 입력" class="form-control" value="${registVO.name }"/>
 					<span id="name-icon"></span>
 				</div>
 				<span id="name-check" class="help-block"></span>
@@ -47,7 +47,7 @@
 			<div id="tel-group" class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-					<input type="tel" id="tel" name="tel" placeholder="전화번호 입력" class="form-control tels" value="${memberVO.tel }"/>
+					<input type="tel" id="tel" name="tel" placeholder="전화번호 입력" class="form-control tels" value="${registVO.tel }"/>
 					<span id="tel-icon" class="tel-icons"></span>
 				</div>
 				<span id="tel-check" class="help-block"></span>

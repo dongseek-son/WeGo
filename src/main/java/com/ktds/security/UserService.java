@@ -61,7 +61,9 @@ public class UserService implements AuthenticationProvider{
 		else {
 			MemberVO memberVOByEmail = this.memberService.readOneMemberByEmail(email);
 			if ( memberVOByEmail != null) {
-				this.memberService.increaseLoginFailCount(memberVOByEmail);
+				if ( !this.memberService.isLoginBlock(email) ) {
+					this.memberService.increaseLoginFailCount(memberVOByEmail);
+				}
 			}
 			throw new BadCredentialsException("잘못된 인증");
 		}

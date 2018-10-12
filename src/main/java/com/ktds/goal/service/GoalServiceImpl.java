@@ -48,65 +48,23 @@ public class GoalServiceImpl implements GoalService {
 		return goalVOForMongo;
 	}
 	
-	private GoalVO combineGoalVOForMongoToGoalVO(GoalVO goalVO) {
-	
+	private GoalVO combineGoalVO(GoalVO goalVO) {
 		if ( goalVO != null ) {
 			goalVO.setGoalVOForMongo(this.goalDaoForMongo.findGoalVOForMongo(goalVO.getMongoId()));
 		}
-		
 		return goalVO;
 	}
 	
-	private List<GoalVO> combineGoalVOForMongoToGoalVOList(List<GoalVO> goalVOList) {
-		
+	private List<GoalVO> combineGoalVOList(List<GoalVO> goalVOList) {
 		if ( goalVOList.size() > 0 ) {
 			for ( GoalVO goalVO : goalVOList ) {
-				this.combineGoalVOForMongoToGoalVO(goalVO);
+				this.combineGoalVO(goalVO);
 			}
 		}
-		
 		return goalVOList;
 	}
 	
-	@Override
-	public boolean createGoal(GoalVOForForm goalVOForForm) {
-		String mongoId = this.goalDaoForMongo.insertGoalVOForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
-		return this.goalDao.insertGoal(this.separateGoalVOFromGoalVOForForm(goalVOForForm, mongoId)) > 0;
-	}
-	
-	@Override
-	public GoalVO readOneGoal(String id) {
-		GoalVO goalVO = this.goalDao.selectGoal(id);
-		return this.combineGoalVOForMongoToGoalVO(goalVO);
-	}
-
-	@Override
-	public GoalVO readParentGoal(String id) {
-		return this.combineGoalVOForMongoToGoalVO(this.goalDao.selectParentGoal(id));
-	}
-
-	@Override
-	public List<GoalVO> readChildrenGoalList(String id) {
-		return this.combineGoalVOForMongoToGoalVOList(this.goalDao.selectChildrenGoalList(id));
-	}
-
-	@Override
-	public GoalVO readLatestModifyGoalByEmail(String email) {
-		return this.combineGoalVOForMongoToGoalVO(this.goalDao.selectLatestModifyGoalByEmail(email));
-	}
-	
-	@Override
-	public List<GoalVO> readGoalListByLevel(String email, int level) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("email", email);
-		param.put("level", level);
-		return this.combineGoalVOForMongoToGoalVOList(this.goalDao.selectGoalListByLevel(param));
-	}
-
-	@Override
-	public List<GoalVO> readGoalVOListByTag(String tag) {
-		List<GoalVOForMongo> goalVOForMongoList = this.goalDaoForMongo.findGoalVOForMongoListByTag(tag);
-		
+	private List<GoalVO> combineGoalVOListByGoalVOForMongoList(List<GoalVOForMongo> goalVOForMongoList) {
 		if ( goalVOForMongoList.size() > 0 ) {
 			List<GoalVO> goalVOList = new ArrayList<GoalVO>();
 			for ( GoalVOForMongo goalVOForMongo : goalVOForMongoList ) {
@@ -117,6 +75,53 @@ public class GoalServiceImpl implements GoalService {
 			return goalVOList;			
 		}
 		return null;
+	}
+	
+	
+	
+	@Override
+	public boolean createGoal(GoalVOForForm goalVOForForm) {
+		String mongoId = this.goalDaoForMongo.insertGoalVOForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
+		return this.goalDao.insertGoal(this.separateGoalVOFromGoalVOForForm(goalVOForForm, mongoId)) > 0;
+	}
+	
+	@Override
+	public GoalVO readOneGoal(String id) {
+		GoalVO goalVO = this.goalDao.selectGoal(id);
+		return this.combineGoalVO(goalVO);
+	}
+
+	@Override
+	public GoalVO readParentGoal(String id) {
+		return this.combineGoalVO(this.goalDao.selectParentGoal(id));
+	}
+
+	@Override
+	public List<GoalVO> readChildrenGoalList(String id) {
+		return this.combineGoalVOList(this.goalDao.selectChildrenGoalList(id));
+	}
+
+	@Override
+	public GoalVO readLatestModifyGoalByEmail(String email) {
+		return this.combineGoalVO(this.goalDao.selectLatestModifyGoalByEmail(email));
+	}
+	
+	@Override
+	public List<GoalVO> readGoalListByLevel(String email, int level) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("email", email);
+		param.put("level", level);
+		return this.combineGoalVOList(this.goalDao.selectGoalListByLevel(param));
+	}
+
+	@Override
+	public List<GoalVO> readGoalVOListByTag(String tag) {
+		return this.combineGoalVOListByGoalVOForMongoList(this.goalDaoForMongo.findGoalVOForMongoListByTag(tag));
+	}
+	
+	@Override
+	public List<GoalVO> readGoalVOListByTag(String tag, int page, int size) {
+		return this.combineGoalVOListByGoalVOForMongoList(this.goalDaoForMongo.findGoalVOForMongoListByTag(tag, page, size));
 	}
 	
 }

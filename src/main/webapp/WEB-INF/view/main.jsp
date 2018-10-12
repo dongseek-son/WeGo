@@ -16,7 +16,7 @@
 <script type="text/javascript">
 $().ready(function() {
 	
-	if ( ${not empty memberVO} ) {
+	if ( ${not empty registVO} ) {
 		$("#email").keyup();
 		$("#email").blur();
 		$("#name").keyup();

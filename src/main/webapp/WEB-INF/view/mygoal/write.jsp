@@ -28,28 +28,6 @@
 		CKEDITOR.replace('editor',{
 			filebrowserUploadUrl: 'http://localhost:8080/WeGo/mygoal/imageupload'
 		});
-
-		
-/* 		 ClassicEditor.create(
-				 document.querySelector( '#editor' ), {
-					 language: 'ko'
-		             , ckfinder: {
-		                  uploadUrl: 'http://localhost:8080/WeGo/mygoal/imageupload'
-		              }
-				 	, image: {
-			            // You need to configure the image toolbar, too, so it uses the new style buttons.
-			            toolbar: [ 'imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight' ]
-			            , styles: [
-			                // This option is equal to a situation where no style is applied.
-			                'full',
-			                // This represents an image aligned to the left.
-			                'alignLeft',
-			                // This represents an image aligned to the right.
-			                'alignRight'
-			            ]
-			        }
-				 }
-		); */
 		 
 		 var index = 1;
 		 
@@ -76,7 +54,7 @@
 <div class="container">
 	<div class="row">
     	<div class="col-sm-2">
-    		<div class="goal-mini">
+    		<%-- <div class="goal-mini">
     			<div>${parentGoal.title }</div>
     			<div>${parentGoal.modifyDate }</div>
     			<div>progressbar</div>
@@ -84,7 +62,7 @@
     				<div class="tag-div">#${tag } </div>
     			</c:forEach>
     		</div>
-    		<div>lv1</div>
+    		<div>lv1</div> --%>
     	</div>
     	<div class="col-sm-8">
     		<form:form action="/WeGo/mygoal/write" method="post">
@@ -101,6 +79,9 @@
 				<div id="title-div">
 					<input type="text" id="title" name="title" class="form-control" placeholder="제목 입력">
 				</div>
+				<div id="preview-div">
+					<textarea name="preview" id="editor-preview"></textarea>
+				</div>
 				<div id="detail-div">
 					<textarea name="detail" id="editor"></textarea>
 				</div>
@@ -115,7 +96,7 @@
 			</form:form>
     	</div>
   		<div class="col-sm-2">
-  			children
+  			<!-- children -->
   		</div>
   	</div>
 </div>

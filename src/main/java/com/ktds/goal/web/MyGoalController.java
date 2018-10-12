@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -40,7 +41,7 @@ import io.github.seccoding.web.mimetype.ExtensionFilterFactory;
 
 @Controller
 @RestController
-public class GoalController {
+public class MyGoalController {
 	
 	@Autowired
 	private GoalService goalService;
@@ -51,11 +52,7 @@ public class GoalController {
 	@GetMapping("mygoal/write")
 	private ModelAndView viewMyGoalWritePage() {
 		ModelAndView view = new ModelAndView("mygoal/write");
-		List<GoalVO> goalVOList = this.goalService.readGoalVOListByTag("2");
-		for ( GoalVO goalVO : goalVOList ) {
-			System.out.println(goalVO.toString());
-		}
-		view.addObject("parentGoal", this.goalService.readOneGoal("MS-2018101010-000007"));
+		view.addObject("noGoal", false);
 		return view;
 	}
 	
@@ -158,6 +155,26 @@ public class GoalController {
 		view.addObject("goalVO", goalVO);
 		view.addObject("parentGoal", this.goalService.readParentGoal(goalVO.getId()));
 		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalVO.getId()));
+		return view;
+	}
+	
+	@RequestMapping("ourgoal/list/tag")
+	@ResponseBody
+	public Map<String, Object> doListPageByTagAction(@RequestParam String tag, @RequestParam int page) {
+		Map<String, Object> result = new HashMap<>();
+		List<GoalVO> goalVOList = this.goalService.readGoalVOListByTag(tag, page, 2);
+		result.put("status", "OK");
+		result.put("goalVOList", goalVOList);
+		return result;
+	}
+	
+	@RequestMapping("/mygoal/test")
+	public ModelAndView doTestAction() {
+		ModelAndView view = new ModelAndView("test");
+		String tag = "2";
+		List<GoalVO> goalVOList = this.goalService.readGoalVOListByTag(tag, 0, 2);
+		view.addObject("tag", tag);
+		view.addObject("goalVOList", goalVOList);
 		return view;
 	}
 	

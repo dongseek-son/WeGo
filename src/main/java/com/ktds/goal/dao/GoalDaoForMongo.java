@@ -12,4 +12,6 @@ public interface GoalDaoForMongo {
 	
 	public List<GoalVOForMongo> findGoalVOForMongoListByTag(String tag);
 	
+	public List<GoalVOForMongo> findGoalVOForMongoListByTag(String tag, int page, int size);
+	
 }

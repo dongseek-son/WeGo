@@ -72,7 +72,7 @@ public class MemberController {
 		
 		if ( errors.hasErrors() ) {
 			ModelAndView view = new ModelAndView("main");
-			view.addObject("memberVO", memberVO);
+			view.addObject("registVO", memberVO);
 			return view;
 		}
 		

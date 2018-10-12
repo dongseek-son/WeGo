@@ -21,4 +21,6 @@ public interface GoalService {
 	
 	public List<GoalVO> readGoalVOListByTag(String tag);
 	
+	public List<GoalVO> readGoalVOListByTag(String tag, int page, int size);
+	
 }
