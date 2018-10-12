@@ -56,8 +56,11 @@
 	border-top: 1px dashed #999;
 	padding: 10px 10px 0px 10px ;
 }
+#button-div {
+	text-align: center;
+	margin-top: 5px;
+}
 </style>
-
 <script type="text/javascript">
 
 	$().ready( function() {
@@ -77,6 +80,10 @@
 						}
 					});
 		});
+		
+		$("#replyBtn").click( function() {
+			$("#replyModal").modal({backdrop: "static"});
+		} );
 		
 	});
 </script>
@@ -163,6 +170,7 @@
 				</div>
 			</div>
 			<div id="button-div">
+				<input type="button" id="replyBtn" class="btn btn-success" value="댓글 보기" />
 				<input type="button" id="writeChildBtn" class="btn btn-success" value="하위 목표 만들기" />
 				<input type="button" id="modifyBtn" class="btn btn-success" value="목표 업데이트" />
 				<input type="button" id="deleteBtn" class="btn btn-warning" value="목표 삭제" />
@@ -203,5 +211,54 @@
   		</div>
   	</div>
 </div>
+
+<!-- Modal -->
+  <div class="modal fade" id="replyModal" role="dialog">
+    <div class="modal-dialog">  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title text-center">${goalVO.title }</h4>
+        </div>
+        <div class="modal-body">
+        	<div class="reply-div">
+        		<!-- Media top -->
+				<div class="media">
+				  <div class="media-left media-top">
+				    <img src="/WeGo/member/profiledownload/${sessionScope._USER_.profileFilename }" class="media-object" style="width:45px">
+				  </div>
+				  <div class="media-body">
+				    <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+				    <p>Lorem ipsum...</p>
+				    <div class="media">
+					  <div class="media-left media-top">
+					    <img src="/WeGo/member/profiledownload/${sessionScope._USER_.profileFilename }" class="media-object" style="width:45px">
+					  </div>
+					  <div class="media-body">
+					    <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+					    <p>Lorem ipsum...</p>
+					  </div>
+					</div>
+				  </div>
+				</div>
+				<div class="media">
+				  <div class="media-left media-top">
+				    <img src="/WeGo/member/profiledownload/${sessionScope._USER_.profileFilename }" class="media-object" style="width:45px">
+				  </div>
+				  <div class="media-body">
+				    <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+				    <p>Lorem ipsum...</p>
+				  </div>
+				</div>
+        	</div>
+        </div>
+        <div class="modal-footer">
+        	<textarea name="detail" rows="4" style="width:84%; resize: none;"></textarea>
+			<input type="button" class="btn btn-success" data-dismiss="modal" value="댓글 달기">
+        </div>
+      </div>
+    </div>
+  </div>
 
 <jsp:include page="/WEB-INF/view/common/layout/layout_footer.jsp" />

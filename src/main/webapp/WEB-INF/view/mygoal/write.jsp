@@ -79,11 +79,8 @@
 				<div id="title-div">
 					<input type="text" id="title" name="title" class="form-control" placeholder="제목 입력">
 				</div>
-				<div id="preview-div">
-					<textarea name="preview" id="editor-preview"></textarea>
-				</div>
 				<div id="detail-div">
-					<textarea name="detail" id="editor"></textarea>
+					<textarea name="detail" id="editor" ></textarea>
 				</div>
 				<div id="hashtags-div">
 					<input type="text" class="tags" name="tagList[0]" placeholder="Tag" />
