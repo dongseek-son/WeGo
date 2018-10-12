@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ktds.goal.dao.GoalDao;
 import com.ktds.goal.dao.GoalDaoForMongo;
+import com.ktds.goal.vo.GoalPageVO;
 import com.ktds.goal.vo.GoalVO;
 import com.ktds.goal.vo.GoalVOForForm;
 import com.ktds.goal.vo.GoalVOForMongo;
@@ -89,6 +90,11 @@ public class GoalServiceImpl implements GoalService {
 	public GoalVO readOneGoal(String id) {
 		GoalVO goalVO = this.goalDao.selectGoal(id);
 		return this.combineGoalVO(goalVO);
+	}
+	
+	@Override
+	public List<GoalVO> readAllGoals(int page, int size) {
+		return this.combineGoalVOList(this.goalDao.selectGoalList(new GoalPageVO(page, size)));
 	}
 
 	@Override

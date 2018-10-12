@@ -158,15 +158,7 @@ public class MyGoalController {
 		return view;
 	}
 	
-	@RequestMapping("ourgoal/list/tag")
-	@ResponseBody
-	public Map<String, Object> doListPageByTagAction(@RequestParam String tag, @RequestParam int page) {
-		Map<String, Object> result = new HashMap<>();
-		List<GoalVO> goalVOList = this.goalService.readGoalVOListByTag(tag, page, 2);
-		result.put("status", "OK");
-		result.put("goalVOList", goalVOList);
-		return result;
-	}
+
 	
 	@RequestMapping("/mygoal/test")
 	public ModelAndView doTestAction() {

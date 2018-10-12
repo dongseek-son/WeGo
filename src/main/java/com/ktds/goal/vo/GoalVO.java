@@ -1,5 +1,7 @@
 package com.ktds.goal.vo;
 
+import com.ktds.member.vo.MemberVO;
+
 public class GoalVO {
 
 	private String id;
@@ -17,6 +19,7 @@ public class GoalVO {
 	private String modifyDate;
 	private String mongoId;
 	
+	private MemberVO memberVO;
 	private GoalVOForMongo goalVOForMongo;
 
 	@Override
@@ -146,6 +149,14 @@ public class GoalVO {
 
 	public void setGoalVOForMongo(GoalVOForMongo goalVOForMongo) {
 		this.goalVOForMongo = goalVOForMongo;
+	}
+
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
 	}
 
 }

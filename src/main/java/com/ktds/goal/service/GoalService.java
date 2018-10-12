@@ -11,6 +11,8 @@ public interface GoalService {
 	
 	public GoalVO readOneGoal(String id);
 	
+	public List<GoalVO> readAllGoals(int page, int size);
+	
 	public GoalVO readParentGoal(String id);
 	
 	public List<GoalVO> readChildrenGoalList(String id);

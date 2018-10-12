@@ -3,6 +3,29 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="GoalDao">
+
+<resultMap type="GoalVO" id="GoalResultMap">
+	<id property="id" column="GL_ID" />
+	<result property="title" column="TTL" />
+	<result property="detail" column="DTL" />
+	<result property="parentGoalId" column="PRNT_GL_ID" />
+	<result property="email" column="GL_EML" />
+	<result property="isSuccess" column="IS_SCCSS" />
+	<result property="isBlock" column="IS_BLCK" />
+	<result property="writeDate" column="WRT_DT" />
+	<result property="isOpen" column="IS_OPN" />
+	<result property="isDelete" column="IS_DLT" />
+	<result property="isDurablity" column="IS_DRBLTY" />
+	<result property="isBoast" column="IS_BST" />
+	<result property="modifyDate" column="MDFY_DT" />
+	<result property="mongoId" column="MNG_ID" />
+	<association property="memberVO" javaType="MemberVO">
+		<id property="email" column="MM_EML" />
+		<result property="name" column="NM" />
+		<result property="profileFilename" column="PIC_NM" />
+		<result property="authority" column="AUTHRTY" />
+	</association>
+</resultMap>	
 	
 <insert id="insertGoal" parameterType="GoalVO">
 	INSERT	INTO GL (
@@ -43,65 +66,118 @@
 	)
 </insert>
 
-<select id="selectGoal" parameterType="string" resultType="GoalVO">
-	SELECT	GL_ID id
-			, TTL title
-			, DTL detail
-			, PRNT_GL_ID parentGoalId
-			, EML email
-			, IS_SCCSS isSuccess
-			, IS_BLCK isBlock
-			, WRT_DT writeDate
-			, IS_OPN isOpen
-			, IS_DLT isDetail
-			, IS_DRBLTY isDurablity
-			, IS_BST isBoast
-			, MDFY_DT modifyDate
-			, MNG_ID mongoId
+<select id="selectGoal" parameterType="string" resultMap="GoalResultMap">
+	SELECT	GL.GL_ID
+			, GL.TTL
+			, GL.DTL
+			, GL.PRNT_GL_ID
+			, GL.EML GL_EML
+			, GL.IS_SCCSS
+			, GL.IS_BLCK
+			, GL.WRT_DT
+			, GL.IS_OPN
+			, GL.IS_DLT
+			, GL.IS_DRBLTY
+			, GL.IS_BST
+			, GL.MDFY_DT
+			, GL.MNG_ID
+			, MM.EML MM_EML
+			, MM.NM
+			, MM.PIC_NM
+			, MM.AUTHRTY
 	FROM	GL
-	WHERE	GL_ID = #{id}
+			, MM
+	WHERE	GL.EML = MM.EML
+	AND		GL_ID = #{id}
 </select>
 
-<select id="selectParentGoal" parameterType="string" resultType="GoalVO">
-	SELECT	GL_ID id
-			, TTL title
-			, DTL detail
-			, PRNT_GL_ID parentGoalId
-			, EML email
-			, IS_SCCSS isSuccess
-			, IS_BLCK isBlock
-			, WRT_DT writeDate
-			, IS_OPN isOpen
-			, IS_DLT isDetail
-			, IS_DRBLTY isDurablity
-			, IS_BST isBoast
-			, MDFY_DT modifyDate
-			, MNG_ID mongoId
+<select id="selectGoalList" parameterType="GoalPageVO" resultMap="GoalResultMap">
+	SELECT  *
+	FROM    (
+       			SELECT  ROWNUM RNUM
+            	        , A.*
+            	FROM    (
+		                    SELECT	GL.GL_ID
+									, GL.TTL
+									, GL.DTL
+									, GL.PRNT_GL_ID
+									, GL.EML GL_EML
+									, GL.IS_SCCSS
+									, GL.IS_BLCK
+									, GL.WRT_DT
+									, GL.IS_OPN
+									, GL.IS_DLT
+									, GL.IS_DRBLTY
+									, GL.IS_BST
+									, GL.MDFY_DT
+									, GL.MNG_ID
+									, MM.EML MM_EML
+									, MM.NM
+									, MM.PIC_NM
+									, MM.AUTHRTY
+	                        FROM	GL
+	                                , MM
+	                        WHERE	GL.EML = MM.EML
+	                        AND		IS_DLT = 0
+	                        ORDER	BY MDFY_DT DESC
+	                        ) A
+           		 WHERE	ROWNUM <![CDATA[<=]]> #{endRow}
+      		  ) B
+	WHERE   RNUM >= #{startRow}
+</select>
+
+<select id="selectParentGoal" parameterType="string" resultMap="GoalResultMap">
+	SELECT	GL.GL_ID
+			, GL.TTL
+			, GL.DTL
+			, GL.PRNT_GL_ID
+			, GL.EML GL_EML
+			, GL.IS_SCCSS
+			, GL.IS_BLCK
+			, GL.WRT_DT
+			, GL.IS_OPN
+			, GL.IS_DLT
+			, GL.IS_DRBLTY
+			, GL.IS_BST
+			, GL.MDFY_DT
+			, GL.MNG_ID
+			, MM.EML MM_EML
+			, MM.NM
+			, MM.PIC_NM
+			, MM.AUTHRTY
 	FROM	GL
-	WHERE	GL_ID = (
+			, MM
+	WHERE	GL.EML = MM.EML
+	AND		GL_ID = (
 						SELECT	PRNT_GL_ID
 						FROM	GL
 						WHERE	GL_ID = #{id}
 					)
 </select>
 
-<select id="selectChildrenGoalList" parameterType="string" resultType="GoalVO">
-	SELECT	GL_ID id
-			, TTL title
-			, DTL detail
-			, PRNT_GL_ID parentGoalId
-			, EML email
-			, IS_SCCSS isSuccess
-			, IS_BLCK isBlock
-			, WRT_DT writeDate
-			, IS_OPN isOpen
-			, IS_DLT isDetail
-			, IS_DRBLTY isDurablity
-			, IS_BST isBoast
-			, MDFY_DT modifyDate
-			, MNG_ID mongoId
+<select id="selectChildrenGoalList" parameterType="string" resultMap="GoalResultMap">
+	SELECT	GL.GL_ID
+			, GL.TTL
+			, GL.DTL
+			, GL.PRNT_GL_ID
+			, GL.EML GL_EML
+			, GL.IS_SCCSS
+			, GL.IS_BLCK
+			, GL.WRT_DT
+			, GL.IS_OPN
+			, GL.IS_DLT
+			, GL.IS_DRBLTY
+			, GL.IS_BST
+			, GL.MDFY_DT
+			, GL.MNG_ID
+			, MM.EML MM_EML
+			, MM.NM
+			, MM.PIC_NM
+			, MM.AUTHRTY
 	FROM	GL
-	WHERE	PRNT_GL_ID = #{id}
+			, MM
+	WHERE	GL.EML = MM.EML
+	AND 	PRNT_GL_ID = #{id}
 </select>
 
 <select id="selectLatestModifyGoalByEmail" parameterType="string" resultType="GoalVO">
@@ -114,7 +190,7 @@
 			, IS_BLCK isBlock
 			, WRT_DT writeDate
 			, IS_OPN isOpen
-			, IS_DLT isDetail
+			, IS_DLT isDelete
 			, IS_DRBLTY isDurablity
 			, IS_BST isBoast
 			, MDFY_DT modifyDate
@@ -152,7 +228,7 @@
 			, IS_BLCK isBlock
 			, WRT_DT writeDate
 			, IS_OPN isOpen
-			, IS_DLT isDetail
+			, IS_DLT isDelete
 			, IS_DRBLTY isDurablity
 			, IS_BST isBoast
 			, MDFY_DT modifyDate
@@ -191,7 +267,7 @@
 			, IS_BLCK isBlock
 			, WRT_DT writeDate
 			, IS_OPN isOpen
-			, IS_DLT isDetail
+			, IS_DLT isDelete
 			, IS_DRBLTY isDurablity
 			, IS_BST isBoast
 			, MDFY_DT modifyDate

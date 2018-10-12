@@ -18,7 +18,7 @@
 			 		if ( scPer >= 100 ) {
 			 			page = page + 1;
 			 			
-			 			$.post( "/WeGo/ourgoal/list/tag" , {
+			 			$.post( "/WeGo/ourgoal/list/page/tag" , {
 			 				tag : ${tag}
 			 				, page : page
 			 			}, function(response) {

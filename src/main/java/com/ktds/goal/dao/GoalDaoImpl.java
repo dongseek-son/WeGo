@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Repository;
 
+import com.ktds.goal.vo.GoalPageVO;
 import com.ktds.goal.vo.GoalVO;
 import com.ktds.member.dao.MemberDaoImpl;
 
@@ -34,6 +35,11 @@ public class GoalDaoImpl extends SqlSessionDaoSupport implements GoalDao {
 	@Override
 	public GoalVO selectGoal(String id) {
 		return this.getSqlSession().selectOne("GoalDao.selectGoal", id);
+	}
+	
+	@Override
+	public List<GoalVO> selectGoalList(GoalPageVO goalPageVO) {
+		return this.getSqlSession().selectList("GoalDao.selectGoalList", goalPageVO);
 	}
 	
 	@Override

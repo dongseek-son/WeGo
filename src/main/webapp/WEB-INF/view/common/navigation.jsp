@@ -15,7 +15,7 @@ $().ready(function() {
 		</div>
 		<ul class="nav navbar-nav">
 			<li><a href="/WeGo/mygoal/detail">My Goal</a></li>
-			<li><a href="#">Our Goal</a></li>
+			<li><a href="/WeGo/ourgoal/list">Our Goal</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li class="dropdown">
