@@ -42,7 +42,7 @@
 								}
 							}
 							else if ( !isEnd ) {
-								var sdom = $('<div style="height: 500px">마지막 목표 입니다.</div>');
+								var sdom = $('<div id="end-div">마지막 목표 입니다.</div>');
 								$("#goals-div").append(sdom);
 								isEnd = true;
 							}

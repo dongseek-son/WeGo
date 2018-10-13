@@ -113,7 +113,6 @@
     				</div>
     			</c:otherwise>
     		</c:choose>
-    		<div>lv1</div>
     	</div>
     	<div class="col-sm-8">
     		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">

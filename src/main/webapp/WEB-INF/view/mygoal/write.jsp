@@ -67,6 +67,7 @@
     	<div class="col-sm-8">
     		<form:form action="/WeGo/mygoal/write" method="post">
     		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
+    		<input type="hidden" name="parentGoalId" value="${parentGoalId }">
 			<div id="write">
 				<div id="info-div">
 					<div>

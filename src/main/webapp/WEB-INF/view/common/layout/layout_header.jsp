@@ -16,7 +16,7 @@
 <!-- <link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/wsc/dialogs/wsc.css"> -->
 <link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/templates/dialogs/templates.css">
 <link rel="stylesheet" type="text/css" href="/WeGo/js/ckeditor/plugins/colordialog/dialogs/colordialog.css">
-<link rel="stylesheet" href="/WeGo/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/WeGo/css/bootstrap.css">
 <style type="text/css">
 .container {
 	width: 1170px;

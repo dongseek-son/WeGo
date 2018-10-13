@@ -49,9 +49,12 @@ public class MyGoalController {
 	@Value("${upload.image.path}")
 	private String uploadPath;
 	
-	@GetMapping("mygoal/write")
-	private ModelAndView viewMyGoalWritePage() {
+	@GetMapping("mygoal/write/{id}")
+	private ModelAndView viewMyGoalWritePage(@PathVariable String id) {
 		ModelAndView view = new ModelAndView("mygoal/write");
+		if ( id != null ) {
+			view.addObject("parentGoalId", id);
+		}
 		view.addObject("noGoal", false);
 		return view;
 	}
@@ -60,7 +63,7 @@ public class MyGoalController {
 	public ModelAndView doMyGoalWriteAction(@ModelAttribute GoalVOForForm goalVOForForm
 			, @SessionAttribute(name=Session.USER) MemberVO memberVO
 			, HttpServletRequest request) {
-		ModelAndView view = new ModelAndView("mygoal/write");
+		ModelAndView view = new ModelAndView("redirect:mygoal/detail");
 		
 		String sessionToken = (String)request.getSession().getAttribute(Session.CSRF);
 		if ( !goalVOForForm.getToken().equals(sessionToken) ) {
@@ -145,16 +148,19 @@ public class MyGoalController {
 		view.addObject("goalVO", goalVO);
 		view.addObject("parentGoal", this.goalService.readParentGoal(goalVO.getId()));
 		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalVO.getId()));
+		view.addObject("lv1GoalList", this.goalService.readGoalListByLevel(memberVO.getEmail(), 1));
 		return view;
 	}
 	
 	@RequestMapping("/mygoal/detail/{goalId}")
-	public ModelAndView viewMyGoalDetailPage(@PathVariable String goalId) {
+	public ModelAndView viewMyGoalDetailPage(@PathVariable String goalId
+			, @SessionAttribute(name=Session.USER) MemberVO memberVO) {
 		ModelAndView view = new ModelAndView("mygoal/detail");
 		GoalVO goalVO = this.goalService.readOneGoal(goalId);
 		view.addObject("goalVO", goalVO);
 		view.addObject("parentGoal", this.goalService.readParentGoal(goalVO.getId()));
 		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalVO.getId()));
+		view.addObject("lv1GoalList", this.goalService.readGoalListByLevel(memberVO.getEmail(), 1));
 		return view;
 	}
 	
