@@ -13,6 +13,8 @@ public interface GoalService {
 	
 	public List<GoalVO> readAllGoals(int page, int size);
 	
+	public List<GoalVO> readAllGoalsByEmail(String email);
+	
 	public GoalVO readParentGoal(String id);
 	
 	public List<GoalVO> readChildrenGoalList(String id);

@@ -126,6 +126,32 @@
 	WHERE   RNUM >= #{startRow}
 </select>
 
+<select id="selectGoalListByEmail" parameterType="string" resultMap="GoalResultMap">
+	SELECT	GL.GL_ID
+			, GL.TTL
+			, GL.DTL
+			, GL.PRNT_GL_ID
+			, GL.EML GL_EML
+			, GL.IS_SCCSS
+			, GL.IS_BLCK
+			, GL.WRT_DT
+			, GL.IS_OPN
+			, GL.IS_DLT
+			, GL.IS_DRBLTY
+			, GL.IS_BST
+			, GL.MDFY_DT
+			, GL.MNG_ID
+			, MM.EML MM_EML
+			, MM.NM
+			, MM.PIC_NM
+			, MM.AUTHRTY
+	FROM	GL
+			, MM
+	WHERE	GL.EML = MM.EML
+	AND		GL.EML = #{email}
+	ORDER	BY GL.MDFY_DT DESC
+</select>
+
 <select id="selectParentGoal" parameterType="string" resultMap="GoalResultMap">
 	SELECT	GL.GL_ID
 			, GL.TTL

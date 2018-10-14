@@ -96,6 +96,11 @@ public class GoalServiceImpl implements GoalService {
 	public List<GoalVO> readAllGoals(int page, int size) {
 		return this.combineGoalVOList(this.goalDao.selectGoalList(new GoalPageVO(page, size)));
 	}
+	
+	@Override
+	public List<GoalVO> readAllGoalsByEmail(String email) {
+		return this.combineGoalVOList(this.goalDao.selectGoalListByEamil(email));
+	}
 
 	@Override
 	public GoalVO readParentGoal(String id) {

@@ -43,6 +43,11 @@ public class GoalDaoImpl extends SqlSessionDaoSupport implements GoalDao {
 	}
 	
 	@Override
+	public List<GoalVO> selectGoalListByEamil(String email) {
+		return this.getSqlSession().selectList("GoalDao.selectGoalListByEmail", email);
+	}
+	
+	@Override
 	public GoalVO selectParentGoal(String id) {
 		return this.getSqlSession().selectOne("GoalDao.selectParentGoal", id);
 	}

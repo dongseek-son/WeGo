@@ -14,6 +14,8 @@ public interface GoalDao {
 	
 	public List<GoalVO> selectGoalList(GoalPageVO goalPageVO);
 	
+	public List<GoalVO> selectGoalListByEamil(String email);
+	
 	public GoalVO selectParentGoal(String id);
 	
 	public List<GoalVO> selectChildrenGoalList(String id);
