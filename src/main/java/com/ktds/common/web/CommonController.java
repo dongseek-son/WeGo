@@ -61,15 +61,11 @@ public class CommonController {
 		return view;
 	}
 	
-	@PostMapping("test2/prev")
+	@PostMapping("test2/listChange")
 	@ResponseBody
 	public Map<String, Object> doPrevAction(@RequestParam int firstIndex, @RequestParam int size, @RequestParam String firstId) {
 		Map<String, Object> result = new HashMap<>();
 		List<GoalVO> goalVOList = this.goalService.readAllGoalsByEmail("admin@wego.com");
-		
-		if ( --firstIndex < 0 ) {
-			firstIndex = goalVOList.size() - 1;
-		}
 		
 		if( size != goalVOList.size() || !firstId.equals(goalVOList.get(0).getId() )) {
 			result.put("status", false);

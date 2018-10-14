@@ -25,11 +25,9 @@ $().ready(function() {
 	var firstIndex = 0;
 	var size = ${size};
 	var firstId = "${goalVOList[0].id}";
-		
-	$(".left").click(function() {
-		var div = $(this).closest("#goals-div");
-		
-		$.post("/WeGo/test2/prev", {
+	
+	function listChange(div) {
+		$.post("/WeGo/test2/listChange", {
 			firstIndex : firstIndex
 			, size : size
 			, firstId : firstId
@@ -47,7 +45,26 @@ $().ready(function() {
 				div.find(".span5").text(response.goalVOList[4].id);
 			}
 		});
+	}
+		
+	$(".left").click(function() {
+		var div = $(this).closest("#goals-div");
+		firstIndex = firstIndex - 1;
+		if( firstIndex < 0 ) {
+			firstIndex = size - 1;
+		}
+		listChange(div);
 	});
+	
+	$(".right").click(function() {
+		var div = $(this).closest("#goals-div");
+		firstIndex = firstIndex + 1;
+		if( firstIndex >= size ) {
+			firstIndex = 0;
+		}
+		listChange(div);
+	});
+	
 });
 </script>
 
