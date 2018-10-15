@@ -204,6 +204,7 @@
 			, MM
 	WHERE	GL.EML = MM.EML
 	AND 	PRNT_GL_ID = #{id}
+	ORDER	BY MDFY_DT DESC
 </select>
 
 <select id="selectLatestModifyGoalByEmail" parameterType="string" resultType="GoalVO">
@@ -280,7 +281,8 @@
 	            START   WITH PRNT_GL_ID is null
 	            CONNECT BY PRIOR GL_ID = PRNT_GL_ID
 	)
-	WHERE LV = #{level}
+	WHERE 	LV = #{level}
+	ORDER	BY MDFY_DT DESC
 </select>
 
 <select id="selectGoalByMongoId" parameterType="string" resultType="GoalVO">

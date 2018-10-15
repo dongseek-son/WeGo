@@ -41,6 +41,7 @@ public class CommonController {
 		
 		for( int i : indexList ) {
 			showingList.add(goalVOList.get(i));
+			System.out.println( i + " : " + goalVOList.get(i));
 		}
 		
 		return showingList;
@@ -49,23 +50,21 @@ public class CommonController {
 	@RequestMapping("test2")
 	public ModelAndView viewTest2Page() {
 		ModelAndView view = new ModelAndView("test2");
-		List<GoalVO> goalVOList = this.goalService.readAllGoalsByEmail("admin@wego.com");
+		List<GoalVO> goalVOList = this.goalService.readGoalListByLevel("admin@wego.com", 1);
 		
 		int firstIndex = 0;
 		int size = goalVOList.size();
 		
 		view.addObject("goalVOList", this.extractShowingGoalVO(goalVOList, firstIndex, 5));
-		view.addObject("firstIndex", firstIndex); // of ShowingList
 		view.addObject("size", size); 
-		view.addObject("firstId", goalVOList.get(0).getId()); // of WholeList
 		return view;
 	}
 	
 	@PostMapping("test2/listChange")
 	@ResponseBody
-	public Map<String, Object> doPrevAction(@RequestParam int firstIndex, @RequestParam int size, @RequestParam String firstId) {
+	public Map<String, Object> doListChangeAction(@RequestParam int firstIndex, @RequestParam int size, @RequestParam String firstId) {
 		Map<String, Object> result = new HashMap<>();
-		List<GoalVO> goalVOList = this.goalService.readAllGoalsByEmail("admin@wego.com");
+		List<GoalVO> goalVOList = this.goalService.readGoalListByLevel("admin@wego.com", 1);
 		
 		if( size != goalVOList.size() || !firstId.equals(goalVOList.get(0).getId() )) {
 			result.put("status", false);
@@ -75,8 +74,27 @@ public class CommonController {
 		goalVOList = this.extractShowingGoalVO(goalVOList, firstIndex, 5);
 		
 		result.put("status", "OK");
+		result.put("goalVOList", goalVOList);
+		return result;
+	}
+	
+	@PostMapping("test2/childrenList")
+	@ResponseBody
+	public Map<String, Object> doChildrenListAction(@RequestParam String id) {
+		Map<String, Object> result = new HashMap<>();
+		List<GoalVO> goalVOList = this.goalService.readChildrenGoalList(id);
+		
+		int firstIndex = 0;
+		int size = goalVOList.size();
+		
+		if ( size == 0 ) {
+			result.put("status", false);
+			return result;
+		}
+		
+		result.put("status", "OK");
 		result.put("goalVOList", this.extractShowingGoalVO(goalVOList, firstIndex, 5));
-		result.put("firstIndex", firstIndex); // of ShowingList
+		result.put("size", size); 
 		return result;
 	}
 	
