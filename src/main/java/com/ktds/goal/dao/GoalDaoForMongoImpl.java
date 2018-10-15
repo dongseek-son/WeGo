@@ -10,10 +10,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.ktds.goal.vo.GoalVOForMongo;
 import com.ktds.member.dao.MemberDaoForMongoImpl;
+import com.ktds.member.vo.MemberVOForMongo;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
+
 import org.springframework.data.domain.Sort.Direction;
 
 @Repository
@@ -49,6 +54,43 @@ public class GoalDaoForMongoImpl implements GoalDaoForMongo {
 		query.with(PageRequest.of(page, size, Direction.DESC, "modifyDate"));
 		
 		return this.mongoTemplate.find(query, GoalVOForMongo.class, "goal");
+	}
+	
+	@Override
+	public UpdateResult upsertGoalId(String mongoId, String goalId) {
+		Query query = new Query(new Criteria("_id").is(mongoId));
+		
+		Update update = new Update();
+		update.push("goalId", goalId);
+		
+		return this.mongoTemplate.upsert(query, update, GoalVOForMongo.class, "goal");
+	}
+	
+	@Override
+	public boolean isRecommendEmail(String goalId, String email) {
+		Query query = new Query(new Criteria("goalId").is(goalId).and("recommendEmailList").all(email));
+		
+		return this.mongoTemplate.exists(query, GoalVOForMongo.class, "goal");
+	}
+	
+	@Override
+	public UpdateResult addRecommendEmailList(String goalId, String email) {
+		Query query = new Query(new Criteria("goalId").is(goalId));
+		
+		Update update = new Update();
+		update.addToSet("recommendEmailList", email);
+		
+		return this.mongoTemplate.updateFirst(query, update, GoalVOForMongo.class, "goal");
+	}
+	
+	@Override
+	public UpdateResult pullRecommendEmailList(String goalId, String email) {
+		Query query = new Query(new Criteria("goalId").is(goalId));
+		
+		Update update = new Update();
+		update.pull("recommendEmailList", email);
+
+		return this.mongoTemplate.updateFirst(query, update, GoalVOForMongo.class, "goal");
 	}
 
 }

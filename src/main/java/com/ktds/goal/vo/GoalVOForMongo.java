@@ -15,8 +15,9 @@ public class GoalVOForMongo {
 	private String id;
 
 	private List<String> tagList;
-	private List<String> recomendEmailList;
+	private List<String> recommendEmailList;
 	private DateTime modifyDate;
+	private String goalId;
 
 
 	public DateTime getModifyDate() {
@@ -43,12 +44,20 @@ public class GoalVOForMongo {
 		this.tagList = tagList;
 	}
 
-	public List<String> getRecomendEmailList() {
-		return recomendEmailList;
+	public List<String> getRecommendEmailList() {
+		return recommendEmailList;
 	}
 
-	public void setRecomendEmailList(List<String> recomendEmailList) {
-		this.recomendEmailList = recomendEmailList;
+	public void setRecommendEmailList(List<String> recommendEmailList) {
+		this.recommendEmailList = recommendEmailList;
+	}
+
+	public String getGoalId() {
+		return goalId;
+	}
+
+	public void setGoalId(String goalId) {
+		this.goalId = goalId;
 	}
 
 

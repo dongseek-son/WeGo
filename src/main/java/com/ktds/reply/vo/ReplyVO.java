@@ -1,5 +1,7 @@
 package com.ktds.reply.vo;
 
+import com.ktds.member.vo.MemberVO;
+
 public class ReplyVO {
 
 	private String id;
@@ -11,6 +13,9 @@ public class ReplyVO {
 	private String detail;
 	private boolean isAdvice;
 	private boolean isBlock;
+	private String mongoId;
+	
+	private MemberVO memberVO;
 
 	public String getId() {
 		return id;
@@ -82,6 +87,22 @@ public class ReplyVO {
 
 	public void setBlock(boolean isBlock) {
 		this.isBlock = isBlock;
+	}
+
+	public String getMongoId() {
+		return mongoId;
+	}
+
+	public void setMongoId(String mongoId) {
+		this.mongoId = mongoId;
+	}
+
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
 	}
 
 }

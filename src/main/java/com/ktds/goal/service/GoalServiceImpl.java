@@ -135,4 +135,23 @@ public class GoalServiceImpl implements GoalService {
 		return this.combineGoalVOListByGoalVOForMongoList(this.goalDaoForMongo.findGoalVOForMongoListByTag(tag, page, size));
 	}
 	
+	@Override
+	public boolean modifyGoalIdInGoalVOForMongo(String mongoId, String goalId) {
+		return this.goalDaoForMongo.upsertGoalId(mongoId, goalId) != null;
+	}
+	
+	@Override
+	public boolean isRecommendEmail(String goalId, String email) {
+		return this.goalDaoForMongo.isRecommendEmail(goalId, email);
+	}
+	
+	@Override
+	public boolean addRecommendEmailList(String goalId, String email) {
+		return this.goalDaoForMongo.addRecommendEmailList(goalId, email).getModifiedCount() > 0;
+	}
+	
+	@Override
+	public boolean pullRecommendEmailList(String goalId, String email) {
+		return this.goalDaoForMongo.pullRecommendEmailList(goalId, email).getModifiedCount() > 0;
+	}
 }

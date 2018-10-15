@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ktds.goal.vo.GoalVO;
 import com.ktds.goal.vo.GoalVOForForm;
+import com.mongodb.client.result.UpdateResult;
 
 public interface GoalService {
 
@@ -26,5 +27,13 @@ public interface GoalService {
 	public List<GoalVO> readGoalVOListByTag(String tag);
 	
 	public List<GoalVO> readGoalVOListByTag(String tag, int page, int size);
+	
+	public boolean modifyGoalIdInGoalVOForMongo(String mongoId, String goalId);
+	
+	public boolean isRecommendEmail(String goalId, String email);
+	
+	public boolean addRecommendEmailList(String goalId, String email);
+	
+	public boolean pullRecommendEmailList(String goalId, String email);
 	
 }

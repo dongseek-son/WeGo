@@ -65,6 +65,9 @@
 
 	$().ready( function() {
 		
+		var isRecommendEmail = ${isRecommendEmail};
+		var recommendNumber = ${recommendNumber};
+		
 		$(".concernTag").click(function() {
 			var concernTag = $(this).data("tag");
 			$.post("/WeGo/member/concerntag/add"
@@ -88,6 +91,43 @@
 		$("#writeChildBtn").click(function() {
 			window.location = "/WeGo/mygoal/write/${goalVO.id}";
 		});
+		
+		$("#recommendBtn").click( function() {
+			if ( isRecommendEmail ) {
+				recommendDown();
+			}
+			else {
+				recommendUp();
+			}
+		});
+		
+		function recommendUp() {
+			$.post("/WeGo/goal/recommend/up"
+					, {
+						"goalId" : "${goalVO.id}"
+					}
+					, function(response) {
+						if( response.isSuccess ) {
+							isRecommendEmail = true;
+							$("#recommendBtn").addClass("btn-success");
+							$("#recommendBtn").children(".badge").text(++recommendNumber);
+						}
+			});
+		}
+		
+		function recommendDown() {
+			$.post("/WeGo/goal/recommend/down"
+					, {
+						"goalId" : "${goalVO.id}"
+					}
+					, function(response) {
+						if( response.isSuccess ) {
+							isRecommendEmail = false;
+							$("#recommendBtn").removeClass("btn-success");
+							$("#recommendBtn").children(".badge").text(--recommendNumber);
+						}
+			});
+		}
 		
 	});
 </script>
@@ -199,7 +239,25 @@
 			</div>
 			<div id="button-div">
 				<div id="button-div-left" style="float: left;">
-					<input type="button" id="replyBtn" class="btn btn-success" value="댓글 보기" />
+					<button type="button" id="replyBtn" class="btn btn-success">댓글 보기 <span class="badge">3</span></button>
+				 	<c:choose>
+						<c:when test="${isRecommendEmail }">
+							<button type="button" id="recommendBtn" class="btn btn-success">
+								좋아요 
+								<span class="badge">
+									${recommendNumber }
+								</span>
+							</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" id="recommendBtn" class="btn">
+								좋아요 
+								<span class="badge">
+									${recommendNumber }
+								</span>
+							</button>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div id="button-div-right" style="float: right;">
 					<input type="button" id="writeChildBtn" class="btn btn-success" value="하위 목표 만들기" />

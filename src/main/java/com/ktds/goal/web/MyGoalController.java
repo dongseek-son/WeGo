@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -40,7 +38,6 @@ import io.github.seccoding.web.mimetype.ExtensionFilter;
 import io.github.seccoding.web.mimetype.ExtensionFilterFactory;
 
 @Controller
-@RestController
 public class MyGoalController {
 	
 	@Autowired
@@ -50,7 +47,7 @@ public class MyGoalController {
 	private String uploadPath;
 	
 	@GetMapping("mygoal/write/{id}")
-	private ModelAndView viewMyGoalWritePage(@PathVariable String id) {
+	public ModelAndView viewMyGoalWritePage(@PathVariable String id) {
 		ModelAndView view = new ModelAndView("mygoal/write");
 		if ( id != null ) {
 			view.addObject("parentGoalId", id);
@@ -77,6 +74,8 @@ public class MyGoalController {
 		goalVOForForm.setEmail(memberVO.getEmail());
 		
 		this.goalService.createGoal(goalVOForForm);
+		GoalVO goalVO = this.goalService.readLatestModifyGoalByEmail(memberVO.getEmail());
+		this.goalService.modifyGoalIdInGoalVOForMongo(goalVO.getMongoId(), goalVO.getId());
 		return view;
 	}
 
@@ -126,7 +125,7 @@ public class MyGoalController {
 		throw new RuntimeException("파일이 존재하지 않습니다.");
 	}
 	
-	@RequestMapping("/mygoal/imagedownload/{fileName}")
+	@RequestMapping("mygoal/imagedownload/{fileName}")
 	public void imageDownload(@PathVariable String fileName,HttpServletRequest req, HttpServletResponse res) {
 		try {
 			new DownloadUtil(this.uploadPath + File.separator + fileName).download(req, res, fileName);
@@ -135,7 +134,7 @@ public class MyGoalController {
 		}
 	}
 	
-	@RequestMapping("/mygoal/detail")
+	@RequestMapping("mygoal/detail")
 	public ModelAndView viewMyGoalDetailPage(@SessionAttribute(name=Session.USER) MemberVO memberVO) {
 		ModelAndView view = new ModelAndView("mygoal/detail");
 		GoalVO goalVO = this.goalService.readLatestModifyGoalByEmail(memberVO.getEmail());
@@ -145,28 +144,47 @@ public class MyGoalController {
 //			view.addObject("message", "등록된 목표가 없습니다. \\n첫 목표를 등록해주세요.");
 			return view;
 		}
+		
+		if ( goalVO.getGoalVOForMongo().getRecommendEmailList() != null ) {
+			view.addObject("recommendNumber", goalVO.getGoalVOForMongo().getRecommendEmailList().size());
+		}
+		else {
+			view.addObject("recommendNumber", 0);
+		}
+		
 		view.addObject("goalVO", goalVO);
+		view.addObject("isRecommendEmail", this.goalService.isRecommendEmail(goalVO.getId(), memberVO.getEmail()));
+		
 		view.addObject("parentGoal", this.goalService.readParentGoal(goalVO.getId()));
 		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalVO.getId()));
 		view.addObject("lv1GoalList", this.goalService.readGoalListByLevel(memberVO.getEmail(), 1));
 		return view;
 	}
 	
-	@RequestMapping("/mygoal/detail/{goalId}")
+	@RequestMapping("mygoal/detail/{goalId}")
 	public ModelAndView viewMyGoalDetailPage(@PathVariable String goalId
 			, @SessionAttribute(name=Session.USER) MemberVO memberVO) {
 		ModelAndView view = new ModelAndView("mygoal/detail");
 		GoalVO goalVO = this.goalService.readOneGoal(goalId);
+		
+		if ( goalVO.getGoalVOForMongo().getRecommendEmailList() != null ) {
+			view.addObject("recommendNumber", goalVO.getGoalVOForMongo().getRecommendEmailList().size());
+		}
+		else {
+			view.addObject("recommendNumber", 0);
+		}
+		
 		view.addObject("goalVO", goalVO);
-		view.addObject("parentGoal", this.goalService.readParentGoal(goalVO.getId()));
-		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalVO.getId()));
+		view.addObject("isRecommendEmail", this.goalService.isRecommendEmail(goalVO.getId(), memberVO.getEmail()));
+		view.addObject("parentGoal", this.goalService.readParentGoal(goalId));
+		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalId));
 		view.addObject("lv1GoalList", this.goalService.readGoalListByLevel(memberVO.getEmail(), 1));
 		return view;
 	}
 	
 
 	
-	@RequestMapping("/mygoal/test")
+	@RequestMapping("mygoal/test")
 	public ModelAndView doTestAction() {
 		ModelAndView view = new ModelAndView("test");
 		String tag = "2";

@@ -32,7 +32,7 @@ $().ready(function() {
 	var lastLevel = 1;
 	var activeIdList = new Array();
 	
-	function listChange(div, firstIndex, size, cb = function() {}) {
+	function listChange( div, firstIndex, size, cb = function(){} ) {
 		
 		$.post("/WeGo/test2/listChange", {
 			firstIndex : firstIndex
@@ -175,7 +175,7 @@ $().ready(function() {
     		<div class="goals-div" data-level="1" data-first_index="0" data-size="${size }" data-first_id="${goalVOList[0].id}" }>
     			<div class="arrow-div">
     				<c:if test="${size > 5 }">
-						<a class="left" href="#myCarousel" role="button">
+						<a class="left" href="#" role="button">
 						   	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 							<span class="sr-only">Previous</span>
 						</a>
@@ -190,7 +190,7 @@ $().ready(function() {
     			</div>
     			<div class="arrow-div">
     				<c:if test="${size > 5 }">
-    					<a class="right" href="#myCarousel" role="button">
+    					<a class="right" href="#" role="button">
 					   		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 							<span class="sr-only">Next</span>
 						</a>

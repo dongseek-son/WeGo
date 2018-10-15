@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ReplyDao">
+	
+<resultMap type="ReplyVO" id="ReplyResultMap">
+	<id property="id" column="RP_ID" />
+	<result property="title" column="TTL" />
+	<result property="parentReplyId" column="PRNT_RP_ID" />
+	<result property="email" column="RP_EML" />
+	<result property="writeDate" column="WRT_DT" />
+	<result property="isDelete" column="IS_DLT" />
+	<result property="goalId" column="GL_ID" />
+	<result property="isAdvice" column="IS_ADVC" />
+	<result property="detail" column="DTL" />
+	<result property="isBlock" column="IS_BLCK" />
+	<result property="mongoId" column="MNG_ID" />
+	<association property="memberVO" javaType="MemberVO">
+		<id property="email" column="MM_EML" />
+		<result property="name" column="NM" />
+		<result property="profileFilename" column="PIC_NM" />
+		<result property="authority" column="AUTHRTY" />
+	</association>
+</resultMap>
+
+<insert id="insertReply" parameterType="GoalVO">
+	INSERT	INTO RP (
+						EML
+						<if test="parentReplyId != null">
+							, PRNT_RP_ID
+						</if>
+						, WRT_DT
+						, IS_DLT
+						, GL_ID
+						, IS_ADVC
+						, DTL
+						, IS_BLCK
+						, MNG_ID
+					)
+	VALUES	(
+				#{email}
+				<if test="parentReplyId != null">
+				, #{parentReplyId}
+				</if>
+				, SYSDATE
+				, 0
+				, #{goalId}
+				, #{isAdvice}
+				, #{detail}
+				, 0
+				, #{mongoId}
+	)
+</insert>	
+	
+</mapper>
