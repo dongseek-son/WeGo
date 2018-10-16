@@ -166,12 +166,14 @@ public class MyGoalController {
 		view.addObject("lv1GoalList", this.goalService.readGoalListByLevel(memberVO.getEmail(), 1));
 		view.addObject("replyVOList", this.replyService.readReplyListByGoalId(goalVO.getId()));
 		view.addObject("replyCount", this.replyService.readReplyCountByGoalId(goalVO.getId()));
+		view.addObject("isReplyModalOpen", false);
 		return view;
 	}
 	
 	@RequestMapping("mygoal/detail/{goalId}")
 	public ModelAndView viewMyGoalDetailPage(@PathVariable String goalId
-			, @SessionAttribute(name=Session.USER) MemberVO memberVO) {
+			, @SessionAttribute(name=Session.USER) MemberVO memberVO
+			, boolean isReplyModalOpen) {
 		ModelAndView view = new ModelAndView("mygoal/detail");
 		GoalVO goalVO = this.goalService.readOneGoal(goalId);
 		
@@ -189,6 +191,7 @@ public class MyGoalController {
 		view.addObject("lv1GoalList", this.goalService.readGoalListByLevel(memberVO.getEmail(), 1));
 		view.addObject("replyVOList", this.replyService.readReplyListByGoalId(goalVO.getId()));
 		view.addObject("replyCount", this.replyService.readReplyCountByGoalId(goalVO.getId()));
+		view.addObject("isReplyModalOpen", isReplyModalOpen);
 		return view;
 	}
 	

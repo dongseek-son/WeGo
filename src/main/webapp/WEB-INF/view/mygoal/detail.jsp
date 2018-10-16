@@ -60,6 +60,11 @@
 	text-align: center;
 	margin-top: 5px;
 }
+.re-reply-active {
+	text-decoration: underline;
+	font-weight: bold;
+	color: red;
+}
 </style>
 <script type="text/javascript">
 
@@ -70,6 +75,10 @@
 		
 		if ( !${replyCount} ) {
 			$("#replyBtn").removeClass("btn-success");
+		}
+		
+		if ( ${isReplyModalOpen} ) {
+			$("#replyModal").modal();
 		}
 		
 		$(".concernTag").click(function() {
@@ -157,6 +166,7 @@
 		
 		$("#reply-detail").keyup(function() {
 			var detail = $(this).val();
+			$(this).val().replace(/(\r\n|\r|\n)/g,"<br />");
 			checkReplyPattern(detail, function() {
 				if ( detail.length > 1000 ) {
 					$("#reply-detail").val(detail.slice(0, 999));
@@ -172,38 +182,27 @@
  					alert("10자 이상 입력해주세요.");
  				} else if ( detail.length > 1000 ) {
  					alert("1000자 이하로 입력해주세요.")
- 				} else {
- 					alert("공백으로 시작할 수 없습니다.")
- 				}
+ 				} 
  				$("#reply-detail").keyup();
 			}
 			else {
-				$.post("/WeGo/reply/write", $("#replyForm").serialize(), function(response) {
-					if( response.status ) {
-						var id = response.replyVO.id;
-						console.log(id);
-						var profileFilename = response.replyVO.memberVO.profileFilename;
-						console.log(profileFilename);
-						var name = response.replyVO.memberVO.name;
-						console.log(name);
-						var email = response.replyVO.memberVO.email;
-						console.log(email);
-						var writeDate = response.replyVO.writeDate;
-						console.log(writeDate);
-						var detail = response.replyVO.detail;
-						var media = $(`<div class="media" data-id="` + id + `">
-							  			<div class="media-left media-top">
-						    				<img src="/WeGo/member/profiledownload/` + profileFilename + `" class="media-object" style="width:45px">
-						 				</div>
-						  				<div class="media-body">
-						    				<h4 class="media-heading" title="` + email + `">` + name + ` <small><i>` + writeDate + `</i></small></h4>
-						    				<p>` + detail + `</p>
-						  				</div>
-									</div>`);
-						console.log(media);
-						$(".reply-div").append(media);
-					}
-				});
+				$("#replyForm").submit();
+			}
+		});
+		
+		$(".re-reply").click(function() {
+			$("#reply-div").children(".re-reply").removeClass("re-reply-active");
+			var media = $(this).closest(".media");
+			$(this).addClass("re-reply-active");
+			$("#parentReplyId").val(media.data("id"));
+			console.log($("#parentReplyId"));
+			$("#reply-detail").focus();
+		});
+		
+		$(".deleteReply").click(function() {
+			var result = confirm("삭제하시겠습니까?");
+			if ( result ) {
+				
 			}
 		});
 		
@@ -398,16 +397,32 @@
 		    				<img src="/WeGo/member/profiledownload/${replyVO.memberVO.profileFilename }" class="media-object" style="width:45px">
 		 				</div>
 		  				<div class="media-body">
-		    				<h4 class="media-heading" title="` + email + `">${replyVO.memberVO.name } <small><i>${replyVO.writeDate }</i></small></h4>
-		    				<p>${replyVO.detail }</p>
+		  					<div style="display:inline-block">
+		    					<h4 class="media-heading" title="` + email + `">${replyVO.memberVO.name } <small><i>${replyVO.writeDate }</i></small></h4>
+		    				</div>
+		    				<div class="reply-a-div" style="float: right; font-size: 13px;">
+		    					<a href="#" class="re-reply">답글달기</a>
+		    					<a href="#" class="deleteReply">삭제</a>		    					
+		    				</div>
+		    				<div>
+		    					${replyVO.detail }
+		    				</div>
 							<c:forEach var="childReplyVO" items="${replyVO.childrenReplyVOList}">
 			  					<div class="media" data-id="${childReplyVO.id }">
 						  			<div class="media-left media-top">
 					    				<img src="/WeGo/member/profiledownload/${childReplyVO.memberVO.profileFilename }" class="media-object" style="width:45px">
 					 				</div>
 					  				<div class="media-body">
-					    				<h4 class="media-heading" title="` + email + `">${childReplyVO.memberVO.name } <small><i>${childReplyVO.writeDate }</i></small></h4>
-					    				<p>${childReplyVO.detail }</p>
+					  					<div style="display:inline-block">
+					    					<h4 class="media-heading" title="` + email + `">${childReplyVO.memberVO.name } <small><i>${childReplyVO.writeDate }</i></small></h4>
+					    				</div>
+					    				<div class="reply-a-div" style="float: right; font-size: 13px;">
+					    					<a href="#" class="re-reply">답글달기</a>
+					    					<a href="#" class="deleteReply">삭제</a>		    					
+					    				</div>
+					    				<div>
+					    					${childReplyVO.detail }
+					    				</div>	
 					  				</div>
 								</div>
 			  				</c:forEach>		  				
@@ -420,10 +435,10 @@
         <div class="modal-footer">
         	<form action="/WeGo/reply/write" method="post" id="replyForm">
         		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
-    			<input type="hidden" name="parentReplyId" value="${parentReplyId }">
+    			<input type="hidden" id="parentReplyId" name="parentReplyId" value="${parentReplyId }">
         		<input type="hidden" name="goalId" value="${goalVO.id }">
         		<textarea name="detail" id="reply-detail" rows="4" style="width:84%; resize: none;"></textarea>
-				<input type="button" id="replySubmitBtn" class="btn" data-dismiss="modal" value="댓글 달기">
+				<input type="button" id="replySubmitBtn" class="btn" value="댓글 달기">
 			</form>
         </div>
       </div>

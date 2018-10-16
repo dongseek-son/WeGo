@@ -31,23 +31,22 @@ public class ReplyController {
 	public Map<String, Object> doCheckReplyPattern( @RequestParam String detail ) {
 		Map<String, Object> result = new HashMap<>();
 		
-		String replyPolicy = "^\\S.{9,1000}$";
+/*		String replyPolicy = ".{9,1000}";
 		
 		Pattern pattern = Pattern.compile(replyPolicy);
-		Matcher matcher = pattern.matcher(detail);
+		Matcher matcher = pattern.matcher(detail);*/
 		
 		result.put("status", "OK");
-		result.put("available", matcher.matches() );
+		result.put("available", detail.length() > 9 && detail.length() <= 1000 );
 		
 		return result;
 	}
 	
 	@PostMapping("reply/write")
-	@ResponseBody
-	public Map<String, Object> doReplyWriteAction( @ModelAttribute ReplyVO replyVO
+	public ModelAndView doReplyWriteAction( @ModelAttribute ReplyVO replyVO
 			, @SessionAttribute(name=Session.USER) MemberVO memberVO
 			, @SessionAttribute(name=Session.CSRF) String token) {
-		Map<String, Object> result = new HashMap<>();
+		ModelAndView view = new ModelAndView("redirect:/mygoal/detail/" + replyVO.getGoalId());
 		
 		String sessionToken = token;
 		if ( !replyVO.getToken().equals(sessionToken) ) {
@@ -61,14 +60,14 @@ public class ReplyController {
 		replyVO = this.replyService.createReply(replyVO);
 		
 		if ( replyVO != null ) {
-			result.put("status", "OK");
-			result.put("replyVO", replyVO);
+			view.addObject("message", "댓글이 등록되었습니다.");
+			view.addObject("isReplyModalOpen", true);
 		}
 		else {
-			result.put("status", false);
+			view.addObject("message", "오류가 발생하였습니다. \\n다시 시도해주세요.");
 		}
 		
-		return result;
+		return view;
 	}
 	
 }

@@ -38,7 +38,7 @@
 						, DTL
 						, IS_BLCK
 						, MNG_ID
-						<if test="parentReplyId != null">
+						<if test="mentionEmail != null">
 							, MNTN_EML
 						</if>
 					)
@@ -55,7 +55,7 @@
 				, #{detail}
 				, 0
 				, #{mongoId}
-				<if test="parentReplyId != null">
+				<if test="mentionEmail != null">
 					, #{mentionEmail}
 				</if>
 	)
