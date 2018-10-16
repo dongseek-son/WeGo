@@ -12,4 +12,5 @@ public interface ReplyService {
 	
 	public int readReplyCountByGoalId(String goalId);
 	
+	public boolean updateIsDelete(String replyId);
 }

@@ -200,9 +200,10 @@
 		});
 		
 		$(".deleteReply").click(function() {
+			var replyId = $(this).closest(".media").data("id");
 			var result = confirm("삭제하시겠습니까?");
 			if ( result ) {
-				
+				window.location = "/WeGo/reply/delete/${goalVO.id}/" + replyId;
 			}
 		});
 		
@@ -393,40 +394,102 @@
         	<div class="reply-div">
         		<c:forEach var="replyVO" items="${replyVOList }">
 	        		<div class="media" data-id="${replyVO.id }">
-			  			<div class="media-left media-top">
-		    				<img src="/WeGo/member/profiledownload/${replyVO.memberVO.profileFilename }" class="media-object" style="width:45px">
-		 				</div>
-		  				<div class="media-body">
-		  					<div style="display:inline-block">
-		    					<h4 class="media-heading" title="` + email + `">${replyVO.memberVO.name } <small><i>${replyVO.writeDate }</i></small></h4>
-		    				</div>
-		    				<div class="reply-a-div" style="float: right; font-size: 13px;">
-		    					<a href="#" class="re-reply">답글달기</a>
-		    					<a href="#" class="deleteReply">삭제</a>		    					
-		    				</div>
-		    				<div>
-		    					${replyVO.detail }
-		    				</div>
-							<c:forEach var="childReplyVO" items="${replyVO.childrenReplyVOList}">
-			  					<div class="media" data-id="${childReplyVO.id }">
-						  			<div class="media-left media-top">
-					    				<img src="/WeGo/member/profiledownload/${childReplyVO.memberVO.profileFilename }" class="media-object" style="width:45px">
-					 				</div>
-					  				<div class="media-body">
-					  					<div style="display:inline-block">
-					    					<h4 class="media-heading" title="` + email + `">${childReplyVO.memberVO.name } <small><i>${childReplyVO.writeDate }</i></small></h4>
-					    				</div>
-					    				<div class="reply-a-div" style="float: right; font-size: 13px;">
-					    					<a href="#" class="re-reply">답글달기</a>
-					    					<a href="#" class="deleteReply">삭제</a>		    					
-					    				</div>
-					    				<div>
-					    					${childReplyVO.detail }
-					    				</div>	
-					  				</div>
-								</div>
-			  				</c:forEach>		  				
-		  				</div>
+	        			<c:choose>
+	        				<c:when test="${replyVO.isDelete() }">
+        						<div class="media-left media-top">
+									<img src="/WeGo/img/white.jpg" class="media-object" style="width:45px">
+				 				</div>
+				  				<div class="media-body">
+				    				<div>
+				    					삭제된 댓글 입니다.
+				    				</div>
+									<c:forEach var="childReplyVO" items="${replyVO.childrenReplyVOList}">
+										<c:choose>
+											<c:when test="${childReplyVO.isDelete() }">
+												<div class="media" data-id="${childReplyVO.id }">
+													<div class="media-left media-top">
+														<img src="/WeGo/img/white.jpg" class="media-object" style="width:45px">
+									 				</div>
+									  				<div class="media-body">
+									    				<div>
+									    					삭제된 댓글 입니다.
+									    				</div>
+								    			</div>
+											</c:when>
+											<c:otherwise>
+												<div class="media" data-id="${childReplyVO.id }">
+										  			<div class="media-left media-top">
+									    				<img src="/WeGo/member/profiledownload/${childReplyVO.memberVO.profileFilename }" class="media-object" style="width:45px">
+									 				</div>
+									  				<div class="media-body">
+									  					<div style="display:inline-block">
+									    					<h4 class="media-heading" title="` + email + `">${childReplyVO.memberVO.name } <small><i>${childReplyVO.writeDate }</i></small></h4>
+									    				</div>
+									    				<div class="reply-a-div" style="float: right; font-size: 13px;">
+									    					<a href="#" class="re-reply">답글달기</a>
+									    					<a href="#" class="deleteReply">삭제</a>		    					
+									    				</div>
+									    				<div>
+									    					${childReplyVO.detail }
+									    				</div>	
+									  				</div>
+												</div>
+											</c:otherwise>
+										</c:choose>
+					  				</c:forEach>		  				
+				  				</div>		
+	        				</c:when>
+	        				<c:otherwise>
+	        					<div class="media-left media-top">
+				    				<img src="/WeGo/member/profiledownload/${replyVO.memberVO.profileFilename }" class="media-object" style="width:45px">
+				 				</div>
+				  				<div class="media-body">
+				  					<div style="display:inline-block">
+				    					<h4 class="media-heading" title="` + email + `">${replyVO.memberVO.name } <small><i>${replyVO.writeDate }</i></small></h4>
+				    				</div>
+				    				<div class="reply-a-div" style="float: right; font-size: 13px;">
+				    					<a href="#" class="re-reply">답글달기</a>
+				    					<a href="#" class="deleteReply">삭제</a>		    					
+				    				</div>
+				    				<div>
+				    					${replyVO.detail }
+				    				</div>
+									<c:forEach var="childReplyVO" items="${replyVO.childrenReplyVOList}">
+										<c:choose>
+											<c:when test="${childReplyVO.isDelete() }">
+												<div class="media" data-id="${childReplyVO.id }">
+													<div class="media-left media-top media-object" style="width:45px">
+									 				</div>
+									  				<div class="media-body">
+									    				<div>
+									    					삭제된 댓글 입니다.
+									    				</div>
+								    			</div>
+											</c:when>
+											<c:otherwise>
+												<div class="media" data-id="${childReplyVO.id }">
+										  			<div class="media-left media-top">
+									    				<img src="/WeGo/member/profiledownload/${childReplyVO.memberVO.profileFilename }" class="media-object" style="width:45px">
+									 				</div>
+									  				<div class="media-body">
+									  					<div style="display:inline-block">
+									    					<h4 class="media-heading" title="` + email + `">${childReplyVO.memberVO.name } <small><i>${childReplyVO.writeDate }</i></small></h4>
+									    				</div>
+									    				<div class="reply-a-div" style="float: right; font-size: 13px;">
+									    					<a href="#" class="re-reply">답글달기</a>
+									    					<a href="#" class="deleteReply">삭제</a>		    					
+									    				</div>
+									    				<div>
+									    					${childReplyVO.detail }
+									    				</div>	
+									  				</div>
+												</div>
+											</c:otherwise>
+										</c:choose>					  				
+									</c:forEach>		  				
+				  				</div>	        					
+	        				</c:otherwise>
+	        			</c:choose>
 					</div>
         		</c:forEach>
         		<!-- Media top -->

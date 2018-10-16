@@ -17,4 +17,6 @@ public interface ReplyDao {
 	public List<ReplyVO> selectChildrenReplyListByReplyId(String replyId);
 	
 	public int selectReplyCountByGoalId(String goalId);
+	
+	public int updateIsDelete(String replyId);
 }

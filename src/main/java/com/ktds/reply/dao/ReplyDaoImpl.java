@@ -53,4 +53,9 @@ public class ReplyDaoImpl extends SqlSessionDaoSupport implements ReplyDao {
 		return this.getSqlSession().selectOne("ReplyDao.selectReplyCountByGoalId", goalId);
 	}
 	
+	@Override
+	public int updateIsDelete(String replyId) {
+		return this.getSqlSession().update("ReplyDao.updateIsDelete", replyId);
+	}
+	
 }

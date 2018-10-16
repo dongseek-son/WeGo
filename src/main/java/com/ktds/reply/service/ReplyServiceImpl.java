@@ -78,4 +78,9 @@ public class ReplyServiceImpl implements ReplyService {
 	public int readReplyCountByGoalId(String goalId) {
 		return this.replyDao.selectReplyCountByGoalId(goalId);
 	}
+	
+	@Override
+	public boolean updateIsDelete(String replyId) {
+		return this.replyDao.updateIsDelete(replyId) > 0;
+	}
 }

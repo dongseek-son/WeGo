@@ -8,7 +8,9 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -61,13 +63,22 @@ public class ReplyController {
 		
 		if ( replyVO != null ) {
 			view.addObject("message", "댓글이 등록되었습니다.");
-			view.addObject("isReplyModalOpen", true);
 		}
 		else {
 			view.addObject("message", "오류가 발생하였습니다. \\n다시 시도해주세요.");
 		}
 		
+		view.addObject("isReplyModalOpen", true);
 		return view;
 	}
 	
+	@RequestMapping("reply/delete/{goalId}/{replyId}")
+	public ModelAndView doReplyDeleteAction( @PathVariable String goalId, @PathVariable String replyId ) {
+		ModelAndView view = new ModelAndView("redirect:/mygoal/detail/" + goalId);
+		
+		this.replyService.updateIsDelete(replyId);
+		
+		view.addObject("isReplyModalOpen", true);
+		return view;
+	}
 }

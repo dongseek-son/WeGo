@@ -161,5 +161,11 @@
 	START   WITH PRNT_RP_ID is null
 	CONNECT BY PRIOR RP_ID = PRNT_RP_ID
 </select>
+
+<update id="updateIsDelete" parameterType="string">
+	UPDATE	RP
+	SET		IS_DLT = 1
+	WHERE	RP_ID = #{replyId}
+</update>
 	
 </mapper>
