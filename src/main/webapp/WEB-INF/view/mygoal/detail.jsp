@@ -68,6 +68,10 @@
 		var isRecommendEmail = ${isRecommendEmail};
 		var recommendNumber = ${recommendNumber};
 		
+		if ( !${replyCount} ) {
+			$("#replyBtn").removeClass("btn-success");
+		}
+		
 		$(".concernTag").click(function() {
 			var concernTag = $(this).data("tag");
 			$.post("/WeGo/member/concerntag/add"
@@ -129,6 +133,80 @@
 			});
 		}
 		
+		var isReplyPattern = false;
+		
+		function checkReplyPattern(detail, cb = function(){}) {
+			$.post("/WeGo/reply/check"
+					, {
+						"detail" : detail
+					}
+					, function(response) {
+						if ( response.available ) {
+							$("#replySubmitBtn").addClass("btn-success");
+							isReplyPattern = true;
+						}
+						else {
+							$("#replySubmitBtn").removeClass("btn-success");
+							isReplyPattern = false;
+							cb();
+						}
+						console.log(isReplyPattern);
+					}
+			);
+		}
+		
+		$("#reply-detail").keyup(function() {
+			var detail = $(this).val();
+			checkReplyPattern(detail, function() {
+				if ( detail.length > 1000 ) {
+					$("#reply-detail").val(detail.slice(0, 999));
+					$("#reply-detail").keyup();
+				}
+			});
+		});
+		
+		$("#replySubmitBtn").click(function() {
+			var detail = $("#reply-detail").val();
+			if ( !isReplyPattern ) {
+ 				if ( detail.length < 10 ) {
+ 					alert("10자 이상 입력해주세요.");
+ 				} else if ( detail.length > 1000 ) {
+ 					alert("1000자 이하로 입력해주세요.")
+ 				} else {
+ 					alert("공백으로 시작할 수 없습니다.")
+ 				}
+ 				$("#reply-detail").keyup();
+			}
+			else {
+				$.post("/WeGo/reply/write", $("#replyForm").serialize(), function(response) {
+					if( response.status ) {
+						var id = response.replyVO.id;
+						console.log(id);
+						var profileFilename = response.replyVO.memberVO.profileFilename;
+						console.log(profileFilename);
+						var name = response.replyVO.memberVO.name;
+						console.log(name);
+						var email = response.replyVO.memberVO.email;
+						console.log(email);
+						var writeDate = response.replyVO.writeDate;
+						console.log(writeDate);
+						var detail = response.replyVO.detail;
+						var media = $(`<div class="media" data-id="` + id + `">
+							  			<div class="media-left media-top">
+						    				<img src="/WeGo/member/profiledownload/` + profileFilename + `" class="media-object" style="width:45px">
+						 				</div>
+						  				<div class="media-body">
+						    				<h4 class="media-heading" title="` + email + `">` + name + ` <small><i>` + writeDate + `</i></small></h4>
+						    				<p>` + detail + `</p>
+						  				</div>
+									</div>`);
+						console.log(media);
+						$(".reply-div").append(media);
+					}
+				});
+			}
+		});
+		
 	});
 </script>
 
@@ -165,6 +243,7 @@
     			</c:otherwise>
     		</c:choose>
     		<hr>
+    		<a href="/WeGo/mygoal/explorer">Goal Explorer</a>
     		<div id="lv1-goals-div">
     			<c:forEach var="lv1Goal" items="${lv1GoalList }">
 	    			<div class="goal-mini">
@@ -239,7 +318,7 @@
 			</div>
 			<div id="button-div">
 				<div id="button-div-left" style="float: left;">
-					<button type="button" id="replyBtn" class="btn btn-success">댓글 보기 <span class="badge">3</span></button>
+					<button type="button" id="replyBtn" class="btn btn-success">댓글 보기 <span class="badge">${replyCount }</span></button>
 				 	<c:choose>
 						<c:when test="${isRecommendEmail }">
 							<button type="button" id="recommendBtn" class="btn btn-success">
@@ -313,39 +392,39 @@
         </div>
         <div class="modal-body">
         	<div class="reply-div">
-        		<!-- Media top -->
-				<div class="media">
-				  <div class="media-left media-top">
-				    <img src="/WeGo/member/profiledownload/${sessionScope._USER_.profileFilename }" class="media-object" style="width:45px">
-				  </div>
-				  <div class="media-body">
-				    <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
-				    <p>Lorem ipsum...</p>
-				    <div class="media">
-					  <div class="media-left media-top">
-					    <img src="/WeGo/member/profiledownload/${sessionScope._USER_.profileFilename }" class="media-object" style="width:45px">
-					  </div>
-					  <div class="media-body">
-					    <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
-					    <p>Lorem ipsum...</p>
-					  </div>
+        		<c:forEach var="replyVO" items="${replyVOList }">
+	        		<div class="media" data-id="${replyVO.id }">
+			  			<div class="media-left media-top">
+		    				<img src="/WeGo/member/profiledownload/${replyVO.memberVO.profileFilename }" class="media-object" style="width:45px">
+		 				</div>
+		  				<div class="media-body">
+		    				<h4 class="media-heading" title="` + email + `">${replyVO.memberVO.name } <small><i>${replyVO.writeDate }</i></small></h4>
+		    				<p>${replyVO.detail }</p>
+							<c:forEach var="childReplyVO" items="${replyVO.childrenReplyVOList}">
+			  					<div class="media" data-id="${childReplyVO.id }">
+						  			<div class="media-left media-top">
+					    				<img src="/WeGo/member/profiledownload/${childReplyVO.memberVO.profileFilename }" class="media-object" style="width:45px">
+					 				</div>
+					  				<div class="media-body">
+					    				<h4 class="media-heading" title="` + email + `">${childReplyVO.memberVO.name } <small><i>${childReplyVO.writeDate }</i></small></h4>
+					    				<p>${childReplyVO.detail }</p>
+					  				</div>
+								</div>
+			  				</c:forEach>		  				
+		  				</div>
 					</div>
-				  </div>
-				</div>
-				<div class="media">
-				  <div class="media-left media-top">
-				    <img src="/WeGo/member/profiledownload/${sessionScope._USER_.profileFilename }" class="media-object" style="width:45px">
-				  </div>
-				  <div class="media-body">
-				    <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
-				    <p>Lorem ipsum...</p>
-				  </div>
-				</div>
+        		</c:forEach>
+        		<!-- Media top -->
         	</div>
         </div>
         <div class="modal-footer">
-        	<textarea name="detail" rows="4" style="width:84%; resize: none;"></textarea>
-			<input type="button" class="btn btn-success" data-dismiss="modal" value="댓글 달기">
+        	<form action="/WeGo/reply/write" method="post" id="replyForm">
+        		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
+    			<input type="hidden" name="parentReplyId" value="${parentReplyId }">
+        		<input type="hidden" name="goalId" value="${goalVO.id }">
+        		<textarea name="detail" id="reply-detail" rows="4" style="width:84%; resize: none;"></textarea>
+				<input type="button" id="replySubmitBtn" class="btn" data-dismiss="modal" value="댓글 달기">
+			</form>
         </div>
       </div>
     </div>

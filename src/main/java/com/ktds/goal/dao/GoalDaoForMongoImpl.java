@@ -57,11 +57,11 @@ public class GoalDaoForMongoImpl implements GoalDaoForMongo {
 	}
 	
 	@Override
-	public UpdateResult upsertGoalId(String mongoId, String goalId) {
+	public UpdateResult setGoalId(String mongoId, String goalId) {
 		Query query = new Query(new Criteria("_id").is(mongoId));
 		
 		Update update = new Update();
-		update.push("goalId", goalId);
+		update.set("goalId", goalId);
 		
 		return this.mongoTemplate.upsert(query, update, GoalVOForMongo.class, "goal");
 	}

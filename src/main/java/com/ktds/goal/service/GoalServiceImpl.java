@@ -70,8 +70,10 @@ public class GoalServiceImpl implements GoalService {
 			List<GoalVO> goalVOList = new ArrayList<GoalVO>();
 			for ( GoalVOForMongo goalVOForMongo : goalVOForMongoList ) {
 				GoalVO goalVO = this.goalDao.selectGoalByMongoId(goalVOForMongo.getId());
-				goalVO.setGoalVOForMongo(goalVOForMongo);
-				goalVOList.add(goalVO);
+				if ( !goalVO.isDelete() || !goalVO.isBlock() ) {
+					goalVO.setGoalVOForMongo(goalVOForMongo);
+					goalVOList.add(goalVO);
+				}
 			}
 			return goalVOList;			
 		}
@@ -137,7 +139,7 @@ public class GoalServiceImpl implements GoalService {
 	
 	@Override
 	public boolean modifyGoalIdInGoalVOForMongo(String mongoId, String goalId) {
-		return this.goalDaoForMongo.upsertGoalId(mongoId, goalId) != null;
+		return this.goalDaoForMongo.setGoalId(mongoId, goalId) != null;
 	}
 	
 	@Override

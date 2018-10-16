@@ -6,7 +6,6 @@
 	
 <resultMap type="ReplyVO" id="ReplyResultMap">
 	<id property="id" column="RP_ID" />
-	<result property="title" column="TTL" />
 	<result property="parentReplyId" column="PRNT_RP_ID" />
 	<result property="email" column="RP_EML" />
 	<result property="writeDate" column="WRT_DT" />
@@ -16,6 +15,7 @@
 	<result property="detail" column="DTL" />
 	<result property="isBlock" column="IS_BLCK" />
 	<result property="mongoId" column="MNG_ID" />
+	<result property="mentionEmail" column="MNTN_EML" />
 	<association property="memberVO" javaType="MemberVO">
 		<id property="email" column="MM_EML" />
 		<result property="name" column="NM" />
@@ -26,7 +26,8 @@
 
 <insert id="insertReply" parameterType="GoalVO">
 	INSERT	INTO RP (
-						EML
+						RP_ID
+						, EML
 						<if test="parentReplyId != null">
 							, PRNT_RP_ID
 						</if>
@@ -37,11 +38,15 @@
 						, DTL
 						, IS_BLCK
 						, MNG_ID
+						<if test="parentReplyId != null">
+							, MNTN_EML
+						</if>
 					)
 	VALUES	(
-				#{email}
+				'RP-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(GL_ID_SEQ.NEXTVAL, 6, '0')
+				, #{email}
 				<if test="parentReplyId != null">
-				, #{parentReplyId}
+					, #{parentReplyId}
 				</if>
 				, SYSDATE
 				, 0
@@ -50,7 +55,111 @@
 				, #{detail}
 				, 0
 				, #{mongoId}
+				<if test="parentReplyId != null">
+					, #{mentionEmail}
+				</if>
 	)
-</insert>	
+</insert>
+
+<select id="selectReplyByMongoId" parameterType="string" resultMap="ReplyResultMap">
+	 SELECT	RP.RP_ID
+			, RP.PRNT_RP_ID
+			, RP.EML RP_EML
+			, RP.WRT_DT
+			, RP.IS_DLT
+			, RP.GL_ID
+			, RP.IS_ADVC
+			, RP.DTL
+			, RP.IS_BLCK
+			, RP.MNG_ID
+			, RP.MNTN_EML
+			, MM.EML MM_EML
+			, MM.NM
+			, MM.PIC_NM
+			, MM.AUTHRTY
+	FROM	RP
+			, MM
+	WHERE	RP.EML = MM.EML
+	AND		RP.MNG_ID = #{mongoId}
+</select>
+
+<select id="selectReplyById" parameterType="string" resultMap="ReplyResultMap">
+ 	SELECT	RP.RP_ID
+			, RP.PRNT_RP_ID
+			, RP.EML RP_EML
+			, RP.WRT_DT
+			, RP.IS_DLT
+			, RP.GL_ID
+			, RP.IS_ADVC
+			, RP.DTL
+			, RP.IS_BLCK
+			, RP.MNG_ID
+			, RP.MNTN_EML
+			, MM.EML MM_EML
+			, MM.NM
+			, MM.PIC_NM
+			, MM.AUTHRTY
+	FROM	RP
+			, MM
+	WHERE	RP.EML = MM.EML
+	AND		RP.RP_ID = #{id}
+</select>	
+
+<select id="selectReplyListByGoalId" parameterType="string" resultMap="ReplyResultMap">
+	SELECT	RP.RP_ID
+			, RP.PRNT_RP_ID
+			, RP.EML RP_EML
+			, RP.WRT_DT
+			, RP.IS_DLT
+			, RP.GL_ID
+			, RP.IS_ADVC
+			, RP.DTL
+			, RP.IS_BLCK
+			, RP.MNG_ID
+			, RP.MNTN_EML
+			, MM.EML MM_EML
+			, MM.NM
+			, MM.PIC_NM
+			, MM.AUTHRTY
+	FROM	RP
+			, MM
+	WHERE	RP.EML = MM.EML
+	AND		RP.GL_ID = #{goalId}
+	AND		RP.PRNT_RP_ID is null
+	ORDER	BY RP.RP_ID DESC
+</select>
+
+<select id="selectChildrenReplyListByReplyId" parameterType="string" resultMap="ReplyResultMap">
+	SELECT	RP.RP_ID
+			, RP.PRNT_RP_ID
+			, RP.EML RP_EML
+			, RP.WRT_DT
+			, RP.IS_DLT
+			, RP.GL_ID
+			, RP.IS_ADVC
+			, RP.DTL
+			, RP.IS_BLCK
+			, RP.MNG_ID
+			, RP.MNTN_EML
+			, MM.EML MM_EML
+			, MM.NM
+			, MM.PIC_NM
+			, MM.AUTHRTY
+	FROM	RP
+			, MM
+	WHERE	RP.EML = MM.EML
+	AND		RP.PRNT_RP_ID = #{replyId}
+	ORDER	BY RP.RP_ID
+</select>
+
+<select id="selectReplyCountByGoalId" parameterType="string" resultType="_int">
+	SELECT  COUNT(1)
+	FROM    RP
+	WHERE   GL_ID = #{goalId}
+	AND     IS_DLT = 0
+	AND     IS_BLCK = 0
+	START   WITH PRNT_RP_ID is null
+	CONNECT BY PRIOR RP_ID = PRNT_RP_ID
+</select>
 	
 </mapper>

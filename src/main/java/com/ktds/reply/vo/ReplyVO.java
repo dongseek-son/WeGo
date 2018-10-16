@@ -1,5 +1,7 @@
 package com.ktds.reply.vo;
 
+import java.util.List;
+
 import com.ktds.member.vo.MemberVO;
 
 public class ReplyVO {
@@ -14,8 +16,12 @@ public class ReplyVO {
 	private boolean isAdvice;
 	private boolean isBlock;
 	private String mongoId;
+	private String mentionEmail;
 	
 	private MemberVO memberVO;
+	private String token;
+	private List<ReplyVO> childrenReplyVOList;
+	private ReplyVOForMongo replyVOForMongo;
 
 	public String getId() {
 		return id;
@@ -103,6 +109,38 @@ public class ReplyVO {
 
 	public void setMemberVO(MemberVO memberVO) {
 		this.memberVO = memberVO;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getMentionEmail() {
+		return mentionEmail;
+	}
+
+	public void setMentionEmail(String mentionEmail) {
+		this.mentionEmail = mentionEmail;
+	}
+
+	public List<ReplyVO> getChildrenReplyVOList() {
+		return childrenReplyVOList;
+	}
+
+	public void setChildrenReplyVOList(List<ReplyVO> childrenReplyVOList) {
+		this.childrenReplyVOList = childrenReplyVOList;
+	}
+
+	public ReplyVOForMongo getReplyVOForMongo() {
+		return replyVOForMongo;
+	}
+
+	public void setReplyVOForMongo(ReplyVOForMongo replyVOForMongo) {
+		this.replyVOForMongo = replyVOForMongo;
 	}
 
 }

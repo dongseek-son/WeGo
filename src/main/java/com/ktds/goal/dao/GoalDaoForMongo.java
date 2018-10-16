@@ -16,7 +16,7 @@ public interface GoalDaoForMongo {
 	
 	public List<GoalVOForMongo> findGoalVOForMongoListByTag(String tag, int page, int size);
 	
-	public UpdateResult upsertGoalId(String mongoId, String goalId);
+	public UpdateResult setGoalId(String mongoId, String goalId);
 	
 	public boolean isRecommendEmail(String goalId, String email);
 	

@@ -14,7 +14,15 @@ public class ReplyVOForMongo {
 
 	private List<String> mentionedEmailList;
 	private List<String> recommendEmailList;
-	private DateTime modifyDate;
+	private String replyId;
+	private DateTime createDate;
+	
+	public ReplyVOForMongo(DateTime createDate) {
+		this.createDate = createDate;
+	}
+
+	public ReplyVOForMongo() {
+	}
 
 	public String getId() {
 		return id;
@@ -40,12 +48,20 @@ public class ReplyVOForMongo {
 		this.recommendEmailList = recommendEmailList;
 	}
 
-	public DateTime getModifyDate() {
-		return modifyDate;
+	public DateTime getCreateDate() {
+		return createDate;
 	}
 
-	public void setModifyDate(DateTime modifyDate) {
-		this.modifyDate = modifyDate;
+	public void setCreateDate(DateTime modifyDate) {
+		this.createDate = modifyDate;
+	}
+
+	public String getReplyId() {
+		return replyId;
+	}
+
+	public void setReplyId(String replyId) {
+		this.replyId = replyId;
 	}
 
 }

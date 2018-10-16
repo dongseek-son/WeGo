@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,11 +27,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ktds.common.session.Session;
+import com.ktds.common.util.CarouselListUtil;
 import com.ktds.common.util.DownloadUtil;
 import com.ktds.goal.service.GoalService;
 import com.ktds.goal.vo.GoalVO;
 import com.ktds.goal.vo.GoalVOForForm;
 import com.ktds.member.vo.MemberVO;
+import com.ktds.reply.service.ReplyService;
 import com.nhncorp.lucy.security.xss.XssFilter;
 
 import io.github.seccoding.web.mimetype.ExtFilter;
@@ -42,6 +45,9 @@ public class MyGoalController {
 	
 	@Autowired
 	private GoalService goalService;
+	
+	@Autowired
+	private ReplyService replyService;
 	
 	@Value("${upload.image.path}")
 	private String uploadPath;
@@ -158,6 +164,8 @@ public class MyGoalController {
 		view.addObject("parentGoal", this.goalService.readParentGoal(goalVO.getId()));
 		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalVO.getId()));
 		view.addObject("lv1GoalList", this.goalService.readGoalListByLevel(memberVO.getEmail(), 1));
+		view.addObject("replyVOList", this.replyService.readReplyListByGoalId(goalVO.getId()));
+		view.addObject("replyCount", this.replyService.readReplyCountByGoalId(goalVO.getId()));
 		return view;
 	}
 	
@@ -179,11 +187,42 @@ public class MyGoalController {
 		view.addObject("parentGoal", this.goalService.readParentGoal(goalId));
 		view.addObject("childrenGoalList", this.goalService.readChildrenGoalList(goalId));
 		view.addObject("lv1GoalList", this.goalService.readGoalListByLevel(memberVO.getEmail(), 1));
+		view.addObject("replyVOList", this.replyService.readReplyListByGoalId(goalVO.getId()));
+		view.addObject("replyCount", this.replyService.readReplyCountByGoalId(goalVO.getId()));
 		return view;
 	}
 	
-
+	@RequestMapping("mygoal/explorer")
+	public ModelAndView viewMyGoalExplorerPage(@SessionAttribute(name=Session.USER) MemberVO memberVO) {
+		ModelAndView view = new ModelAndView("mygoal/explorer");
+		List<GoalVO> goalVOList = this.goalService.readGoalListByLevel(memberVO.getEmail(), 1);
+		
+		int firstIndex = 0;
+		int size = goalVOList.size();
+		
+		view.addObject("goalVOList", CarouselListUtil.extractShowingGoalVO(goalVOList, firstIndex, 5));
+		view.addObject("size", size); 
+		return view;
+	}
 	
+	@PostMapping("mygoal/explorer/listChange")
+	@ResponseBody
+	public Map<String, Object> doListChangeAction(@RequestParam int firstIndex
+			, @RequestParam int size
+			, @RequestParam String firstId
+			, @SessionAttribute(name=Session.USER) MemberVO memberVO) {
+		List<GoalVO> goalVOList = this.goalService.readGoalListByLevel(memberVO.getEmail(), 1);
+		
+		return CarouselListUtil.changeList(goalVOList, firstIndex, size, firstId);
+	}
+	
+	@PostMapping("mygoal/explorer/childrenList")
+	@ResponseBody
+	public Map<String, Object> doChildrenListAction(@RequestParam String id) {
+		List<GoalVO> goalVOList = this.goalService.readChildrenGoalList(id);
+		return CarouselListUtil.inputNewList(goalVOList);
+	}
+
 	@RequestMapping("mygoal/test")
 	public ModelAndView doTestAction() {
 		ModelAndView view = new ModelAndView("test");
@@ -193,5 +232,7 @@ public class MyGoalController {
 		view.addObject("goalVOList", goalVOList);
 		return view;
 	}
+	
+	
 	
 }

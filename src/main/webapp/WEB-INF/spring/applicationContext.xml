@@ -36,9 +36,11 @@
 
  	<mvc:interceptors>
  		<mvc:interceptor>
+ 			<mvc:mapping path="/goal/**"/>
 			<mvc:mapping path="/mygoal/**"/>
 			<mvc:mapping path="/ourgoal/**"/>
 			<mvc:mapping path="/message/**"/>
+			<mvc:mapping path="/reply/**"/>
 			<bean	id="sessionInterceptor" 
 					class="com.ktds.common.SessionInterceptor" />
 		</mvc:interceptor>
