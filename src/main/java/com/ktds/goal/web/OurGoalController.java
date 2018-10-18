@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,15 @@ public class OurGoalController {
 	public ModelAndView viewListPage() {
 		ModelAndView view = new ModelAndView("ourgoal/list");
 		view.addObject("goalVOList", this.goalService.readAllGoals(0, 5));
+		view.addObject("tag", null);
+		return view;
+	}
+	
+	@GetMapping("ourgoal/list/{tag}")
+	public ModelAndView viewListPage( @PathVariable String tag) {
+		ModelAndView view = new ModelAndView("ourgoal/list");
+		view.addObject("goalVOList", this.goalService.readGoalVOListByTag(tag, 0, 5));
+		view.addObject("tag", tag);
 		return view;
 	}
 	
@@ -40,7 +50,7 @@ public class OurGoalController {
 		return result;
 	}
 	
-	@RequestMapping("ourgoal/list/page/tag")
+	@RequestMapping("ourgoal/list/tag/page")
 	@ResponseBody
 	public Map<String, Object> doListPageByTagAction(@RequestParam String tag, @RequestParam int page) {
 		Map<String, Object> result = new HashMap<>();

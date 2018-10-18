@@ -32,26 +32,51 @@
 			 			
 			 			page = page + 1;
 			 			
-			 			$.post( "/WeGo/ourgoal/list/page" , {
-			 				page : page
-			 			}, function(response) {
-			 				
-			 				var goalVOList = response.goalVOList;
-			 				
-							if ( goalVOList ) {
-								for ( var index in goalVOList ) {
-									var sdom = $(`<a href="/WeGo/mygoal/detail/` + goalVOList[index].id + `" class="goal-a">	
-														<div class="goal-div">` + goalVOList[index].id  + ` / ` + goalVOList[index].title + `</div>
-													</a>`);
-									$("#goals-div").append(sdom);
+			 			if ( ${tag } ) {
+			 				$.post( "/WeGo/ourgoal/list/tag/page" , {
+				 				page : page
+				 				, tag : ${tag}
+				 			}, function(response) {
+				 				
+				 				var goalVOList = response.goalVOList;
+				 				
+								if ( goalVOList ) {
+									for ( var index in goalVOList ) {
+										var sdom = $(`<a href="/WeGo/mygoal/detail/` + goalVOList[index].id + `" class="goal-a">	
+															<div class="goal-div">` + goalVOList[index].id  + ` / ` + goalVOList[index].title + `</div>
+														</a>`);
+										$("#goals-div").append(sdom);
+									}
 								}
-							}
-							else if ( !isEnd ) {
-								var sdom = $('<div id="end-div">마지막 목표 입니다.</div>');
-								$("#goals-div").append(sdom);
-								isEnd = true;
-							}
-						});
+								else if ( !isEnd ) {
+									var sdom = $('<div id="end-div">마지막 목표 입니다.</div>');
+									$("#goals-div").append(sdom);
+									isEnd = true;
+								}
+				 			});
+						}	
+			 			else {
+				 			$.post( "/WeGo/ourgoal/list/page" , {
+				 				page : page
+				 			}, function(response) {
+				 				
+				 				var goalVOList = response.goalVOList;
+				 				
+								if ( goalVOList ) {
+									for ( var index in goalVOList ) {
+										var sdom = $(`<a href="/WeGo/mygoal/detail/` + goalVOList[index].id + `" class="goal-a">	
+															<div class="goal-div">` + goalVOList[index].id  + ` / ` + goalVOList[index].title + `</div>
+														</a>`);
+										$("#goals-div").append(sdom);
+									}
+								}
+								else if ( !isEnd ) {
+									var sdom = $('<div id="end-div">마지막 목표 입니다.</div>');
+									$("#goals-div").append(sdom);
+									isEnd = true;
+								}
+							});			 				
+			 			}
 			 		}
 				 });
 	});

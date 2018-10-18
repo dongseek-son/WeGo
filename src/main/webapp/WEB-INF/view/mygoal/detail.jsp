@@ -50,7 +50,8 @@
 	border-top: 1px dashed #999;
 }
 #detail-div {
-	min-height: 480px;
+	min-height: 440px;
+	margin-bottom: 20px;
 }
 #hashtags-div {
 	position: relative;

@@ -6,6 +6,10 @@ $().ready(function() {
 	$("#message-a").click(function() {
 		window.open("/WeGo/message/write", "Message", "titlebar=no,menubar=no,status=no,toolbar=no,top=150,left=700,width=500,height=500");
 	});
+	
+	$("#searchBtn").click(function() {
+		window.location = "/WeGo/ourgoal/list/" + $("#searchInput").val();
+	});
 });
 </script>
 <nav class="navbar navbar-wego navbar-fixed-top">
@@ -34,9 +38,9 @@ $().ready(function() {
 		</ul>
 		<form class="navbar-form navbar-right" action="#">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search">
+				<input type="text" class="form-control" id="searchInput" placeholder="Search">
 				<div class="input-group-btn">
-					<button class="btn btn-default" type="submit">
+					<button class="btn btn-default" id="searchBtn" type="button">
 						<i class="glyphicon glyphicon-search"></i>
 					</button>
 				</div>

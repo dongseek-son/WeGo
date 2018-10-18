@@ -100,7 +100,7 @@ public class GoalServiceImpl implements GoalService {
 			List<GoalVO> goalVOList = new ArrayList<GoalVO>();
 			for ( GoalVOForMongo goalVOForMongo : goalVOForMongoList ) {
 				GoalVO goalVO = this.goalDao.selectGoalByMongoId(goalVOForMongo.getId());
-				if ( !goalVO.isDelete() || !goalVO.isBlock() ) {
+				if ( goalVO != null && ( !goalVO.isDelete() || !goalVO.isBlock() ) ) {
 					goalVO.setGoalVOForMongo(goalVOForMongo);
 					goalVOList.add(goalVO);
 				}
