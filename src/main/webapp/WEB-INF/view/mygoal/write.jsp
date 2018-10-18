@@ -11,6 +11,9 @@
 .tag-div {
 	display: inline-block;
 }
+.tag {
+	width: 160px;
+}
 </style>
 <script type="text/javascript" src="/WeGo/js/ckeditor/ckeditor.js" charset="utf-8"></script>
 <script type="text/javascript" src="/WeGo/js/ckeditor/lang/ko.js" charset="utf-8"></script>
@@ -33,7 +36,7 @@
 		 
 		$("#append-tag").click(function() {
 			var name = "tagList[" + index + "]";
-		    var tag = $('<input type="text" class="tag" name="'+ name +'" placeholder="Tag" style="margin-right:4px;" />');
+		    var tag = $('<input type="text" class="form-control tag" name="'+ name +'" placeholder="Tag" style="margin-right:4px; width:175px;" />');
 		    index = index+1;
 		    $(this).before( tag );
 		    tag.focus();
@@ -48,8 +51,29 @@
 		    }
 		 });
 		
+		function checkTagPattern() {
+			
+		}
+		
 		$("#submitBtn").click(function() {
-			$("#writeForm").submit();
+			$.post("/WeGo/mygoal/check", $("#writeForm").serialize(), function(response) {
+				console.log(response.isTitleOK);
+				console.log(response.isTagListEmpty);
+				console.log(response.isTagListOK);
+				if ( !response.isTitleOK ) {
+					alert("제목은 4~20자로 입력해주세요.")
+				}
+				else if ( response.isTagListEmpty ) {
+					alert("tag는 하나 이상 입력해주세요.")
+				}
+				else if ( !response.isTagListOK ) {
+					alert("tag는 공백없이 3~10자로 입력해주세요.")
+				}
+				else {
+					console.log("success");
+					/* $("#writeForm").submit(); */
+				}
+			});
 		});
 		
 	});
@@ -69,7 +93,7 @@
     		<div>lv1</div> --%>
     	</div>
     	<div class="col-sm-8">
-    		<form:form action="/WeGo/mygoal/write" method="post" id="writeForm">
+    		<form:form action="/WeGo/mygoal/write" method="post" id="writeForm" class="form-inline">
     		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
     		<input type="hidden" name="parentGoalId" value="${parentGoalId }">
 			<div id="write">
@@ -78,13 +102,13 @@
 					<input type="checkbox" id="isDurablity" name="isDurablity" /> 지속성  
 				</div>
 				<div id="title-div">
-					<input type="text" id="title" name="title" class="form-control" placeholder="제목 입력">
+					<input type="text" id="title" name="title" class="form-control" placeholder="제목 입력" style="width: 100%;">
 				</div>
 				<div id="detail-div">
 					<textarea name="detail" id="editor" ></textarea>
 				</div>
 				<div id="hashtags-div">
-					<input type="text" class="tag" name="tagList[0]" placeholder="Tag" />
+					<input type="text" class="form-control tag" name="tagList[0]" placeholder="Tag" style="width:175px;"/>
 	       			<input type="button" id="append-tag" value="+" />
 				</div>
 				<div>

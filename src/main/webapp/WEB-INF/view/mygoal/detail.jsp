@@ -277,7 +277,9 @@ textarea {
     			</c:otherwise>
     		</c:choose>
     		<hr>
+    		<a href="/WeGo/mygoal/write">새 목표 만들기</a><br>
     		<a href="/WeGo/mygoal/explorer">Goal Explorer</a>
+    		<hr>
     		<div id="lv1-goals-div">
     			<c:forEach var="lv1Goal" items="${lv1GoalList }">
 	    			<div class="goal-mini">

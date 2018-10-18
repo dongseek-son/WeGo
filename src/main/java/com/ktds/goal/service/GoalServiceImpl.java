@@ -3,6 +3,7 @@ package com.ktds.goal.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,17 @@ public class GoalServiceImpl implements GoalService {
 	private GoalVOForMongo separateGoalVOForMongoFromGoalVOForForm(GoalVOForForm goalVOForForm) {
 		GoalVOForMongo goalVOForMongo = new GoalVOForMongo();
 		
-		goalVOForMongo.setTagList(goalVOForForm.getTagList());
+		List<String> tagList = goalVOForForm.getTagList();
+		
+		Iterator<String> tagListIterator = tagList.iterator();
+		while ( tagListIterator.hasNext() ) {
+			String tag = tagListIterator.next();
+			if ( tag == null || tag.equals("") ) {
+				tagListIterator.remove();
+			}
+		}
+		
+		goalVOForMongo.setTagList(tagList);
 		goalVOForMongo.setModifyDate(new DateTime().plusHours(9));
 		
 		return goalVOForMongo;

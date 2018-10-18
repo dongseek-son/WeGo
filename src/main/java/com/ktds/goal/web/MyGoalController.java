@@ -52,12 +52,17 @@ public class MyGoalController {
 	@Value("${upload.image.path}")
 	private String uploadPath;
 	
+	@GetMapping("mygoal/write")
+	public ModelAndView viewMyGoalWritePage() {
+		ModelAndView view = new ModelAndView("mygoal/write");
+		view.addObject("noGoal", false);
+		return view;
+	}
+	
 	@GetMapping("mygoal/write/{id}")
 	public ModelAndView viewMyGoalWritePage(@PathVariable String id) {
 		ModelAndView view = new ModelAndView("mygoal/write");
-		if ( id != null ) {
-			view.addObject("parentGoalId", id);
-		}
+		view.addObject("parentGoalId", id);
 		view.addObject("noGoal", false);
 		return view;
 	}
@@ -246,6 +251,42 @@ public class MyGoalController {
 		}
 		
 		return "redirect:/mygoal/detail";
+	}
+	
+	@RequestMapping("mygoal/check")
+	@ResponseBody
+	public Map<String, Object> doWriteFormCheck(@ModelAttribute GoalVOForForm goalVOForForm) {
+		Map<String, Object> result = new HashMap<>();
+		boolean isTitleOK = true;
+		boolean isTagListEmpty = false;
+		boolean isTagListOK = true;
+		
+		String title = goalVOForForm.getTitle();
+		List<String> tagList = goalVOForForm.getTagList();
+		
+		System.out.println(tagList);
+		System.out.println(tagList.isEmpty());
+		System.out.println(tagList.size());
+		
+		if ( title.length() < 4 || title.length() > 20 ) {
+			isTitleOK = false;
+		}
+		else if ( tagList.size() == 1 && tagList.get(0).length() == 0 ) {
+			isTagListEmpty = true;
+		}
+		else {
+			for ( String tag : tagList ) {
+				if ( tag.contains(" ") || tag.length() < 3 || tag.length() > 10 ) {
+					isTagListOK = false;
+				}
+			}
+		}
+		
+		result.put("status", "OK");
+		result.put("isTitleOK", isTitleOK);
+		result.put("isTagListEmpty", isTagListEmpty);
+		result.put("isTagListOK", isTagListOK);
+		return result;
 	}
 
 	@RequestMapping("mygoal/test")
