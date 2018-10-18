@@ -26,4 +26,7 @@ public interface GoalDao {
 	
 	public GoalVO selectGoalByMongoId(String mongoId);
 	
+	public int updateDelete(String id);
+	
+	public int updateSuccess(String id);
 }

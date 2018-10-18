@@ -73,14 +73,14 @@ public class ReplyServiceImpl implements ReplyService {
 		   this.combineReplyVO(replyVO);
 		   replyVO.setChildrenReplyVOList(this.combineReplyVOList(this.replyDao.selectChildrenReplyListByReplyId(replyVO.getId())));
 		   
-		   if ( replyVO.isDelete() )
+		   if ( replyVO.isDelete() ) {
 			   if ( replyVO.getChildrenReplyVOList() == null 
 			   		|| replyVO.getChildrenReplyVOList().size() == 0 
-			   		|| this.replyDao.isChildrenListAllDeleted(replyVO.getId()) )
-			   replyVOListIterator.remove();
+			   		|| this.replyDao.isChildrenListAllDeleted(replyVO.getId()) ) {
+				   replyVOListIterator.remove();
+			   }
 		   }
-		
-		
+		}
 //		for (ReplyVO replyVO : replyVOList) {	
 //			this.combineReplyVO(replyVO);
 //			replyVO.setChildrenReplyVOList(this.combineReplyVOList(this.replyDao.selectChildrenReplyListByReplyId(replyVO.getId())));

@@ -222,6 +222,13 @@
 			}
 		});
 		
+		$("#deleteBtn").click(function() {
+			var check = confirm("정말 삭제하시겠습니까? \n * 하위 목표가 있을시 하위 목표까지 모두 삭제됩니다.");
+			if ( check ) {
+				window.location = "/WeGo/mygoal/delete/${sessionScope._CSRF_}/${goalVO.id}";
+			}
+		});
+		
 	});
 </script>
 
@@ -497,7 +504,8 @@
 									    					삭제된 댓글 입니다.
 									    				</div>
 								    			</div>
-											</div></c:when>
+											</div>
+											</c:when>
 											<c:otherwise>
 												<div class="media" data-id="${childReplyVO.id }">
 										  			<div class="media-left media-top">

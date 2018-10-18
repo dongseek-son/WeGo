@@ -72,4 +72,14 @@ public class GoalDaoImpl extends SqlSessionDaoSupport implements GoalDao {
 		return this.getSqlSession().selectOne("GoalDao.selectGoalByMongoId", mongoId);
 	}
 	
+	@Override
+	public int updateDelete(String id) {
+		return this.getSqlSession().update("GoalDao.updateDelete", id);
+	}
+	
+	@Override
+	public int updateSuccess(String id) {
+		return this.getSqlSession().update("GoalDao.updateSuccess", id);
+	}
+	
 }

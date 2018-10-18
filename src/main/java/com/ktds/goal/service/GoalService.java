@@ -36,4 +36,8 @@ public interface GoalService {
 	
 	public boolean pullRecommendEmailList(String goalId, String email);
 	
+	public boolean modifyDelete(String id);
+	
+	public boolean modifySuccess(String id);
+	
 }

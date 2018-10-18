@@ -156,4 +156,14 @@ public class GoalServiceImpl implements GoalService {
 	public boolean pullRecommendEmailList(String goalId, String email) {
 		return this.goalDaoForMongo.pullRecommendEmailList(goalId, email).getModifiedCount() > 0;
 	}
+	
+	@Override
+	public boolean modifyDelete(String id) {
+		return this.goalDao.updateDelete(id) > 0;
+	}
+	
+	@Override
+	public boolean modifySuccess(String id) {
+		return this.goalDao.updateSuccess(id) > 0;
+	}
 }

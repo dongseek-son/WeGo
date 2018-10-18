@@ -66,7 +66,7 @@ public class MyGoalController {
 	public ModelAndView doMyGoalWriteAction(@ModelAttribute GoalVOForForm goalVOForForm
 			, @SessionAttribute(name=Session.USER) MemberVO memberVO
 			, HttpServletRequest request) {
-		ModelAndView view = new ModelAndView("redirect:mygoal/detail");
+		ModelAndView view = new ModelAndView("redirect:/mygoal/detail");
 		
 		String sessionToken = (String)request.getSession().getAttribute(Session.CSRF);
 		if ( !goalVOForForm.getToken().equals(sessionToken) ) {
@@ -184,6 +184,12 @@ public class MyGoalController {
 			view.addObject("recommendNumber", 0);
 		}
 		
+		for (GoalVO g : this.goalService.readChildrenGoalList(goalId)) {
+			System.out.println(g.toString());
+		}
+		
+		
+		
 		view.addObject("goalVO", goalVO);
 		view.addObject("isRecommendEmail", this.goalService.isRecommendEmail(goalVO.getId(), memberVO.getEmail()));
 		view.addObject("parentGoal", this.goalService.readParentGoal(goalId));
@@ -224,6 +230,22 @@ public class MyGoalController {
 	public Map<String, Object> doChildrenListAction(@RequestParam String id) {
 		List<GoalVO> goalVOList = this.goalService.readChildrenGoalList(id);
 		return CarouselListUtil.inputNewList(goalVOList);
+	}
+	
+	@GetMapping("mygoal/delete/{token}/{id}")
+	public String doDeleteAction(
+			@PathVariable String token
+			, @PathVariable String id
+			, @SessionAttribute(name=Session.CSRF) String sessionToken) {
+		
+		if ( !token.equals(sessionToken) ) {
+			throw new RuntimeException("잘못된 접근 입니다.");
+		}
+		else {
+			this.goalService.modifyDelete(id);
+		}
+		
+		return "redirect:/mygoal/detail";
 	}
 
 	@RequestMapping("mygoal/test")

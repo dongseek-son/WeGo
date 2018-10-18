@@ -39,7 +39,7 @@
 		    tag.focus();
 		  });
 		
-		$(".tags").on("keydown", ".tag", function(e) {
+		$("#hashtags-div").on("keydown", ".tag", function(e) {
 		    if ( e.key == "," ) {
 		      if ( $(this).val() != "" ) {
 		          $("#append-tag").click();
@@ -47,6 +47,10 @@
 		      return false;
 		    }
 		 });
+		
+		$("#submitBtn").click(function() {
+			$("#writeForm").submit();
+		});
 		
 	});
 </script>
@@ -65,17 +69,13 @@
     		<div>lv1</div> --%>
     	</div>
     	<div class="col-sm-8">
-    		<form:form action="/WeGo/mygoal/write" method="post">
+    		<form:form action="/WeGo/mygoal/write" method="post" id="writeForm">
     		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
     		<input type="hidden" name="parentGoalId" value="${parentGoalId }">
 			<div id="write">
 				<div id="info-div">
-					<div>
-						<input type="checkbox" id="isOpen" name="isOpen" /> 비공개
-					</div>
-					<div>
-						<input type="checkbox" id="isDurablity" name="isDurablity" /> 지속성  
-					</div>
+					<input type="checkbox" id="isOpen" name="isOpen" /> 비공개
+					<input type="checkbox" id="isDurablity" name="isDurablity" /> 지속성  
 				</div>
 				<div id="title-div">
 					<input type="text" id="title" name="title" class="form-control" placeholder="제목 입력">
@@ -84,11 +84,11 @@
 					<textarea name="detail" id="editor" ></textarea>
 				</div>
 				<div id="hashtags-div">
-					<input type="text" class="tags" name="tagList[0]" placeholder="Tag" />
+					<input type="text" class="tag" name="tagList[0]" placeholder="Tag" />
 	       			<input type="button" id="append-tag" value="+" />
 				</div>
 				<div>
-					<input type="submit" value="등록">
+					<input type="button" class="btn btn-default" id="submitBtn" value="등록">
 				</div>
 			</div>
 			</form:form>

@@ -89,6 +89,7 @@
 			, MM
 	WHERE	GL.EML = MM.EML
 	AND		GL_ID = #{id}
+	AND		GL.IS_DLT = 0
 </select>
 
 <select id="selectGoalList" parameterType="GoalPageVO" resultMap="GoalResultMap">
@@ -149,6 +150,7 @@
 			, MM
 	WHERE	GL.EML = MM.EML
 	AND		GL.EML = #{email}
+	AND		GL.IS_DLT = 0
 	ORDER	BY GL.MDFY_DT DESC
 </select>
 
@@ -204,6 +206,7 @@
 			, MM
 	WHERE	GL.EML = MM.EML
 	AND 	PRNT_GL_ID = #{id}
+	AND		GL.IS_DLT = 0
 	ORDER	BY MDFY_DT DESC
 </select>
 
@@ -240,6 +243,7 @@
 						, MNG_ID
 				FROM	GL
 				WHERE	EML = #{email}
+				AND		IS_DLT = 0
 				ORDER	BY MDFY_DT DESC
 	)
 	WHERE	ROWNUM = 1
@@ -278,6 +282,7 @@
 						, MNG_ID
 	            FROM    GL
 	            WHERE	EML = #{email}
+	            AND		IS_DLT = 0
 	            START   WITH PRNT_GL_ID is null
 	            CONNECT BY PRIOR GL_ID = PRNT_GL_ID
 	)
@@ -302,6 +307,29 @@
 			, MNG_ID mongoId
 	FROM	GL
 	WHERE	MNG_ID = #{mongoId}
+	AND		IS_DLT = 0
 </select>
+
+<update id="updateDelete" parameterType="string">
+	UPDATE	GL
+	SET		IS_DLT = 1
+	WHERE	GL_ID IN (
+						SELECT	GL_ID
+						FROM	GL
+						START	WITH GL_ID = #{id}
+						CONNECT	BY PRIOR GL_ID = PRNT_GL_ID
+					)
+</update>
+
+<update id="updateSuccess" parameterType="string">
+	UPDATE	GL
+	SET		IS_SCCSS = 1
+	WHERE	GL_ID IN (
+						SELECT	GL_ID
+						FROM	GL
+						START	WITH GL_ID = #{id}
+						CONNECT	BY PRIOR GL_ID = PRNT_GL_ID
+					)
+</update>
 	
 </mapper>
