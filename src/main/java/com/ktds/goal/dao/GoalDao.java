@@ -31,4 +31,8 @@ public interface GoalDao {
 	public int updateSuccess(String id);
 	
 	public int updateGoal(GoalVO goalVO);
+	
+	public int selectAllLevelChildrenGoalCount(String id);
+	
+	public int selectSuccessAllLevelChildrenGoalCount(String id);
 }

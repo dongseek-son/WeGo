@@ -21,6 +21,9 @@ public class GoalVO {
 	
 	private MemberVO memberVO;
 	private GoalVOForMongo goalVOForMongo;
+	
+	private int allLevelChildrenGoalCount;
+	private int allLevelSuccessChildrenGoalCount;
 
 	@Override
 	public String toString() {
@@ -157,6 +160,22 @@ public class GoalVO {
 
 	public void setMemberVO(MemberVO memberVO) {
 		this.memberVO = memberVO;
+	}
+
+	public int getAllLevelChildrenGoalCount() {
+		return allLevelChildrenGoalCount;
+	}
+
+	public void setAllLevelChildrenGoalCount(int allLevelChildrenGoalCount) {
+		this.allLevelChildrenGoalCount = allLevelChildrenGoalCount;
+	}
+
+	public int getAllLevelSuccessChildrenGoalCount() {
+		return allLevelSuccessChildrenGoalCount;
+	}
+
+	public void setAllLevelSuccessChildrenGoalCount(int allLevelSuccessChildrenGoalCount) {
+		this.allLevelSuccessChildrenGoalCount = allLevelSuccessChildrenGoalCount;
 	}
 
 }

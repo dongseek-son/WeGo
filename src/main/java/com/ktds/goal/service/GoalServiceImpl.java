@@ -80,6 +80,8 @@ public class GoalServiceImpl implements GoalService {
 	private GoalVO combineGoalVO(GoalVO goalVO) {
 		if ( goalVO != null ) {
 			goalVO.setGoalVOForMongo(this.goalDaoForMongo.findGoalVOForMongo(goalVO.getMongoId()));
+			goalVO.setAllLevelChildrenGoalCount(this.goalDao.selectAllLevelChildrenGoalCount(goalVO.getId()));
+			goalVO.setAllLevelSuccessChildrenGoalCount(this.goalDao.selectSuccessAllLevelChildrenGoalCount(goalVO.getId()));
 		}
 		return goalVO;
 	}
@@ -200,4 +202,5 @@ public class GoalServiceImpl implements GoalService {
 		this.goalDaoForMongo.updateGoalVOForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
 		return this.goalDao.updateGoal(this.separateGoalVOFromGoalVOForForm(goalVOForForm)) > 0;
 	}
+	
 }

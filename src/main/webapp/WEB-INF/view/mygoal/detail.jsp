@@ -80,6 +80,9 @@ textarea {
 .media-body {
 	width: 600px;
 }
+.progress {
+	margin-bottom: 0;
+}
 </style>
 <script type="text/javascript">
 
@@ -256,7 +259,12 @@ textarea {
 		    		<div class="goal-mini">
 		    			<div><a href="/WeGo/mygoal/detail/${parentGoal.id}">${parentGoal.title }</a></div>
 		    			<div>${parentGoal.modifyDate }</div>
-		    			<div>progressbar</div>
+		    			<div class="progress">
+							<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${parentGoal.allLevelSuccessChildrenGoalCount }"
+								aria-valuemin="0" aria-valuemax="${parentGoal.allLevelChildrenGoalCount }" style="width: ${parentGoal.allLevelSuccessChildrenGoalCount/parentGoal.allLevelChildrenGoalCount*100 }%;" >
+							    <span style="color: #333;">${parentGoal.allLevelSuccessChildrenGoalCount }/${parentGoal.allLevelChildrenGoalCount }</span>
+							</div>
+						</div>
 		    			<c:forEach var="tag" items="${parentGoal.goalVOForMongo.tagList }">
 		    				<ul class="tag-ul">
 								<li class="dropdown">
@@ -290,7 +298,12 @@ textarea {
 		    			<div class="goal-mini">
 				    		<div><a href="/WeGo/mygoal/detail/${lv1Goal.id}">${lv1Goal.title }</a></div>
 				    		<div>${lv1Goal.modifyDate }</div>
-				    		<div>progressbar</div>
+				    		<div class="progress">
+								<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${lv1Goal.allLevelSuccessChildrenGoalCount }"
+									aria-valuemin="0" aria-valuemax="${lv1Goal.allLevelChildrenGoalCount }" style="width: ${lv1Goal.allLevelSuccessChildrenGoalCount/lv1Goal.allLevelChildrenGoalCount*100 }%;" >
+								    <span style="color: #333;">${lv1Goal.allLevelSuccessChildrenGoalCount }/${lv1Goal.allLevelChildrenGoalCount }</span>
+								</div>
+							</div>
 				    		<c:forEach var="tag" items="${lv1Goal.goalVOForMongo.tagList }">
 				    			<ul class="tag-ul">
 									<li class="dropdown">
@@ -397,7 +410,12 @@ textarea {
 			    		<div class="goal-mini">
 			    			<div><a href="/WeGo/mygoal/detail/${childGoal.id}">${childGoal.title }</a></div>
 			    			<div>${childGoal.modifyDate }</div>
-			    			<div>progressbar</div>
+			    			<div class="progress">
+								<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${childGoal.allLevelSuccessChildrenGoalCount }"
+									aria-valuemin="0" aria-valuemax="${childGoal.allLevelChildrenGoalCount }" style="width: ${childGoal.allLevelSuccessChildrenGoalCount/childGoal.allLevelChildrenGoalCount*100 }%;" >
+								    <span style="color: #333;">${childGoal.allLevelSuccessChildrenGoalCount }/${childGoal.allLevelChildrenGoalCount }</span>
+								</div>
+							</div>
 			    			<c:forEach var="tag" items="${childGoal.goalVOForMongo.tagList }">
 			    				<ul class="tag-ul">
 									<li class="dropdown">

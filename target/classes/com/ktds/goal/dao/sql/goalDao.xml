@@ -342,4 +342,19 @@
 	WHERE	GL_ID = #{id}
 </update>
 
+<select id="selectAllLevelChildrenGoalCount" parameterType="string" resultType="_int">
+	SELECT	COUNT(1)
+	FROM	GL
+	START	WITH GL_ID = #{id}
+	CONNECT	BY PRIOR GL_ID = PRNT_GL_ID
+</select>
+
+<select id="selectSuccessAllLevelChildrenGoalCount" parameterType="string" resultType="_int">
+	SELECT	COUNT(1)
+	FROM	GL
+	WHERE	IS_SCCSS = 1
+	START	WITH GL_ID = #{id}
+	CONNECT	BY PRIOR GL_ID = PRNT_GL_ID
+</select>
+
 </mapper>

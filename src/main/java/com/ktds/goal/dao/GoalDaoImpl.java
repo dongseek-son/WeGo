@@ -87,4 +87,14 @@ public class GoalDaoImpl extends SqlSessionDaoSupport implements GoalDao {
 		return this.getSqlSession().update("GoalDao.updateGoal", goalVO);
 	}
 	
+	@Override
+	public int selectAllLevelChildrenGoalCount(String id) {
+		return this.getSqlSession().selectOne("GoalDao.selectAllLevelChildrenGoalCount", id);
+	}
+	
+	@Override
+	public int selectSuccessAllLevelChildrenGoalCount(String id) {
+		return this.getSqlSession().selectOne("GoalDao.selectSuccessAllLevelChildrenGoalCount", id);
+	}
+	
 }
