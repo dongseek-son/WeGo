@@ -49,8 +49,11 @@
 	position: relative;
 	border-top: 1px dashed #999;
 }
+#detail-div {
+	min-height: 480px;
+}
 #hashtags-div {
-	position: absolute;
+	position: relative;
 	bottom: 0px;
 	width: 100%;
 	border-top: 1px dashed #999;
@@ -330,6 +333,9 @@ textarea {
 				<div id="title-bar">
 					<div id="title-div">
 						<span>${goalVO.title }</span>
+						<c:if test="${goalVO.isSuccess() }">
+							<span class="label label-success" style="font-size: 16px; vertical-align: middle;">목표 달성!</span>
+						</c:if>
 					</div>
 					<div id="info-div">
 						<c:if test="${!goalVO.isOpen() }">

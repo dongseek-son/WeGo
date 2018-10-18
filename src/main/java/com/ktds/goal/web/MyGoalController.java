@@ -214,7 +214,12 @@ public class MyGoalController {
 		int firstIndex = 0;
 		int size = goalVOList.size();
 		
-		view.addObject("goalVOList", CarouselListUtil.extractShowingGoalVO(goalVOList, firstIndex, 5));
+		if ( size <= 5 ) {
+			view.addObject("goalVOList", goalVOList);
+		}
+		else {
+			view.addObject("goalVOList", CarouselListUtil.extractShowingGoalVO(goalVOList, firstIndex, 5));			
+		}
 		view.addObject("size", size); 
 		return view;
 	}
@@ -251,6 +256,22 @@ public class MyGoalController {
 		}
 		
 		return "redirect:/mygoal/detail";
+	}
+	
+	@GetMapping("mygoal/success/{token}/{id}")
+	public String doSuccessAction(
+			@PathVariable String token
+			, @PathVariable String id
+			, @SessionAttribute(name=Session.CSRF) String sessionToken) {
+		
+		if ( !token.equals(sessionToken) ) {
+			throw new RuntimeException("잘못된 접근 입니다.");
+		}
+		else {
+			this.goalService.modifySuccess(id);
+		}
+		
+		return "redirect:/mygoal/detail/" + id;
 	}
 	
 	@GetMapping("mygoal/modify/{token}/{id}")

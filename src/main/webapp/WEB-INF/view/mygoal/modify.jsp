@@ -84,6 +84,13 @@
 			});
 		});
 		
+		$("#successBtn").click(function() {
+			var check = confirm("성공 처리 하시겠습니까? \n * 하위 목표가 있을시 하위 목표까지 모두 성공 처리 됩니다.");
+			if ( check ) {
+				window.location = "/WeGo/mygoal/success/${sessionScope._CSRF_}/${goalVO.id}";
+			}
+		});
+		
 	});
 </script>
 
@@ -123,7 +130,8 @@
 	       			<input type="button" id="append-tag" value="+" />
 				</div>
 				<div>
-					<input type="button" class="btn btn-default" id="submitBtn" value="수정">
+					<input type="button" class="btn" id="submitBtn" value="수정">
+					<input type="button" class="btn btn-success" id="successBtn" value="성공 처리하기">
 				</div>
 			</div>
 			</form:form>

@@ -49,11 +49,11 @@ $().ready(function() {
 				div.find(".goal-div").last().prev().attr("data-id", response.goalVOList[3].id);
 				div.find(".goal-div").last().attr("data-id", response.goalVOList[4].id);
 				
-				div.find(".goal-div").first().html("<span>" + response.goalVOList[0].id + "</span>");
-				div.find(".goal-div").first().next().html("<span>" + response.goalVOList[1].id + "</span>");
-				div.find(".goal-div").first().next().next().html("<span>" + response.goalVOList[2].id + "</span>");
-				div.find(".goal-div").last().prev().html("<span>" + response.goalVOList[3].id + "</span>");
-				div.find(".goal-div").last().html("<span>" + response.goalVOList[4].id + "</span>");
+				div.find(".goal-div").first().html("<span>" + response.goalVOList[0].id + " / " + response.goalVOList[0].title + "</span>");
+				div.find(".goal-div").first().next().html("<span>" + response.goalVOList[1].id + " / " + response.goalVOList[1].title +  "</span>");
+				div.find(".goal-div").first().next().next().html("<span>" + response.goalVOList[2].id + " / " + response.goalVOList[2].title +  "</span>");
+				div.find(".goal-div").last().prev().html("<span>" + response.goalVOList[3].id + " / " + response.goalVOList[3].title +  "</span>");
+				div.find(".goal-div").last().html("<span>" + response.goalVOList[4].id + " / " + response.goalVOList[4].title +  "</span>");
 				
 				cb();
 			}
@@ -107,7 +107,7 @@ $().ready(function() {
 			
 			for ( var i = 0 ; i < size; i++ ) {
 				var eachDom = $(`<div class="goal-div" data-id="` + response.goalVOList[i].id + `">
-									<span>` + response.goalVOList[i].id + `</span>
+									<span>` + response.goalVOList[i].id + " / " + response.goalVOList[i].title +  `</span>
 							   </div>`)
 				goalsDivDom.find(".goals-contents-div").append(eachDom);
 			}
@@ -196,7 +196,7 @@ $().ready(function() {
     			<div class="goals-contents-div">
 	    			<c:forEach var="goalVO" items="${goalVOList }">
 	    				<div class="goal-div" data-id="${goalVO.id }">
-	    					<span>${goalVO.id }</span>
+	    					<span>${goalVO.id } / ${goalVO.title }</span>
 	    				</div>
 	    			</c:forEach>
     			</div>

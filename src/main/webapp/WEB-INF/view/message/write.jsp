@@ -31,13 +31,15 @@ $().ready(function() {
 						$("#email-group").attr("class","form-group has-success has-feedback");
 						$("#email-icon").attr("class", "glyphicon glyphicon-success form-control-feedback");
 						$("#email-check").hide();
+						$("#sendBtn").attr("class", "btn btn-success btn-block");
 						isRegistedEmail = true;
 					}
 					else {
 						$("#email-group").attr("class","form-group has-warning has-feedback");
 						$("#email-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
 						$("#email-check").show();
-						isEmailDuplicate = false;
+						$("#sendBtn"),attr("class", "btn btn-warning btn-block disabled");
+						isRegistedEmail = false;
 					}
 				});
 	})
