@@ -24,4 +24,6 @@ public interface GoalDaoForMongo {
 	
 	public UpdateResult pullRecommendEmailList(String goalId, String email);
 	
+	public UpdateResult updateGoalVOForMongo(GoalVOForMongo goalVOForMongo);
+	
 }

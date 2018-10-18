@@ -40,4 +40,6 @@ public interface GoalService {
 	
 	public boolean modifySuccess(String id);
 	
+	public boolean modifyGoal(GoalVOForForm goalVOForForm);
+	
 }

@@ -82,4 +82,9 @@ public class GoalDaoImpl extends SqlSessionDaoSupport implements GoalDao {
 		return this.getSqlSession().update("GoalDao.updateSuccess", id);
 	}
 	
+	@Override
+	public int updateGoal(GoalVO goalVO) {
+		return this.getSqlSession().update("GoalDao.updateGoal", goalVO);
+	}
+	
 }

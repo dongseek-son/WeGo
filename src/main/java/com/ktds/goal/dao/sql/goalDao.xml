@@ -331,5 +331,15 @@
 						CONNECT	BY PRIOR GL_ID = PRNT_GL_ID
 					)
 </update>
-	
+
+<update id="updateGoal" parameterType="GoalVO">
+	UPDATE	GL
+	SET		TTL = #{title}
+			, DTL = #{detail}
+			, IS_OPN = #{isOpen}
+			, IS_DRBLTY = #{isDurablity}
+			, MDFY_DT = SYSDATE
+	WHERE	GL_ID = #{id}
+</update>
+
 </mapper>

@@ -234,6 +234,10 @@ textarea {
 			}
 		});
 		
+		$("#modifyBtn").click(function() {
+			window.location = "/WeGo/mygoal/modify/${sessionScope._CSRF_}/${goalVO.id}"
+		});
+		
 		$("#deleteBtn").click(function() {
 			var check = confirm("정말 삭제하시겠습니까? \n * 하위 목표가 있을시 하위 목표까지 모두 삭제됩니다.");
 			if ( check ) {
@@ -276,34 +280,36 @@ textarea {
     				</div>
     			</c:otherwise>
     		</c:choose>
+    		<c:if test="${goalVO.email eq sessionScope._USER_.email }">
     		<hr>
-    		<a href="/WeGo/mygoal/write">새 목표 만들기</a><br>
-    		<a href="/WeGo/mygoal/explorer">Goal Explorer</a>
-    		<hr>
-    		<div id="lv1-goals-div">
-    			<c:forEach var="lv1Goal" items="${lv1GoalList }">
-	    			<div class="goal-mini">
-			    		<div><a href="/WeGo/mygoal/detail/${lv1Goal.id}">${lv1Goal.title }</a></div>
-			    		<div>${lv1Goal.modifyDate }</div>
-			    		<div>progressbar</div>
-			    		<c:forEach var="tag" items="${lv1Goal.goalVOForMongo.tagList }">
-			    			<ul class="tag-ul">
-								<li class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-										<div class="tag-div">#${tag } </div>
-									</a>
-									<ul class="dropdown-menu dropdown-menu-tag">
-										<li class="dropdown-header">#${tag }</li>
-										<li class="divider"></li>
-										<li><a href="#">채팅</a></li>
-										<li><a class="concernTag" href="#" data-tag="${tag}">관심 태그 추가</a></li>
-									</ul>
-								</li>
-							</ul>
-			    		</c:forEach>
-			    	</div>
-    			</c:forEach>
-    		</div>
+	    		<a href="/WeGo/mygoal/write">새 목표 만들기</a><br>
+	    		<a href="/WeGo/mygoal/explorer">Goal Explorer</a>
+	    		<hr>
+	    		<div id="lv1-goals-div">
+	    			<c:forEach var="lv1Goal" items="${lv1GoalList }">
+		    			<div class="goal-mini">
+				    		<div><a href="/WeGo/mygoal/detail/${lv1Goal.id}">${lv1Goal.title }</a></div>
+				    		<div>${lv1Goal.modifyDate }</div>
+				    		<div>progressbar</div>
+				    		<c:forEach var="tag" items="${lv1Goal.goalVOForMongo.tagList }">
+				    			<ul class="tag-ul">
+									<li class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+											<div class="tag-div">#${tag } </div>
+										</a>
+										<ul class="dropdown-menu dropdown-menu-tag">
+											<li class="dropdown-header">#${tag }</li>
+											<li class="divider"></li>
+											<li><a href="#">채팅</a></li>
+											<li><a class="concernTag" href="#" data-tag="${tag}">관심 태그 추가</a></li>
+										</ul>
+									</li>
+								</ul>
+				    		</c:forEach>
+				    	</div>
+	    			</c:forEach>
+	    		</div>
+    		</c:if>
     	</div>
     	<div class="col-sm-8">
     		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
@@ -327,7 +333,8 @@ textarea {
 				</div>
 				<div id="date-div">
 					<span>작성일 : ${goalVO.writeDate } / </span>
-					<span>최근수정일 : ${goalVO.modifyDate }</span>			
+					<span>최근수정일 : ${goalVO.modifyDate }</span>
+					<span title="${goalVO.email }">작성자 : ${goalVO.memberVO.name }</span>			
 				</div>
 				<div id="detail-hashtags-div">
 					<div id="detail-div" class="cke_editable cke_editable_themed cke_contents_ltr cke_show_borders">
@@ -374,11 +381,13 @@ textarea {
 						</c:otherwise>
 					</c:choose>
 				</div>
-				<div id="button-div-right" style="float: right;">
-					<input type="button" id="writeChildBtn" class="btn btn-success" value="하위 목표 만들기" />
-					<input type="button" id="modifyBtn" class="btn btn-success" value="목표 업데이트" />
-					<input type="button" id="deleteBtn" class="btn btn-warning" value="목표 삭제" />
-				</div>
+				<c:if test="${goalVO.email eq sessionScope._USER_.email }">
+					<div id="button-div-right" style="float: right;">
+						<input type="button" id="writeChildBtn" class="btn btn-success" value="하위 목표 만들기" />
+						<input type="button" id="modifyBtn" class="btn btn-success" value="목표 업데이트" />
+						<input type="button" id="deleteBtn" class="btn btn-warning" value="목표 삭제" />
+					</div>
+				</c:if>
 			</div>
     	</div>
   		<div class="col-sm-2">
@@ -471,8 +480,10 @@ textarea {
 									    					</h4>
 									    				</div>
 									    				<div class="reply-a-div" style="float: right; font-size: 13px;">
+									    					<c:if test="${childReplyVO.memberVO.email eq sessionScope._USER_.email }">
+									    						<a href="#" class="deleteReply">삭제</a>
+									    					</c:if>		    					
 									    					<a href="#" class="re-reply">답글달기</a>
-									    					<a href="#" class="deleteReply">삭제</a>		    					
 									    				</div>
 									    				<div class="reply-detail">
 									    					${childReplyVO.detail }
@@ -501,8 +512,10 @@ textarea {
 				    					</h4>
 				    				</div>
 				    				<div class="reply-a-div" style="float: right; font-size: 13px;">
+				    					<c:if test="${replyVO.memberVO.email eq sessionScope._USER_.email }">
+				    						<a href="#" class="deleteReply">삭제</a>
+				    					</c:if>		    					
 				    					<a href="#" class="re-reply">답글달기</a>
-				    					<a href="#" class="deleteReply">삭제</a>		    					
 				    				</div>
 				    				<div class="reply-detail">
 				    					${replyVO.detail }
@@ -538,8 +551,10 @@ textarea {
 									    					</h4>
 									    				</div>
 									    				<div class="reply-a-div" style="float: right; font-size: 13px;">
+									    					<c:if test="${childReplyVO.memberVO.email eq sessionScope._USER_.email }">
+									    						<a href="#" class="deleteReply">삭제</a>
+									    					</c:if>		    					
 									    					<a href="#" class="re-reply">답글달기</a>
-									    					<a href="#" class="deleteReply">삭제</a>		    					
 									    				</div>
 									    				<div class="reply-detail">
 									    					${childReplyVO.detail }

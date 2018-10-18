@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Field;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
@@ -44,7 +45,7 @@ public class GoalDaoForMongoImpl implements GoalDaoForMongo {
 	public List<GoalVOForMongo> findGoalVOForMongoListByTag(String tag) {
 		Query query = new Query(new Criteria("tagList").all(tag));
 		query.with(new Sort(Direction.DESC, "modifyDate"));
-		
+	
 		return this.mongoTemplate.find(query, GoalVOForMongo.class, "goal");
 	}
 	
@@ -90,6 +91,17 @@ public class GoalDaoForMongoImpl implements GoalDaoForMongo {
 		Update update = new Update();
 		update.pull("recommendEmailList", email);
 
+		return this.mongoTemplate.updateFirst(query, update, GoalVOForMongo.class, "goal");
+	}
+	
+	@Override
+	public UpdateResult updateGoalVOForMongo(GoalVOForMongo goalVOForMongo) {
+		Query query = new Query(new Criteria("goalId").is(goalVOForMongo.getGoalId()));
+		
+		Update update = new Update();
+		update.set("tagList", goalVOForMongo.getTagList());
+		update.set("modifyDate", goalVOForMongo.getModifyDate());
+		
 		return this.mongoTemplate.updateFirst(query, update, GoalVOForMongo.class, "goal");
 	}
 

@@ -41,15 +41,32 @@ public class GoalServiceImpl implements GoalService {
 		return goalVO;
 	}
 	
+	/*
+	 * update용
+	 */
+	private GoalVO separateGoalVOFromGoalVOForForm(GoalVOForForm goalVOForForm) {
+		GoalVO goalVO = new GoalVO();
+		
+		goalVO.setId(goalVOForForm.getId());
+		goalVO.setTitle(goalVOForForm.getTitle());
+		goalVO.setDetail(goalVOForForm.getDetail());
+		goalVO.setOpen(goalVOForForm.getIsOpen() != null);
+		goalVO.setDurablity(goalVOForForm.getIsDurablity() != null);
+		
+		return goalVO;
+	}
+	
 	private GoalVOForMongo separateGoalVOForMongoFromGoalVOForForm(GoalVOForForm goalVOForForm) {
 		GoalVOForMongo goalVOForMongo = new GoalVOForMongo();
+		
+		goalVOForMongo.setGoalId(goalVOForForm.getId());
 		
 		List<String> tagList = goalVOForForm.getTagList();
 		
 		Iterator<String> tagListIterator = tagList.iterator();
 		while ( tagListIterator.hasNext() ) {
 			String tag = tagListIterator.next();
-			if ( tag == null || tag.equals("") ) {
+			if ( tag == null || tag.replace(" ", "").equals("") ) {
 				tagListIterator.remove();
 			}
 		}
@@ -176,5 +193,11 @@ public class GoalServiceImpl implements GoalService {
 	@Override
 	public boolean modifySuccess(String id) {
 		return this.goalDao.updateSuccess(id) > 0;
+	}
+	
+	@Override
+	public boolean modifyGoal(GoalVOForForm goalVOForForm) {
+		this.goalDaoForMongo.updateGoalVOForMongo(this.separateGoalVOForMongoFromGoalVOForForm(goalVOForForm));
+		return this.goalDao.updateGoal(this.separateGoalVOFromGoalVOForForm(goalVOForForm)) > 0;
 	}
 }

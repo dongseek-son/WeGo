@@ -11,6 +11,9 @@
 	border: 2px solid #90C226;
 	background-color: #F2FFED;
 }
+.goal-a:hover {
+	cursor: pointer;
+}
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -37,7 +40,9 @@
 			 				
 							if ( goalVOList ) {
 								for ( var index in goalVOList ) {
-									var sdom = $('<div class="goal-div">' + goalVOList[index].id  + ' / ' + goalVOList[index].title + '</div>');
+									var sdom = $(`<a href="/WeGo/mygoal/detail/` + goalVOList[index].id + `" class="goal-a">	
+														<div class="goal-div">` + goalVOList[index].id  + ` / ` + goalVOList[index].title + `</div>
+													</a>`);
 									$("#goals-div").append(sdom);
 								}
 							}
@@ -59,7 +64,9 @@
     	<div class="col-sm-10">
     		<div id="goals-div">
     			<c:forEach var="goal" items="${goalVOList }">
-					<div class="goal-div">${goal.id } / ${goal.title }</div>
+					<a href="/WeGo/mygoal/detail/${goal.id }" class="goal-a">	
+						<div class="goal-div">${goal.id } / ${goal.title }</div>
+					</a>
 				</c:forEach>
     		</div>
     	</div>

@@ -29,4 +29,6 @@ public interface GoalDao {
 	public int updateDelete(String id);
 	
 	public int updateSuccess(String id);
+	
+	public int updateGoal(GoalVO goalVO);
 }

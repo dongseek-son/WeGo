@@ -253,6 +253,22 @@ public class MyGoalController {
 		return "redirect:/mygoal/detail";
 	}
 	
+	@GetMapping("mygoal/modify/{token}/{id}")
+	public ModelAndView viewModifyPage(
+			@PathVariable String token
+			, @PathVariable String id
+			, @SessionAttribute(name=Session.CSRF) String sessionToken) {
+		
+		if ( !token.equals(sessionToken) ) {
+			throw new RuntimeException("잘못된 접근 입니다.");
+		}
+		else {
+			ModelAndView view = new ModelAndView("mygoal/modify");
+			view.addObject("goalVO", this.goalService.readOneGoal(id));
+			return view;
+		}
+	}
+	
 	@RequestMapping("mygoal/check")
 	@ResponseBody
 	public Map<String, Object> doWriteFormCheck(@ModelAttribute GoalVOForForm goalVOForForm) {
@@ -276,7 +292,7 @@ public class MyGoalController {
 		}
 		else {
 			for ( String tag : tagList ) {
-				if ( tag.contains(" ") || tag.length() < 3 || tag.length() > 10 ) {
+				if ( tag.contains(" ") || tag.length() == 1 || tag.length() > 10 ) {
 					isTagListOK = false;
 				}
 			}
@@ -299,6 +315,23 @@ public class MyGoalController {
 		return view;
 	}
 	
-	
+	@PostMapping("mygoal/modify")
+	public ModelAndView doMyGoalModifyAction(@ModelAttribute GoalVOForForm goalVOForForm
+			, @SessionAttribute(name=Session.USER) MemberVO memberVO
+			, HttpServletRequest request) {
+		ModelAndView view = new ModelAndView("redirect:/mygoal/detail");
+		
+		String sessionToken = (String)request.getSession().getAttribute(Session.CSRF);
+		if ( !goalVOForForm.getToken().equals(sessionToken) ) {
+			throw new RuntimeException("잘못된 접근 입니다.");
+		}
+		
+		XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
+		goalVOForForm.setTitle( filter.doFilter(goalVOForForm.getTitle()) );
+		goalVOForForm.setDetail( filter.doFilter(goalVOForForm.getDetail()) );
+
+		this.goalService.modifyGoal(goalVOForForm);
+		return view;
+	}
 	
 }
