@@ -58,4 +58,9 @@ public class ReplyDaoImpl extends SqlSessionDaoSupport implements ReplyDao {
 		return this.getSqlSession().update("ReplyDao.updateIsDelete", replyId);
 	}
 	
+	@Override
+	public boolean isChildrenListAllDeleted(String parentReplyId) {
+		return this.getSqlSession().selectOne("ReplyDao.isChildrenListAllDeleted", parentReplyId);
+	}
+	
 }

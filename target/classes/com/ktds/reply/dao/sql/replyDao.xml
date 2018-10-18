@@ -167,5 +167,15 @@
 	SET		IS_DLT = 1
 	WHERE	RP_ID = #{replyId}
 </update>
+
+<select id="isChildrenListAllDeleted" parameterType="string" resultType="boolean">
+	SELECT	COUNT(1)
+	FROM	(
+				SELECT	RP_ID
+				FROM	RP
+				WHERE	PRNT_RP_ID = #{parentReplyId}
+				AND		IS_DLT = 1
+			)
+</select>
 	
 </mapper>

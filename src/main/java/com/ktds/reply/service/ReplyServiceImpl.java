@@ -1,14 +1,13 @@
 package com.ktds.reply.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ktds.goal.vo.GoalVO;
-import com.ktds.goal.vo.GoalVOForMongo;
 import com.ktds.reply.dao.ReplyDao;
 import com.ktds.reply.dao.ReplyDaoForMongo;
 import com.ktds.reply.vo.ReplyVO;
@@ -67,10 +66,25 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public List<ReplyVO> readReplyListByGoalId(String goalId) {
 		List<ReplyVO> replyVOList = this.replyDao.selectReplyListByGoalId(goalId);
-		for (ReplyVO replyVO : replyVOList) {
-			this.combineReplyVO(replyVO);
-			replyVO.setChildrenReplyVOList(this.combineReplyVOList(this.replyDao.selectChildrenReplyListByReplyId(replyVO.getId())));
-		}
+		
+		Iterator<ReplyVO> replyVOListIterator = replyVOList.iterator();
+		while (replyVOListIterator.hasNext()) {
+		   ReplyVO replyVO = replyVOListIterator.next(); // must be called before you can call i.remove()
+		   this.combineReplyVO(replyVO);
+		   replyVO.setChildrenReplyVOList(this.combineReplyVOList(this.replyDao.selectChildrenReplyListByReplyId(replyVO.getId())));
+		   
+		   if ( replyVO.isDelete() )
+			   if ( replyVO.getChildrenReplyVOList() == null 
+			   		|| replyVO.getChildrenReplyVOList().size() == 0 
+			   		|| this.replyDao.isChildrenListAllDeleted(replyVO.getId()) )
+			   replyVOListIterator.remove();
+		   }
+		
+		
+//		for (ReplyVO replyVO : replyVOList) {	
+//			this.combineReplyVO(replyVO);
+//			replyVO.setChildrenReplyVOList(this.combineReplyVOList(this.replyDao.selectChildrenReplyListByReplyId(replyVO.getId())));
+//		}
 		return replyVOList;
 	}
 

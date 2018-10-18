@@ -19,4 +19,6 @@ public interface ReplyDao {
 	public int selectReplyCountByGoalId(String goalId);
 	
 	public int updateIsDelete(String replyId);
+	
+	public boolean isChildrenListAllDeleted(String parentReplyId);
 }

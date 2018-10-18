@@ -65,6 +65,9 @@
 	font-weight: bold;
 	color: red;
 }
+.reply-detail { 
+
+}
 </style>
 <script type="text/javascript">
 
@@ -72,6 +75,7 @@
 		
 		var isRecommendEmail = ${isRecommendEmail};
 		var recommendNumber = ${recommendNumber};
+		var mentionName = null;
 		
 		if ( !${replyCount} ) {
 			$("#replyBtn").removeClass("btn-success");
@@ -186,17 +190,28 @@
  				$("#reply-detail").keyup();
 			}
 			else {
+				if ( mentionName ) {
+					$("#reply-detail").val("<strong>" + mentionName + " </strong>" + detail);
+				}
 				$("#replyForm").submit();
 			}
 		});
 		
 		$(".re-reply").click(function() {
-			$("#reply-div").children(".re-reply").removeClass("re-reply-active");
-			var media = $(this).closest(".media");
-			$(this).addClass("re-reply-active");
-			$("#parentReplyId").val(media.data("id"));
-			console.log($("#parentReplyId"));
-			$("#reply-detail").focus();
+			if ( $(this).hasClass("re-reply-active") ) {
+				$(this).removeClass("re-reply-active");
+				$("#parentReplyId").val(null);
+				mentionName = null;
+			}
+			else {
+				$(".reply-div").find(".re-reply").removeClass("re-reply-active");
+				$(this).addClass("re-reply-active");
+				$("#parentReplyId").val($(this).closest(".lv1-media").data("id"));
+				mentionName = $(this).closest(".media-body").find(".reply-name").first().text();
+			}
+			$("#reply-detail").val("").focus();
+			console.log($("#parentReplyId").val());
+			console.log(mentionName);
 		});
 		
 		$(".deleteReply").click(function() {
@@ -385,7 +400,8 @@
   <div class="modal fade" id="replyModal" role="dialog">
     <div class="modal-dialog">  
       <!-- Modal content-->
-      <div class="modal-content">
+      
+    </div><div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title text-center">${goalVO.title }</h4>
@@ -393,14 +409,14 @@
         <div class="modal-body">
         	<div class="reply-div">
         		<c:forEach var="replyVO" items="${replyVOList }">
-	        		<div class="media" data-id="${replyVO.id }">
+	        		<div class="media lv1-media" data-id="${replyVO.id }">
 	        			<c:choose>
 	        				<c:when test="${replyVO.isDelete() }">
         						<div class="media-left media-top">
 									<img src="/WeGo/img/white.jpg" class="media-object" style="width:45px">
 				 				</div>
 				  				<div class="media-body">
-				    				<div>
+				    				<div class="reply-detail">
 				    					삭제된 댓글 입니다.
 				    				</div>
 									<c:forEach var="childReplyVO" items="${replyVO.childrenReplyVOList}">
@@ -411,11 +427,11 @@
 														<img src="/WeGo/img/white.jpg" class="media-object" style="width:45px">
 									 				</div>
 									  				<div class="media-body">
-									    				<div>
+									    				<div class="reply-detail">
 									    					삭제된 댓글 입니다.
 									    				</div>
 								    			</div>
-											</c:when>
+											</div></c:when>
 											<c:otherwise>
 												<div class="media" data-id="${childReplyVO.id }">
 										  			<div class="media-left media-top">
@@ -423,13 +439,21 @@
 									 				</div>
 									  				<div class="media-body">
 									  					<div style="display:inline-block">
-									    					<h4 class="media-heading" title="` + email + `">${childReplyVO.memberVO.name } <small><i>${childReplyVO.writeDate }</i></small></h4>
+									    					<h4 class="media-heading" title="${childReplyVO.memberVO.email }">
+									    						<span class="reply-name">${childReplyVO.memberVO.name }</span> 
+									    						<small>
+									    							<c:if test="${childReplyVO.memberVO.email eq goalVO.email }">
+									    								작성자 
+									    							</c:if>
+									    							<i>${childReplyVO.writeDate }</i>
+									    						</small>
+									    					</h4>
 									    				</div>
 									    				<div class="reply-a-div" style="float: right; font-size: 13px;">
 									    					<a href="#" class="re-reply">답글달기</a>
 									    					<a href="#" class="deleteReply">삭제</a>		    					
 									    				</div>
-									    				<div>
+									    				<div class="reply-detail">
 									    					${childReplyVO.detail }
 									    				</div>	
 									  				</div>
@@ -445,13 +469,21 @@
 				 				</div>
 				  				<div class="media-body">
 				  					<div style="display:inline-block">
-				    					<h4 class="media-heading" title="` + email + `">${replyVO.memberVO.name } <small><i>${replyVO.writeDate }</i></small></h4>
+				    					<h4 class="media-heading" title="${replyVO.memberVO.email }">
+				    						<span class="reply-name">${replyVO.memberVO.name }</span> 
+				    						<small>
+				    							<c:if test="${replyVO.memberVO.email eq goalVO.email }">
+				    								작성자 
+				    							</c:if>
+				    							<i>${replyVO.writeDate }</i>
+				    						</small>
+				    					</h4>
 				    				</div>
 				    				<div class="reply-a-div" style="float: right; font-size: 13px;">
 				    					<a href="#" class="re-reply">답글달기</a>
 				    					<a href="#" class="deleteReply">삭제</a>		    					
 				    				</div>
-				    				<div>
+				    				<div class="reply-detail">
 				    					${replyVO.detail }
 				    				</div>
 									<c:forEach var="childReplyVO" items="${replyVO.childrenReplyVOList}">
@@ -461,11 +493,11 @@
 													<div class="media-left media-top media-object" style="width:45px">
 									 				</div>
 									  				<div class="media-body">
-									    				<div>
+									    				<div class="reply-detail">
 									    					삭제된 댓글 입니다.
 									    				</div>
 								    			</div>
-											</c:when>
+											</div></c:when>
 											<c:otherwise>
 												<div class="media" data-id="${childReplyVO.id }">
 										  			<div class="media-left media-top">
@@ -473,13 +505,21 @@
 									 				</div>
 									  				<div class="media-body">
 									  					<div style="display:inline-block">
-									    					<h4 class="media-heading" title="` + email + `">${childReplyVO.memberVO.name } <small><i>${childReplyVO.writeDate }</i></small></h4>
+									    					<h4 class="media-heading" title="${childReplyVO.memberVO.email }">
+									    						<span class="reply-name">${childReplyVO.memberVO.name }</span> 
+									    						<small>
+									    							<c:if test="${childReplyVO.memberVO.email eq goalVO.email }">
+									    								작성자 
+									    							</c:if>
+									    							<i>${childReplyVO.writeDate }</i>
+									    						</small>
+									    					</h4>
 									    				</div>
 									    				<div class="reply-a-div" style="float: right; font-size: 13px;">
 									    					<a href="#" class="re-reply">답글달기</a>
 									    					<a href="#" class="deleteReply">삭제</a>		    					
 									    				</div>
-									    				<div>
+									    				<div class="reply-detail">
 									    					${childReplyVO.detail }
 									    				</div>	
 									  				</div>
@@ -505,7 +545,6 @@
 			</form>
         </div>
       </div>
-    </div>
   </div>
 
 <jsp:include page="/WEB-INF/view/common/layout/layout_footer.jsp" />
