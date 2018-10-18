@@ -66,7 +66,19 @@
 	color: red;
 }
 .reply-detail { 
-
+	text-align: justify;
+	word-break: break-all;
+}
+textarea {
+	background-color: whitesmoke;
+}
+.modal-content {
+	width: 680px;
+    margin: 30px auto;
+}
+}
+.media-body {
+	width: 600px;
 }
 </style>
 <script type="text/javascript">
@@ -548,8 +560,12 @@
         		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
     			<input type="hidden" id="parentReplyId" name="parentReplyId" value="${parentReplyId }">
         		<input type="hidden" name="goalId" value="${goalVO.id }">
-        		<textarea name="detail" id="reply-detail" rows="4" style="width:84%; resize: none;"></textarea>
-				<input type="button" id="replySubmitBtn" class="btn" value="댓글 달기">
+        		<div style="display: inline-block; width: 550px; vertical-align: middle;">
+        			<textarea name="detail" id="reply-detail" rows="4" style="width: 100%; resize: none;"></textarea>
+        		</div>
+        		<div style="display: inline-block; vertical-align: middle; height: 86px; margin-left: 3px;">
+        			<input type="button" id="replySubmitBtn" class="btn" value="댓글 달기" style="height: 80px;">
+        		</div>
 			</form>
         </div>
       </div>

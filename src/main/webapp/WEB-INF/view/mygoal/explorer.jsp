@@ -164,12 +164,24 @@ $().ready(function() {
 		newGoalsDiv(lev+1, id);
 	});
 	
+	$("#redirectBtn").click(function() {
+		if ( activeIdList.length < 1 ) {
+			alert("선택된 목표가 없습니다. \n최근 수정목표로 이동합니다.");
+			window.location = "/WeGo/mygoal/detail";
+		}
+		else {
+			window.location = "/WeGo/mygoal/detail/" + activeIdList.pop();
+		}
+		
+	});
+	
 });
 </script>
 
 <div class="container">
 	<div class="row">
     	<div class="col-sm-1">
+    		<a href="#" id="redirectBtn">선택<br>목표로<br>이동</a>
     	</div>
     	<div class="col-sm-10">
     		<div class="goals-div" data-level="1" data-first_index="0" data-size="${size }" data-first_id="${goalVOList[0].id}" }>
