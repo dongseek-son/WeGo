@@ -81,10 +81,7 @@ public class ReplyServiceImpl implements ReplyService {
 			   }
 		   }
 		}
-//		for (ReplyVO replyVO : replyVOList) {	
-//			this.combineReplyVO(replyVO);
-//			replyVO.setChildrenReplyVOList(this.combineReplyVOList(this.replyDao.selectChildrenReplyListByReplyId(replyVO.getId())));
-//		}
+		
 		return replyVOList;
 	}
 

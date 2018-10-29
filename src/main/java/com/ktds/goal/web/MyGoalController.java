@@ -62,9 +62,25 @@ public class MyGoalController {
 	@GetMapping("mygoal/write/{id}")
 	public ModelAndView viewMyGoalWritePage(@PathVariable String id) {
 		ModelAndView view = new ModelAndView("mygoal/write");
-		view.addObject("parentGoalId", id);
+		view.addObject("parentGoal", this.goalService.readOneGoal(id));
 		view.addObject("noGoal", false);
 		return view;
+	}
+	
+	@RequestMapping("mygoal/getTag")
+	@ResponseBody
+	public Map<String, Object> getTag(@RequestParam String parentId, @RequestParam int index) {
+		Map<String, Object> result = new HashMap<>();
+		List<String> tagList = this.goalService.readOneGoal(parentId).getGoalVOForMongo().getTagList();
+		
+		result.put("isSuccess", false);
+		
+		if( index < tagList.size() ) {
+			result.put("isSuccess", true);
+			result.put("tag", tagList.get(index));
+		}
+		
+		return result;
 	}
 	
 	@PostMapping("mygoal/write")

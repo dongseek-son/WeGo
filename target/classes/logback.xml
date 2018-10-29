@@ -1,5 +1,12 @@
 <configuration>
 
+	<appender name="QoS" class="ch.qos.logback.core.FileAppender">
+		<file>C:/JAVA_KTds/logs/WeGo.QoS.log</file>
+    	<encoder>
+      		<pattern>#%d{yyyy:MM:dd:HH:mm:ss}%msg%n</pattern>
+    	</encoder>
+  	</appender>
+
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     	<encoder>
       		<pattern>▶ %d{HH:mm:ss.SSS} %-5level %logger{0}.%method:%line - %msg%n</pattern>
@@ -49,6 +56,10 @@
 	
 	<logger level="debug" name="com.ktds">
 		<appender-ref ref="param" />
+	</logger>
+	
+	<logger level="warn" name="com.ktds">
+		<appender-ref ref="QoS" />
 	</logger>
 
 <!-- 	<logger level="debug" name="org.springframework">

@@ -11,7 +11,7 @@
           <h4 class="modal-title">Join</h4>
         </div>
         <div class="modal-body">
-          <form:form id="registForm" method="post" action="/WeGo/member/regist" enctype="multipart/form-data" >
+          <form id="registForm" method="post" action="/WeGo/member/regist" enctype="multipart/form-data" >
 			<div id="email-group" class="form-group email-groups">
 				<div class="input-group">
 			  	  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
@@ -60,7 +60,7 @@
 				</div>
 				<span id="profile-check" class="help-block">사진을 선택하지 않을시, 기본 이미지로 대체됩니다.</span>
 			</div>
-		</form:form>
+		</form>
         </div>
         <div class="modal-footer">
 				<input type="button" id="registBtn" class="btn btn-warning btn-block disabled" value="회원 가입" />

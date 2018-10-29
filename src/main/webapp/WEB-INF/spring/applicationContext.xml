@@ -36,6 +36,11 @@
 
  	<mvc:interceptors>
  		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean	id="QoSLogInterceptor" 
+					class="com.ktds.common.QoSLogInterceptor" />
+		</mvc:interceptor>
+ 		<mvc:interceptor>
  			<mvc:mapping path="/goal/**"/>
 			<mvc:mapping path="/mygoal/**"/>
 			<mvc:mapping path="/ourgoal/**"/>

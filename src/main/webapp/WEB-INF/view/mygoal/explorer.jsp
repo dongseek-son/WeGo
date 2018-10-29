@@ -17,6 +17,8 @@
 	width: 16%;
 	border: 2px solid #90C226;
 	background-color: #F2FFED;
+	text-align: justify;
+	word-break: break-all;
 }
 .goals-div .active {
 	border: 2px solid red;

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,15 +62,11 @@ public class GoalServiceImpl implements GoalService {
 		
 		goalVOForMongo.setGoalId(goalVOForForm.getId());
 		
-		List<String> tagList = goalVOForForm.getTagList();
-		
-		Iterator<String> tagListIterator = tagList.iterator();
-		while ( tagListIterator.hasNext() ) {
-			String tag = tagListIterator.next();
-			if ( tag == null || tag.replace(" ", "").equals("") ) {
-				tagListIterator.remove();
-			}
-		}
+		List<String> tagList = goalVOForForm.getTagList()
+									.stream()
+									.filter( (tag) -> tag != null )
+									.filter( (tag) -> !tag.replace(" ", "").equals("") )
+									.collect(Collectors.toList());
 		
 		goalVOForMongo.setTagList(tagList);
 		goalVOForMongo.setModifyDate(new DateTime().plusHours(9));

@@ -31,6 +31,41 @@
 		CKEDITOR.replace('editor',{
 			filebrowserUploadUrl: 'http://localhost:8080/WeGo/mygoal/imageupload'
 		});
+		
+		
+		appendParentsTag( function() {
+			$("#title").focus();
+			console.log("끝");
+		});
+		
+		function appendParentsTag( cb = function(){} ) {
+			
+			var size = 0;
+			
+			if ( "${parentGoal.id}" ) {
+				for (var i = 0;  i < parseInt("${parentGoal.goalVOForMongo.tagList.size() }"); i++) {
+					readParentsTag("${parentGoal.id}", i, function() {
+						$("#append-tag").click();	
+					});
+				}
+			}
+			cb();
+		}
+		
+		function readParentsTag(id, i, cb = function(){} ) {
+			console.log(id + " / " + i);
+			$.post("/WeGo/mygoal/getTag", {
+				parentId : id
+				, index : i
+			}
+			, function(response) {
+				if ( response.isSuccess ) {
+					console.log(response.tag);
+					$(".tag").last().val(response.tag);
+					cb();
+				}
+			});
+		}
 		 
 		 var index = 1;
 		 
@@ -95,7 +130,7 @@
     	<div class="col-sm-8">
     		<form:form action="/WeGo/mygoal/write" method="post" id="writeForm" class="form-inline">
     		<input type="hidden" name="token" value="${sessionScope._CSRF_ }">
-    		<input type="hidden" name="parentGoalId" value="${parentGoalId }">
+    		<input type="hidden" name="parentGoalId" value="${parentGoal.id }">
 			<div id="write">
 				<div id="info-div">
 					<input type="checkbox" id="isOpen" name="isOpen" checked="checked" /> 공개

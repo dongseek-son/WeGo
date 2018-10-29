@@ -68,7 +68,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/member/regist")
-	public ModelAndView doRegistAction(@ModelAttribute @Valid MemberVO memberVO, Errors errors) {
+	public ModelAndView doRegistAction(@ModelAttribute MemberVO memberVO, Errors errors, HttpServletRequest request) {
 		
 		if ( errors.hasErrors() ) {
 			ModelAndView view = new ModelAndView("main");
@@ -79,7 +79,7 @@ public class MemberController {
 		this.doUploadProfileAction(memberVO);
 		
 		this.memberService.createMember(memberVO);
-		String url = "http://localhost:8080/WeGo/member/emailAuth/" + this.memberService.createEmailAuth(memberVO.getEmail());
+		String url = "http://" + request.getLocalAddr() + ":8080/WeGo/member/emailAuth/" + this.memberService.createEmailAuth(memberVO.getEmail());
 		
 		String email = memberVO.getEmail();
 		String title = "Going together, WeGO! 가입 인증 메일 입니다.";
@@ -319,12 +319,12 @@ public class MemberController {
 	}
 	
 	@PostMapping("/member/passwordInitSend")
-	public ModelAndView doPasswordInitSendAction(@RequestParam String email, @RequestParam String tel) {
+	public ModelAndView doPasswordInitSendAction(@RequestParam String email, @RequestParam String tel, HttpServletRequest request) {
 		ModelAndView view = new ModelAndView("main");
 		MemberVO memberVO = this.memberService.readOneMemberByEmail(email);
 		
 		if ( memberVO.getTel().equals(tel) ) {
-			String url = "http://localhost:8080/WeGo/member/passwordInit/" + this.memberService.createEmailAuth(memberVO.getEmail());
+			String url = "http://" + request.getLocalAddr() + ":8080/WeGo/member/passwordInit/" + this.memberService.createEmailAuth(memberVO.getEmail());
 			
 			String title = "Going together, WeGO! 비밀번호 재설정 메일 입니다.";
 			String detail = "<h1>Going together, WeGO!</h1><br>"

@@ -26,7 +26,7 @@ public class OurGoalController {
 	public ModelAndView viewListPage() {
 		ModelAndView view = new ModelAndView("ourgoal/list");
 		view.addObject("goalVOList", this.goalService.readAllGoals(0, 5));
-		view.addObject("tag", null);
+		view.addObject("tag", false);
 		return view;
 	}
 	
